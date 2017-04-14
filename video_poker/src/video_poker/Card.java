@@ -28,46 +28,46 @@ public class Card {
 		String name = null;
 		switch(this.number){
 			case 2:
-				name = "Two";
+				name = "2";
 				break;
 			case 3:
-				name = "Three";
+				name = "3";
 				break;
 			case 4:
-				name = "Four";
+				name = "4";
 				break;
 			case 5:
-				name = "Five";
+				name = "5";
 				break;
 			case 6:
-				name = "Six";
+				name = "6";
 				break;
 			case 7:
-				name = "Seven";
+				name = "7";
 				break;
 			case 8:
-				name = "Eight";
+				name = "8";
 				break;
 			case 9:
-				name = "Nine";
+				name = "9";
 				break;
 			case 10:
-				name = "Ten";
+				name = "T";
 				break;
 			case 11:
-				name = "Jack";
+				name = "J";
 				break;
 			case 12:
-				name = "Queen";
+				name = "Q";
 				break;
 			case 13:
-				name = "King";
+				name = "K";
 				break;
 			case 1:
-				name = "Ace";
+				name = "A";
 				break;
 		}
-		return name + " of " + this.suit.toString();
+		return name + (char)this.suit.getSymbol();
 	}
 	
 	@Override

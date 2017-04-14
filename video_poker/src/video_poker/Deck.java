@@ -5,6 +5,7 @@ import java.util.Random;
 public class Deck {
 	private Card[] cards;
 	private int numberCards;
+	int top;
 	
 	//! Constructor to create the deck
 	public Deck(int numCards, boolean shuffle){
@@ -20,7 +21,7 @@ public class Deck {
 		if(shuffle){
 			this.shuffle();
 		}
-		
+		top = numberCards - 1; //Top of the deck
 	}
 	
 	//! Method to shuffle the deck
@@ -36,9 +37,30 @@ public class Deck {
 			this.cards[i] = this.cards[j];
 			this.cards[j] = temp;
 		}
-		
+		top = numberCards - 1; //Reset the top card whenever you shuffle
 	}
-	
+ 	public Card[] getHand(){
+ 		//Get the top 5 cards from the deck
+ 		Card[] c = new Card[5];
+ 		int j=0;
+ 		
+
+ 		for(int i=top;i>top-5;i--){
+ 			//Hope there's no null exception here
+ 			c[j] = cards[i];
+ 			j++;
+ 		}
+ 		top = top - 5;
+ 		return c;
+ 	}
+ 	public Card draw(){
+ 		Card c = cards[top];
+ 		top--;
+ 		
+ 		
+ 		
+ 		return c;
+ 	}
 	//Method to get the top n (n from 1 to 5) cards
 
 }
