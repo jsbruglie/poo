@@ -158,10 +158,6 @@ public class Score {
 		cards[4] = new Card(suit,1);*/
 		
 		Hand hand = new Hand(cards, 5);
-		//Print hand
-		//System.out.println(hand);
-		//Print the score
-		Combination comb = null;
 		Score s = new Score();
 		System.out.println(s.getScore(hand,bet));
 	}
@@ -446,6 +442,101 @@ public class Score {
 				return true;
 			}
 		} 
+		return false;
+	}
+	
+	/*-----------------------THESE ARE USEFUL FOR STRATEGY-------------------------*/
+	public boolean checkNToRoyalFlush(Card[] c, int N){
+		int hits = 0;
+		int[] indexes = new int[N];
+		for(int i=0;i<13;i++){
+			if(number_occurences[8] == 1){
+				indexes[hits] = 8;
+				hits++;	
+			}
+			
+			if(number_occurences[9] == 1){
+				indexes[hits] = 9;
+				hits++;
+			}
+
+			if(number_occurences[10] == 1){
+				indexes[hits] = 10;
+				hits++;
+			}
+
+			if(number_occurences[11] == 1){
+				indexes[hits] = 11;
+				hits++;
+			}
+			
+			if(number_occurences[12] == 1){
+				indexes[hits] = 12;
+				hits++;
+			}
+		}
+		Suit s = null;
+		if(hits == N){
+			//Check the cards received
+			for(int i=0; i<5; i++){
+				int n = c[i].getNumber();
+				for(int j=0; j<N; j++){
+					if(n == indexes[j]){
+						//Get suit
+						if(s == null)
+							s = c[i].getSuit();
+						else if(c[i].getSuit() != s)
+							return false;
+					}
+				}
+			}
+		}else{
+			return false;
+		}
+		return true;	
+	}
+	
+	public boolean checkNToStraightFlush(Card[] c, int N){
+		return false;
+	}
+	
+	public boolean checkNToOutsideStraight(Card[] c, int N){
+		return false;
+	}
+	public boolean checkNToInsideStraight(Card[] c, int N){
+		return false;
+	}
+	public boolean checkNToFlush(Card[] c, int N){
+		return false;
+	}
+	public boolean checkHighPair(Card[] c){
+		return false;
+	}
+	public boolean checkLowPair(Card[] c){
+		return false;
+	}
+	public boolean checkAKQJ(Card[] c, int suited){ //0 unsuited, 1 suited
+		return false;
+	}
+	public boolean checkQJ(Card[] c, int suited){
+		return false;
+	}
+	public boolean checkQT(Card[] c, int suited){
+		return false;
+	}
+	public boolean checkJT(Card[] c, int suited){
+		return false;
+	}
+	public boolean checkKQ(Card[] c, int suited){
+		return false;
+	}
+	public boolean checkKJ(Card[] c, int suited){
+		return false;
+	}
+	public boolean getNumHighCards(Card[] c, int suited, int exQJ){
+		return false;
+	}
+	public boolean checkAce(Card[] c){
 		return false;
 	}
 	
