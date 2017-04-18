@@ -3,8 +3,8 @@ package video_poker;
 import java.util.Scanner;
 
 public class Interactive extends Mode {
-	int bet;
-	Phase phase;
+	private int bet;
+	private Phase phase;
 	private Scanner reader;
 	
 	public Interactive(String[] args) {

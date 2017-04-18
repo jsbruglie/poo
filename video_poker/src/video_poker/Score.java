@@ -2,9 +2,8 @@ package video_poker;
 
 public class Score {
 
-	int[][] paytable;
-	
-	int[] number_occurences;
+	private int[][] paytable;
+	private int[] number_occurences;
 	
 	public static void main(String[] args){
 		//Create a hardcoded hand and a bet

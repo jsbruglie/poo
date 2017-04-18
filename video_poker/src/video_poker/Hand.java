@@ -3,8 +3,8 @@ package video_poker;
 import java.util.Arrays;
 
 public class Hand {
-	Card[] cards;
-	int handsize;
+	private Card[] cards;
+	private int handsize;
 	
 	public Hand(Card[] cards, int handsize){
 		this.handsize = handsize;

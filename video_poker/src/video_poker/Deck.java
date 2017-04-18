@@ -5,7 +5,7 @@ import java.util.Random;
 public class Deck {
 	private Card[] cards;
 	private int numberCards;
-	int top;
+	private int top;
 	
 	//! Constructor to create the deck
 	public Deck(int numCards, boolean shuffle){
@@ -56,8 +56,6 @@ public class Deck {
  	public Card draw(){
  		Card c = cards[top];
  		top--;
- 		
- 		
  		
  		return c;
  	}
