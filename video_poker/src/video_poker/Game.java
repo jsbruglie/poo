@@ -9,6 +9,7 @@ public class Game {
 	Statistics stats;
 	
 	public Game(String[] args){
+		//Double bonus game
 		
 		if(args[0].equals("-i")){
 			mode = new Interactive(args);

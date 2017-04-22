@@ -39,4 +39,5 @@ public class Hand {
 	public String toString() {
 		return "Hand [cards=" + Arrays.toString(cards) + ", handsize=" + handsize + "]";
 	}
+
 }

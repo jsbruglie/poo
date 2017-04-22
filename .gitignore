@@ -1,0 +1,6 @@
+# Ignore `bin` dir
+video_poker/bin/
+# ignore all '.class' in 'bin' dir
+video_poker/bin/*.class
+# Ignore all `.jar` in `bin` dir
+video_poker/bin/*.jar

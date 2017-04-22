@@ -188,52 +188,50 @@ public class Score {
 			number_occurences[c[i].getNumber()-1]++;
 		}
 		int hand_index = -1;
-		
-		//Check if Jacks or Better
-		if(checkJacksOrBetter(c)){
-			hand_index = 10;
-		}
-		//Check if Two Pair
-		if(checkTwoPair(c)){
-			hand_index = 9;
-		}
-		//Check if Three of a Kind
-		if(checkThreeOfAKind(c)){
-			hand_index = 8;
-		}
-		//Check if Straight
-		if(checkStraight(c)){
-			hand_index = 7;
-		}
-		//Check if Flush
-		if(checkFlush(c)){
-			hand_index = 6;
-		}
-		//Check if Full House
-		if(checkFullHouse(c)){
-			hand_index = 5;
-		}
-		//Check if Four5_K
-		if(checkFour5_K(c)){
-			hand_index = 4;
-		}
-		//Check if Four2-4
-		if(checkFour2_4(c)){
-			hand_index = 3;
-		}
-		//Check if FourAces
-		if(checkFourAces(c)){
-			hand_index = 2;
-		}
-		//Check if Straight Flush
-		if(checkStraightFlush(c)){
-			hand_index = 1;
-		}
 		//Check if Royal Flush
 		if(checkRoyalFlush(c)){
 			hand_index = 0;
+		}//Check if Straight Flush
+		else if(checkStraightFlush(c)){
+			hand_index = 1;
 		}
-		
+		//Check if FourAces
+		else if(checkFourAces(c)){
+			hand_index = 2;
+		}
+		//Check if Four2-4
+		else if(checkFour2_4(c)){
+			hand_index = 3;
+		}
+		//Check if Four5_K
+		else if(checkFour5_K(c)){
+			hand_index = 4;
+		}
+		//Check if Full House
+		else if(checkFullHouse(c)){
+			hand_index = 5;
+		}
+		//Check if Flush
+		else if(checkFlush(c)){
+			hand_index = 6;
+		}
+		//Check if Straight
+		else if(checkStraight(c)){
+			hand_index = 7;
+		}
+		//Check if Three of a Kind
+		else if(checkThreeOfAKind(c)){
+			hand_index = 8;
+		}
+		//Check if Two Pair
+		else if(checkTwoPair(c)){
+			hand_index = 9;
+		}
+		//Check if Jacks or Better
+		else if(checkJacksOrBetter(c)){
+			hand_index = 10;
+		}
+
 		return hand_index;
 	}
 	
@@ -342,6 +340,9 @@ public class Score {
 
 	}
 	public boolean checkStraight(Card[] c){
+		//Check if straight is TJQKA (the only straight that is not number sequential)
+		if(number_occurences[9] == 1 && number_occurences[10]==1 && number_occurences[11] == 1 && number_occurences[12] == 1 && number_occurences[13] == 1)
+			return true;
 		//Check if the numbers are sequential
 		for(int i=0; i<13; i++){
 			if(number_occurences[i]!=0){

@@ -66,6 +66,9 @@ public class Card {
 			case 1:
 				name = "A";
 				break;
+			/*case 14:
+				name = "A";
+				break;*/
 		}
 		return name + (char)this.suit.getSymbol();
 	}
