@@ -2,19 +2,40 @@ package video_poker;
 
 import java.util.Arrays;
 
+/**
+ * 
+ */
 public class Hand {
+	
+	/* The array of cards in hand */
 	private Card[] cards;
+	/* The amount of cards in hand */
 	private int handsize;
 	
+	/**
+	 * Constructor
+	 * @param cards Array of cards to add to the hand
+	 * @param handsize The number of cards in hand
+	 */
 	public Hand(Card[] cards, int handsize){
 		this.handsize = handsize;
 		this.cards = new Card[handsize];
 		
-		for(int i=0;i<handsize;i++){
-			this.cards[i] = new Card(cards[i].getSuit(), cards[i].getNumber());
+		/* TODO - FIX OUT OF BOUNDS */
+		
+		for(int i = 0; i < handsize; i++){
+			this.cards[i] = new Card(cards[i].suit, cards[i].number);
 		}
 	}
+	
+	/**
+	 * Constructor
+	 * @param hand
+	 */
 	public Hand(Hand hand){
+		
+		/* TODO - FIGURE OUT WHY THIS IS A THING */
+		
 		this.handsize = hand.handsize;
 		this.cards = hand.cards;
 	}

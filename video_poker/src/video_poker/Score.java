@@ -1,183 +1,32 @@
 package video_poker;
 
+/**
+ * 
+ */
 public class Score {
 
+	/** */
 	private int[][] paytable;
+	/** */
 	private int[] number_occurences;
 	
-	public static void main(String[] args){
-		//Create a hardcoded hand and a bet
-		int bet = 5;
-		Suit suit;
-		Card[] cards = new Card[5];
-		
-		/* Pair of 5's -- should give no reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,5);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,7);
-		suit = Suit.Hearts;
-		cards[2] = new Card(suit,8);
-		suit = Suit.Spades;
-		cards[3] = new Card(suit,2);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,5);*/
-		
-		/* Pair of Kings -- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,13);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,7);
-		suit = Suit.Hearts;
-		cards[2] = new Card(suit,8);
-		suit = Suit.Spades;
-		cards[3] = new Card(suit,2);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,13);*/
-		
-		/* Pair of 7's and Jacks -- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,11);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,7);
-		suit = Suit.Hearts;
-		cards[2] = new Card(suit,7);
-		suit = Suit.Spades;
-		cards[3] = new Card(suit,2);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,11);*/
-		
-		/* Triple 4's -- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,4);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,4);
-		suit = Suit.Hearts;
-		cards[2] = new Card(suit,7);
-		suit = Suit.Spades;
-		cards[3] = new Card(suit,4);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,11);*/
-		
-		/* Straight -- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,4);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,5);
-		suit = Suit.Hearts;
-		cards[2] = new Card(suit,6);
-		suit = Suit.Spades;
-		cards[3] = new Card(suit,7);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,8);*/
-		
-		/* Flush -- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,4);
-		suit = Suit.Clubs;
-		cards[1] = new Card(suit,5);
-		suit = Suit.Clubs;
-		cards[2] = new Card(suit,6);
-		suit = Suit.Clubs;
-		cards[3] = new Card(suit,2);
-		suit = Suit.Clubs;
-		cards[4] = new Card(suit,10);*/
-		
-		/* Full House - two 4's three Queens-- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,4);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,4);
-		suit = Suit.Hearts;
-		cards[2] = new Card(suit,12);
-		suit = Suit.Spades;
-		cards[3] = new Card(suit,12);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,12);*/
-		
-		/* Four 5-K 4 8's-- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,8);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,8);
-		suit = Suit.Hearts;
-		cards[2] = new Card(suit,8);
-		suit = Suit.Spades;
-		cards[3] = new Card(suit,8);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,12);*/
-		
-		/* Four 2-4 -- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,3);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,3);
-		suit = Suit.Hearts;
-		cards[2] = new Card(suit,3);
-		suit = Suit.Spades;
-		cards[3] = new Card(suit,3);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,12);*/
-		
-		/* Four Aces -- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,1);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,1);
-		suit = Suit.Hearts;
-		cards[2] = new Card(suit,1);
-		suit = Suit.Spades;
-		cards[3] = new Card(suit,1);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,12);*/
-		
-		/* Straight Flush -- should give reward*/
-		suit = Suit.Diamonds;
-		cards[0] = new Card(suit,4);
-		suit = Suit.Diamonds;
-		cards[1] = new Card(suit,5);
-		suit = Suit.Diamonds;
-		cards[2] = new Card(suit,6);
-		suit = Suit.Diamonds;
-		cards[3] = new Card(suit,7);
-		suit = Suit.Diamonds;
-		cards[4] = new Card(suit,8);
-		
-		
-		/* Royal Flush -- should give reward*/
-		/*suit = Suit.Clubs;
-		cards[0] = new Card(suit,10);
-		suit = Suit.Clubs;
-		cards[1] = new Card(suit,11);
-		suit = Suit.Clubs;
-		cards[2] = new Card(suit,12);
-		suit = Suit.Clubs;
-		cards[3] = new Card(suit,13);
-		suit = Suit.Clubs;
-		cards[4] = new Card(suit,1);*/
-		
-		Hand hand = new Hand(cards, 5);
-		Score s = new Score();
-		System.out.println(s.getScore(hand,bet));
-	}
-	
-	
 	public Score(){
-		//Initialize the pay table
+		
 		paytable = new int[][]{
 			{ 250, 500, 750, 1000, 4000 },
-			{ 50,  100, 150, 200, 250   },
-			{ 160, 320, 480, 640, 800   },
-			{ 80,  160, 240, 320, 400   },
-			{ 50,  100, 150, 200, 250   },
-			{ 10,  20,  30,  40,  50    },
-			{ 7,   14,  21,  28,  35    },
-			{ 5,   10,  15,  20,  25    },
-			{ 3,   6,   9,   12,  15    },
-			{ 1,   2,   3,   4,   5     },
-			{ 1,   2,   3,   4,   5     } 
+			{ 50,  100, 150, 200,  250  },
+			{ 160, 320, 480, 640,  800  },
+			{ 80,  160, 240, 320,  400  },
+			{ 50,  100, 150, 200,  250  },
+			{ 10,  20,  30,  40,   50   },
+			{ 7,   14,  21,  28,   35   },
+			{ 5,   10,  15,  20,   25   },
+			{ 3,   6,   9,   12,   15   },
+			{ 1,   2,   3,   4,    5    },
+			{ 1,   2,   3,   4,	   5    } 
 		};
-		number_occurences = new int[13];
+		
+		number_occurences = new int[Combination.values().length];
 	}
 	
 	private int evaluateHand(Hand hand){
@@ -541,5 +390,159 @@ public class Score {
 	}
 	
 	
-	
+	public static void main(String[] args){
+		//Create a hardcoded hand and a bet
+		int bet = 5;
+		Suit suit;
+		Card[] cards = new Card[5];
+		
+		/* Pair of 5's -- should give no reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,5);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,7);
+		suit = Suit.Hearts;
+		cards[2] = new Card(suit,8);
+		suit = Suit.Spades;
+		cards[3] = new Card(suit,2);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,5);*/
+		
+		/* Pair of Kings -- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,13);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,7);
+		suit = Suit.Hearts;
+		cards[2] = new Card(suit,8);
+		suit = Suit.Spades;
+		cards[3] = new Card(suit,2);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,13);*/
+		
+		/* Pair of 7's and Jacks -- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,11);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,7);
+		suit = Suit.Hearts;
+		cards[2] = new Card(suit,7);
+		suit = Suit.Spades;
+		cards[3] = new Card(suit,2);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,11);*/
+		
+		/* Triple 4's -- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,4);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,4);
+		suit = Suit.Hearts;
+		cards[2] = new Card(suit,7);
+		suit = Suit.Spades;
+		cards[3] = new Card(suit,4);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,11);*/
+		
+		/* Straight -- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,4);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,5);
+		suit = Suit.Hearts;
+		cards[2] = new Card(suit,6);
+		suit = Suit.Spades;
+		cards[3] = new Card(suit,7);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,8);*/
+		
+		/* Flush -- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,4);
+		suit = Suit.Clubs;
+		cards[1] = new Card(suit,5);
+		suit = Suit.Clubs;
+		cards[2] = new Card(suit,6);
+		suit = Suit.Clubs;
+		cards[3] = new Card(suit,2);
+		suit = Suit.Clubs;
+		cards[4] = new Card(suit,10);*/
+		
+		/* Full House - two 4's three Queens-- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,4);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,4);
+		suit = Suit.Hearts;
+		cards[2] = new Card(suit,12);
+		suit = Suit.Spades;
+		cards[3] = new Card(suit,12);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,12);*/
+		
+		/* Four 5-K 4 8's-- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,8);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,8);
+		suit = Suit.Hearts;
+		cards[2] = new Card(suit,8);
+		suit = Suit.Spades;
+		cards[3] = new Card(suit,8);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,12);*/
+		
+		/* Four 2-4 -- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,3);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,3);
+		suit = Suit.Hearts;
+		cards[2] = new Card(suit,3);
+		suit = Suit.Spades;
+		cards[3] = new Card(suit,3);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,12);*/
+		
+		/* Four Aces -- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,1);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,1);
+		suit = Suit.Hearts;
+		cards[2] = new Card(suit,1);
+		suit = Suit.Spades;
+		cards[3] = new Card(suit,1);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,12);*/
+		
+		/* Straight Flush -- should give reward*/
+		suit = Suit.Diamonds;
+		cards[0] = new Card(suit,4);
+		suit = Suit.Diamonds;
+		cards[1] = new Card(suit,5);
+		suit = Suit.Diamonds;
+		cards[2] = new Card(suit,6);
+		suit = Suit.Diamonds;
+		cards[3] = new Card(suit,7);
+		suit = Suit.Diamonds;
+		cards[4] = new Card(suit,8);
+		
+		
+		/* Royal Flush -- should give reward*/
+		/*suit = Suit.Clubs;
+		cards[0] = new Card(suit,10);
+		suit = Suit.Clubs;
+		cards[1] = new Card(suit,11);
+		suit = Suit.Clubs;
+		cards[2] = new Card(suit,12);
+		suit = Suit.Clubs;
+		cards[3] = new Card(suit,13);
+		suit = Suit.Clubs;
+		cards[4] = new Card(suit,1);*/
+		
+		Hand hand = new Hand(cards, 5);
+		Score s = new Score();
+		System.out.println(s.getScore(hand,bet));
+	}
 }

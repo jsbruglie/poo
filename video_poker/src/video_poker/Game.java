@@ -25,17 +25,17 @@ public class Game {
 			
 			System.exit(1);
 		}
-		//Create game and player
-		//Create game (for now has a bet)
+		// Create game and player
+		// Create game (for now has a bet)
 
-		//Create the evaluator
+		// Create the evaluator
 		this.score = new Score();
-		//Create player
+		// Create player
 		this.player = new Player(mode.getCredit());
-		//Create deck and shuffle it
-		this.deck = new Deck(52,true); //! 52 cards, shuffle upon creation
+		// Create deck and shuffle it
+		this.deck = new Deck(true);
 		
-		//Create the statistics for the game
+		// Create the statistics for the game
 		this.stats = new Statistics(player.getCredit());
 	}
 	
