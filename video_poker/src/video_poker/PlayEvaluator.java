@@ -21,7 +21,7 @@ public class PlayEvaluator {
 		for(int i=0; i<13; i++){
 			number_occurences[i] = new Tuple(0, new ArrayList<Integer>());
 		}
-		for(int i=0; i<5; i++){
+		for(int i=0; i<4; i++){
 			suit_occurences[i] = 0;
 		}
 		for(int i=0; i<5;i++){
@@ -77,10 +77,11 @@ public class PlayEvaluator {
 	}
 	//Check if a given card index is a High Card
 	public boolean isHighCard(int card_index){
-		if(card_index == 0 || card_index == 10 || card_index == 11 || card_index == 12)
+		if(card_index == 1 || card_index == 11 || card_index == 12 || card_index == 13)
 			return true;
 		return false;
 	}
+	
 	//Checks for a full house
 	public boolean checkFullHouse(Card[] c){
 		//If checkTwoPair and checkThreeOfAKind are both true and the cards they evaluate are different
@@ -163,21 +164,23 @@ public class PlayEvaluator {
 	//----------------------------------------N TO A ROYAL FLUSH----------------------------------
 	List<Integer> NToRoyalFlush(Card[] c, int N){
 		int count = 0;
-		List<Integer> temp = new ArrayList<Integer>();
-		
-		//Get N cards with the same suit
-		temp = NToFlush(c, N);
+		List<Integer> temp = NToFlush(c, N); //Get N cards with the same suit
+		List<Integer> rethand = new ArrayList<Integer>();
 		//Check over them to see if they are N cards that could form a Royal Flush
-		for(int i=0; i<temp.size(); i++){
-			int idx = temp.get(i);
-			//Since cards are of the same suit we can check which ones they are, and we know there are no repetitions
-			if(idx == 0 || idx == 9 || idx == 10 || idx == 11 || idx == 12)
-				count++;
+		if(temp!= null && temp.size()>=N){
+			for(int i=0; i<5; i++){
+				//Since cards are of the same suit we can check which ones they are, and we know there are no repetitions
+				if(c[i].getNumber() == 1 || c[i].getNumber() == 10 || c[i].getNumber() == 11 || c[i].getNumber() == 12 || c[i].getNumber() == 13){
+					count++;
+					rethand.add(i);
+				}
+					
+			}
 		}
 		
 		//Add each of the cards that checks this
 		if(count == N)
-			return temp;
+			return rethand;
 		else
 			return null;
 	}
@@ -194,7 +197,7 @@ public class PlayEvaluator {
 	//----------------------------------------STRAIGHT----------------------------------
 	List<Integer> Straight(Card[] c){
 		//If TJQKA cards are not sequential, but its a straight (suits don't matter)
-		if(number_occurences[9].x == 1 && number_occurences[10].x ==1 && number_occurences[11].x == 1 && number_occurences[12].x == 1 && number_occurences[13].x == 1){
+		if(number_occurences[9].x == 1 && number_occurences[10].x ==1 && number_occurences[11].x == 1 && number_occurences[12].x == 1 && number_occurences[0].x == 1){
 			List<Integer> cs = allCards(c);
 			return cs;
 		}
@@ -259,7 +262,7 @@ public class PlayEvaluator {
 	List<Integer> HighPair(Card[] c){
 		List<Integer> temp = new ArrayList<Integer>();
 		if(number_occurences[0].x == 2){ //Pair of Aces
-			temp.add(number_occurences[1].y.get(0)); temp.add(number_occurences[1].y.get(1));
+			temp.add(number_occurences[0].y.get(0)); temp.add(number_occurences[0].y.get(1));
 			return temp;
 		}
 		for(int i=10;i<13;i++){ //Pair of J,Q,K
@@ -276,10 +279,10 @@ public class PlayEvaluator {
 		List<Integer> temp = new ArrayList<Integer>();
 		
 		for(int i=0; i<4; i++){
-			if(suit_occurences[i] == N){ //If we found N cards of the same suit, go through the hand to find+add them to a list
+			if(suit_occurences[i] >= N){ //If we found N cards of the same suit, go through the hand to find+add them to a list
 				for(int j=0; j<5; j++){
 					if(c[j].getSuit() == getSuit(i)){ //Check if it has the right suit. getSuit converts from int to enum
-						temp.add(c[j].getNumber());
+						temp.add(j);
 					}
 				}
 				return temp;		
@@ -397,7 +400,9 @@ public class PlayEvaluator {
 	
 	//----------------------------------------4 TO AN INSIDE STRAIGHT. ALL HIGH CARDS----------------------------------
 	List<Integer> _4ToInsideStraight(Card[] c, int nHighcards){
+		List<Integer> temp_c = new ArrayList<Integer>();
 		List<Integer> temp = new ArrayList<Integer>();
+		/* The following 2 NEED TO BE FIXED to return hand indexes instead of number of occurences*/
 		//Check if A234  is in the hand
 		if(number_occurences[0].x >= 1 && number_occurences[1].x >= 1 && number_occurences[2].x >= 1 && number_occurences[3].x >= 1){
 			if(nHighcards == 1 || nHighcards == 2){ //These are the only situations where this makes sense
@@ -420,28 +425,49 @@ public class PlayEvaluator {
 			}
 				
 		}
-		
+		//Add all cards to temp
+		for(int i=0; i<5; i++)
+			temp.add(c[i].getNumber());
 		//Order and find 4 cards with only gaps == 1 (its either cards 0 1 2 3 or 1 2 3 4)
 		//Order temp, create two sublists for 0 1 2 3 and 1 2 3 4, check if gaps == 1, if they are evaluate nHighCards of each sublist
+
 		Collections.sort(temp);
-		List<Integer> sub1 = new ArrayList<Integer>();
-		List<Integer> sub2 = new ArrayList<Integer>();
+		for(int i=0; i<5; i++){
+			for(int j=0; j<5; j++){
+				if(c[j].getNumber() == temp.get(i)){
+					temp_c.add(j);
+				}
+			}
+		}
+		//System.out.println(temp_c);
+		List<Integer> sub1_c = new ArrayList<Integer>(); List<Integer> sub1 = new ArrayList<Integer>();
+		List<Integer> sub2_c = new ArrayList<Integer>(); List<Integer> sub2 = new ArrayList<Integer>();
+		sub1_c.add(temp_c.get(0));sub1_c.add(temp_c.get(1));sub1_c.add(temp_c.get(2));sub1_c.add(temp_c.get(3));
+		sub2_c.add(temp_c.get(1));sub2_c.add(temp_c.get(2));sub2_c.add(temp_c.get(3));sub2_c.add(temp_c.get(4));
 		sub1.add(temp.get(0));sub1.add(temp.get(1));sub1.add(temp.get(2));sub1.add(temp.get(3));
 		sub2.add(temp.get(1));sub2.add(temp.get(2));sub2.add(temp.get(3));sub2.add(temp.get(4));
+		Collections.sort(sub1);
+		Collections.sort(sub2);
 		int gaps1 = ((sub1.get(1)-sub1.get(0))-1)+((sub1.get(2)-sub1.get(1))-1)+((sub1.get(3)-sub1.get(2))-1);
-		int gaps2 = ((sub2.get(1)-sub2.get(0))-1)+((sub2.get(2)-sub2.get(1))-1);
+		//System.out.println(sub1);
+		//System.out.println(gaps1);
+		int gaps2 = ((sub2.get(1)-sub2.get(0))-1)+((sub2.get(2)-sub2.get(1))-1)+((sub2.get(3)-sub2.get(2))-1);
+		//System.out.println("SUBS2" + sub2);
+		//System.out.println(gaps2);
 		if(gaps2 == 1){
 			//Compare result with given nHighCards
 			int straightNumHighCards = getNumHighCards(sub2);
+			//System.out.println(straightNumHighCards);
 			if(straightNumHighCards == nHighcards)
-				return sub2;
+				return sub2_c;
 			
 		}
 		if(gaps1 == 1){
 			//Compare result with given nHighCards
 			int straightNumHighCards = getNumHighCards(sub1);
+			
 			if(straightNumHighCards == nHighcards)
-				return sub1;
+				return sub1_c;
 			
 		}
 		return null;

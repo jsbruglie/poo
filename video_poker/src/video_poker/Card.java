@@ -9,6 +9,51 @@ public class Card {
 		this.suit = suit;
 		this.number = number;
 	}
+	//Alternative constructor that receives the name of the card (instead of number)
+	public Card(Suit suit, String number){
+		this.suit = suit;
+		switch(number){
+			case "A":
+				this.number = 1;
+				break;
+			case "2":
+				this.number = 2;
+				break;
+			case "3":
+				this.number = 3;
+				break;
+			case "4":
+				this.number = 4;
+				break;
+			case "5":
+				this.number = 5;
+				break;
+			case "6":
+				this.number = 6;
+				break;
+			case "7":
+				this.number = 7;
+				break;
+			case "8":
+				this.number = 8;
+				break;
+			case "9":
+				this.number = 9;
+				break;
+			case "T":
+				this.number = 10;
+				break;
+			case "J":
+				this.number = 11;
+				break;
+			case "Q":
+				this.number = 12;
+				break;
+			case "K":
+				this.number = 13;
+				break;
+		}
+	}
 	
 	public Suit getSuit() {
 		return suit;
