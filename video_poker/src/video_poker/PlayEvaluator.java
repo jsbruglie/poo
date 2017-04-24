@@ -101,20 +101,45 @@ public class PlayEvaluator {
 	private List<Integer> NToStraight(Card[] c, int N) {
 		//5 is handsize shouldn't be hardcoded
 		int[] arr = new int[5];
+		int[] original_arr = new int[5];
 		for(int i=0; i<5; i++){
 			arr[i] = c[i].getNumber();
+			original_arr[i] = c[i].getNumber();
 		}
 		
 	    Arrays.sort(arr);
+	    /*for(int i=0; i<5; i++)
+	    	System.out.println(arr[i]);*/
+	    
 	    for (int i = 0; i < arr.length - N + 1; ++i) {
-	        if (arr[i] == arr[i + (N-1)] - (N-1)) {
+	        if (arr[i] == arr[i + (N-1)] - (N-1)) { //If the values are purely sequential
 	        	List<Integer> sequential_values = new ArrayList<Integer>();
 	        	for(int j=i;j<i+N;j++){
-	        		sequential_values.add(j);
+	        		//Get the original card index and add it to sequential values
+	        		for(int k=0; k<5; k++)
+	        			if(arr[j] == original_arr[k])
+	        				sequential_values.add(k);
 	        	}
 	        	return sequential_values;
+	        }else{
+	        	List<Integer> sequential_values = new ArrayList<Integer>();
+	        	int totalgaps = 0;
+	        	for(int j=i;j<i+N;j++){
+	        		if(j!=i+N-1)
+	        			totalgaps+=((arr[j+1]-arr[j])-1);
+	        		//Get the original card index and add it to sequential values
+	        		for(int k=0; k<5; k++)
+	        			if(arr[j] == original_arr[k])
+	        				sequential_values.add(k);
+	        	}
+	        	//Check for gaps
+	        	//System.out.println("Gaps " + totalgaps);
+	        	//If the gaps could potentially be replaced this is a straight candidate
+	        	if(totalgaps == 5-N)
+	        		return sequential_values;
 	        }
 	    }
+	    
 	    return null;
 	}
 	
@@ -150,10 +175,13 @@ public class PlayEvaluator {
 	//----------------------------------------STRAIGHT FLUSH----------------------------------
 	List<Integer> StraightFlush(Card[] c){
 		List<Integer> cards = Flush(c);
+		//System.out.println(cards);
 		//Note that TJQKA is not a sequential straight flush, but its a Royal Flush so no need to check
 		if(cards != null){ //if hand is a flush
 			List<Integer> temp = NToStraight(c, 5);
 			Collections.sort(cards);
+			if(temp!=null)
+				Collections.sort(temp);
 			if(cards.equals(temp)){ //if card numbers are sequential, with N=5 (whole hand)
 				return cards;	
 			}
@@ -165,19 +193,21 @@ public class PlayEvaluator {
 	List<Integer> NToRoyalFlush(Card[] c, int N){
 		int count = 0;
 		List<Integer> temp = NToFlush(c, N); //Get N cards with the same suit
+		//System.out.println(temp);
 		List<Integer> rethand = new ArrayList<Integer>();
 		//Check over them to see if they are N cards that could form a Royal Flush
 		if(temp!= null && temp.size()>=N){
-			for(int i=0; i<5; i++){
+			for(int i=0; i<temp.size(); i++){
 				//Since cards are of the same suit we can check which ones they are, and we know there are no repetitions
-				if(c[i].getNumber() == 1 || c[i].getNumber() == 10 || c[i].getNumber() == 11 || c[i].getNumber() == 12 || c[i].getNumber() == 13){
+				if(c[temp.get(i)].getNumber() == 1 || c[temp.get(i)].getNumber() == 10 || 
+						c[temp.get(i)].getNumber() == 11 || c[temp.get(i)].getNumber() == 12 || c[temp.get(i)].getNumber() == 13){
 					count++;
-					rethand.add(i);
+					rethand.add(temp.get(i));
 				}
 					
 			}
 		}
-		
+
 		//Add each of the cards that checks this
 		if(count == N)
 			return rethand;
@@ -237,6 +267,7 @@ public class PlayEvaluator {
 	//----------------------------------------4 TO A STRAIGHT FLUSH----------------------------------
 	List<Integer> _4ToStraightFlush(Card[] c) {
 		List<Integer> temp = NToStraight(c, 4); //Get 4 to a straight
+		//System.out.println(temp);
 		if(temp != null){ //Check if they have the same suit
 			if(allSameSuit(c, temp))
 				return temp;
@@ -295,12 +326,37 @@ public class PlayEvaluator {
 	
 	//----------------------------------------4 TO AN OUTSIDE STRAIGHT----------------------------------
 	List<Integer> _4ToOutsideStraight(Card c[]){
-		List<Integer> temp = NToStraight(c,4); //Get 4 sequential cards
+		//5 is handsize shouldn't be hardcoded
+		int[] arr = new int[5];
+		int[] original_arr = new int[5];
+		for(int i=0; i<5; i++){
+			arr[i] = c[i].getNumber();
+			original_arr[i] = c[i].getNumber();
+		}
+		
+	    Arrays.sort(arr);
+	    /*for(int i=0; i<5; i++)
+	    	System.out.println(arr[i]);*/
+	    
+	    for (int i = 0; i < arr.length - 4 + 1; ++i) {
+	        if (arr[i] == arr[i + (4-1)] - (4-1)) { //If the values are purely sequential
+	        	List<Integer> sequential_values = new ArrayList<Integer>();
+	        	for(int j=i;j<i+4;j++){
+	        		//Get the original card index and add it to sequential values
+	        		for(int k=0; k<5; k++)
+	        			if(arr[j] == original_arr[k])
+	        				sequential_values.add(k);
+	        	}
+	        	Collections.sort(sequential_values);
+	        	if(sequential_values != null && c[sequential_values.get(0)].getNumber() != 0)  //All other 4 sequential cards are a 4 to OutsideStraight
+	    			return sequential_values;
+	        	
+	        }
+	    }
 		//JQKA is not sequential so will never come from NToStraight (and is an inside straight)
 
 		//If the first card is Ace then we have A234 which is an inside straight
-		if(temp != null && temp.get(0) != 0)  //All other 4 sequential cards are a 4 to OutsideStraight
-			return temp;
+		
 		return null;
 	}
 	
@@ -334,8 +390,14 @@ public class PlayEvaluator {
 	//Could be a class with 3 inherited implementations
 	List<Integer> _3ToStraightFlush(Card c[], int type){
 		
-		List<Integer> temp = NToFlush(c, 3); 
-		if(temp == null) return null; //If not a 3 to a flush terminate here
+		List<Integer> temp_c = NToFlush(c, 3); 
+		List<Integer> temp = new ArrayList<Integer>();
+		
+		if(temp_c == null) return null; //If not a 3 to a flush terminate here
+
+		for(int i=0; i<temp_c.size(); i++)
+			temp.add(c[temp_c.get(i)].getNumber());
+		//System.out.println(temp);
 		List<Integer> aceHighVal = null;
 		//Check if any of those cards is an Ace(0) and create another "alternative hand" with 13 there
 		int hasAce = 0;
@@ -355,8 +417,11 @@ public class PlayEvaluator {
 		switch(type){ 
 		
 			case 1:	//e.g 8JQ
-				if(nHighCards >= gaps)
-					return temp;
+
+				if(nHighCards >= gaps){
+					System.out.println("Type 1");
+					return temp_c;
+				}
 						
 				if(hasAce == 1){
 					//Consider A = 13 and do the same thing
@@ -364,18 +429,27 @@ public class PlayEvaluator {
 					Collections.sort(aceHighVal);
 					//Compute total number of gaps
 					int ace_gaps = ((aceHighVal.get(1)-aceHighVal.get(0))-1)+((aceHighVal.get(2)-aceHighVal.get(1))-1);
-					if(nHighCards >= ace_gaps)
-						return aceHighVal;
+					if(nHighCards >= ace_gaps){
+						System.out.println("Type 1");
+						return temp_c;
+					}
+						
 				}
 				break;
 			case 2:
 				//Check if 234 suited
-				if(temp.get(0)==2 && temp.get(1)==3 && temp.get(2)==4)
-					return temp;
-				if(gaps == 1)
-					return temp;
-				if(gaps == 2 && nHighCards == 2)
-					return temp;
+				if(temp.get(0)==2 && temp.get(1)==3 && temp.get(2)==4){
+					System.out.println("Type 2");
+					return temp_c;
+				}
+				if(gaps == 1){
+					System.out.println("Type 2");
+					return temp_c;
+				}
+				if(gaps == 2 && nHighCards == 2){
+					System.out.println("Type 2");
+					return temp_c;
+				}
 				if(hasAce == 1){
 					//Consider A = 13 and do the same thing
 					//Sort aceHighVal
@@ -383,15 +457,21 @@ public class PlayEvaluator {
 					//Compute total number of gaps
 					int ace_gaps = ((aceHighVal.get(1)-aceHighVal.get(0))-1)+((aceHighVal.get(2)-aceHighVal.get(1))-1);
 					if(ace_gaps == 1)
-						return aceHighVal;
-					if(ace_gaps == 2 && nHighCards == 2)
-						return aceHighVal;
+						return temp_c;
+					if(ace_gaps == 2 && nHighCards == 2){
+						System.out.println("Type 2");
+						return temp_c;
+					}
+						
 				}
 				break;
 			case 3:
 				if(hasAce == 0){ //Type 3 cannot have an Ace
-					if(nHighCards == 0 && gaps == 2)
-						return temp;
+					if(nHighCards == 0 && gaps == 2){
+						System.out.println("Type 3");
+						return temp_c;
+					}
+						
 				}
 				break;
 		}
@@ -495,16 +575,18 @@ public class PlayEvaluator {
 	//----------------------------------------3 TO A FLUSH, ALL HIGH CARDS----------------------------------
 	List<Integer> _3ToFlush_nHighCards(Card[] c, int numHighCards){ //Could return the suit
 		List<Integer> temp = new ArrayList<Integer>();
+		List<Integer> temp_c = new ArrayList<Integer>();
 		for(int i=0; i<4; i++){
 			if(suit_occurences[i] == 3){ //If it's 3 to a flush
 				
 				for(int j=0; j<5; j++){
 					if(c[j].getSuit() == getSuit(i)){ //getSuit converts from int to enum
 						temp.add(c[j].getNumber());
+						temp_c.add(j);
 					}
 				}
 				if(numHighCards == getNumHighCards(temp)) //Check if the 3 flush cards have numHighCards
-					return temp;
+					return temp_c;
 				else
 					return null;
 				
@@ -516,11 +598,16 @@ public class PlayEvaluator {
 	//----------------------------------------2 SUITED HIGH CARDS----------------------------------
 	List<Integer> _2SuitedHighCards(Card[] c){
 		List<Integer> temp = new ArrayList<Integer>();
-		if(number_occurences[0].x == 1){ //Check Aces
-			temp.add(number_occurences[0].y.get(0));
+		if(number_occurences[0] != null){
+			if(number_occurences[0].x == 1){ //Check Aces
+				temp.add(number_occurences[0].y.get(0));
+			}
 		}
 		for(int i=10; i<13; i++){
-			temp.add(number_occurences[i].y.get(0));
+			//System.out.println(i);
+			//System.out.println(number_occurences[10].y);
+			if(number_occurences[i].x == 1)
+				temp.add(number_occurences[i].y.get(0));
 		}
 		if(temp.size() == 2 && allSameSuit(c,temp))
 			return temp;
@@ -618,7 +705,7 @@ public class PlayEvaluator {
 		List<Integer> temp = new ArrayList<Integer>();
 		for(int i=10;i<13;i++){
 			if(number_occurences[i].x == 1){
-				temp.add(number_occurences[0].y.get(0));
+				temp.add(number_occurences[i].y.get(0));
 				return temp;
 			}
 		}
