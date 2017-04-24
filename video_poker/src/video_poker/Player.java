@@ -6,9 +6,9 @@ package video_poker;
 public class Player {
 	
 	/** The player's current credit */
-	int credit;
+	private int credit;
 	/** The player's hand */
-	Hand hand;
+	private Hand hand;
 	
 	/**
 	 * Constructor
@@ -18,31 +18,44 @@ public class Player {
 		this.credit = credit;
 	}
 	
-	public void setHand(Hand hand){
-		this.hand = new Hand(hand);
-	}
-	public void printHand(){
-		System.out.println(this.hand);
-	}
-	
-	public void removeCredit(int bet){
+	public void removeCredit(int bet) {
 		this.credit -= bet;
 	}
-	public void addCredit(int gain){
+	public void addCredit(int gain) {
 		if(gain != -1){
 			this.credit += gain;
-	
 		}
-	}	
+	}
+	
+	public void printHand() {
+		System.out.println(this.hand);
+	}
+
+	/**
+	 * @return the credit
+	 */
 	public int getCredit() {
 		return credit;
 	}
+
+	/**
+	 * @param credit the credit to set
+	 */
 	public void setCredit(int credit) {
 		this.credit = credit;
 	}
+
+	/**
+	 * @return the hand
+	 */
 	public Hand getHand() {
 		return hand;
 	}
-	
-	
+
+	/**
+	 * @param hand the hand to set
+	 */
+	public void setHand(Hand hand) {
+		this.hand = hand;
+	}	
 }

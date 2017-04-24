@@ -5,17 +5,17 @@ package video_poker;
  */
 public enum Suit {
 	
-	Clubs(0,'\u2663'),
-	Diamonds(1,'\u2666'),
-	Spades(2,'\u2660'),
-	Hearts(3,'\u2764');
+	Clubs('C','\u2663'),
+	Diamonds('D','\u2666'),
+	Spades('S','\u2660'),
+	Hearts('H','\u2764');
 	
-	/** An integer representation of the suit */
-	private final int value;
+	/** The corresponding regular character */
+	private final char value;
 	/** The corresponding unicode character */
 	private final char symbol;
 	
-	private Suit(int value, char symbol){
+	private Suit(char value, char symbol){
 		this.value = value;
 		this.symbol = symbol;
 	}
@@ -23,8 +23,4 @@ public enum Suit {
 	public char getSymbol(){
 		return symbol;
 	}
-	public int getValue(){
-		return value;
-	}
-	
 }

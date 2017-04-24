@@ -1,154 +1,86 @@
 package video_poker;
 
+import static video_poker.Combination.*;
+
 /**
  * 
  */
 public class Score {
 
-	/** */
+	/** A table assigning a payout for each combination per bet value */
 	private int[][] paytable;
-	/** */
-	private int[] number_occurences;
+	/** An array with the card number occurrences in a given hand */
+	private int[] card_number_occurrences;
 	
 	public Score(){
 		
-		paytable = new int[][]{
-			{ 250, 500, 750, 1000, 4000 },
-			{ 50,  100, 150, 200,  250  },
-			{ 160, 320, 480, 640,  800  },
-			{ 80,  160, 240, 320,  400  },
-			{ 50,  100, 150, 200,  250  },
-			{ 10,  20,  30,  40,   50   },
-			{ 7,   14,  21,  28,   35   },
-			{ 5,   10,  15,  20,   25   },
-			{ 3,   6,   9,   12,   15   },
-			{ 1,   2,   3,   4,    5    },
-			{ 1,   2,   3,   4,	   5    } 
+		paytable = new int[][]{			
+			{ 0,   0,   0,   0,    0    },	// Other - Invalid Combination
+			{ 1,   2,   3,   4,	   5    },	// Jacks or Better
+			{ 1,   2,   3,   4,    5    },	// Two Pair
+			{ 3,   6,   9,   12,   15   },	// Three of a Kind
+			{ 5,   10,  15,  20,   25   },	// Straight
+			{ 7,   14,  21,  28,   35   },	// Flush
+			{ 10,  20,  30,  40,   50   },	// Full House
+			{ 50,  100, 150, 200,  250  },	// Four 5-K
+			{ 80,  160, 240, 320,  400  },	// Four 2-4
+			{ 160, 320, 480, 640,  800  },	// Four Aces
+			{ 50,  100, 150, 200,  250  },	// Straight Flush
+			{ 250, 500, 750, 1000, 4000 }	// Royal Flush
 		};
 		
-		number_occurences = new int[Combination.values().length];
+		card_number_occurrences = new int[Combination.values().length];
 	}
 	
-	private int evaluateHand(Hand hand){
-		Card[] c = hand.getCards();
-		for(int i=0; i<13; i++)
-			number_occurences[i] = 0;
-		for(int i=0; i<5;i++){
-			number_occurences[c[i].getNumber()-1]++;
-		}
-		int hand_index = -1;
-		//Check if Royal Flush
-		if(checkRoyalFlush(c)){
-			hand_index = 0;
-		}//Check if Straight Flush
-		else if(checkStraightFlush(c)){
-			hand_index = 1;
-		}
-		//Check if FourAces
-		else if(checkFourAces(c)){
-			hand_index = 2;
-		}
-		//Check if Four2-4
-		else if(checkFour2_4(c)){
-			hand_index = 3;
-		}
-		//Check if Four5_K
-		else if(checkFour5_K(c)){
-			hand_index = 4;
-		}
-		//Check if Full House
-		else if(checkFullHouse(c)){
-			hand_index = 5;
-		}
-		//Check if Flush
-		else if(checkFlush(c)){
-			hand_index = 6;
-		}
-		//Check if Straight
-		else if(checkStraight(c)){
-			hand_index = 7;
-		}
-		//Check if Three of a Kind
-		else if(checkThreeOfAKind(c)){
-			hand_index = 8;
-		}
-		//Check if Two Pair
-		else if(checkTwoPair(c)){
-			hand_index = 9;
-		}
-		//Check if Jacks or Better
-		else if(checkJacksOrBetter(c)){
-			hand_index = 10;
-		}
-
-		return hand_index;
-	}
-	
-	public int getScore(Hand hand, int bet){
-		//Evaluate the hand
-		int hand_index = evaluateHand(hand);
+	/**
+	 * Evaluates a hand and calculates the combination it corresponds to.
+	 * @param hand The hand to be evaluated
+	 * @return The corresponding combination Enum
+	 */
+	private Combination evaluateHand(Hand hand){
 		
-		if(hand_index != -1)
-			return paytable[hand_index][bet-1];
-		else
-			return -1;
-	
+		Card[] c = hand.getCards();
+		for (int i = 0; i < CardNumber.values().length; i++)
+			card_number_occurrences[i] = 0;
+		for (int i = 0; i < 5;i++){
+			card_number_occurrences[c[i].number.ordinal()]++;
+		}
+		
+		if (checkRoyalFlush(c)){ 
+			return RoyalFlush;
+		} else if (checkStraightFlush(c)){
+			return StraightFlush;
+		} else if (checkFourAces(c)){
+			return FourAces;
+		} else if (checkFour2_4(c)){
+			return Four2_4;
+		} else if (checkFour5_K(c)){
+			return Four5_K;
+		} else if (checkFullHouse(c)){
+			return FullHouse;
+		} else if (checkStraight(c)){
+			return Straight;
+		} else if(checkThreeOfAKind(c)){
+			return ThreeOfAKind;
+		} else if(checkTwoPair(c)){
+			return TwoPair;
+		} else if(checkJacksOrBetter(c)){
+			return JacksOrBetter;
+		}
+		return Other;
 	}
 	
-	public Combination getCombination(Hand hand){
-		int hand_index = evaluateHand(hand);
-		Combination comb = null;
-		switch(hand_index){
-			case -1:
-				System.out.println("Other");
-				comb = Combination.Other;
-				break;
-			case 0:
-				System.out.println("Royal Flush");
-				comb = Combination.RoyalFlush;
-				break;
-			case 1:
-				System.out.println("Straight Flush");
-				comb = Combination.StraightFlush;
-				break;
-			case 2:
-				System.out.println("Four of a Kind - Aces");
-				comb = Combination.FourOfAKind;
-				break;
-			case 3:
-				System.out.println("Four of a Kind - 2-4");
-				comb = Combination.FourOfAKind;
-				break;
-			case 4:
-				System.out.println("Four of a Kind - 5-K");
-				comb = Combination.FourOfAKind;
-				break;
-			case 5:
-				System.out.println("Full House");
-				comb = Combination.FullHouse;
-				break;
-			case 6:
-				System.out.println("Flush");
-				comb = Combination.Flush;
-				break;
-			case 7:
-				System.out.println("Straight");
-				comb = Combination.Straight;
-				break;
-			case 8:
-				System.out.println("Three of a Kind");
-				comb = Combination.ThreeOfAKind;
-				break;
-			case 9:
-				System.out.println("Two Pair");
-				comb = Combination.TwoPair;
-				break;
-			case 10:
-				System.out.println("Jacks or Better");
-				comb = Combination.JacksOrBetter;
-				break;
+	/**
+	 * Returns the payout for a given combination and bet
+	 * @param comb The final combination
+	 * @param bet The player proposed bet
+	 * @return
+	 */
+	public int getScore(Combination comb, int bet){
+		if (bet >= 1 && bet <= 5){
+			return paytable[comb.ordinal()][bet];
 		}
-		return comb;
+		return 0;
 	}
 	
 	public boolean checkJacksOrBetter(Card[] c){
@@ -156,7 +88,7 @@ public class Score {
 		//Check in number of occurences the number of elements
 		for(int i=0; i<13; i++){
 			if(i==0 || i>=10){
-				if(this.number_occurences[i] == 2)
+				if(this.card_number_occurrences[i] == 2)
 					return true;
 			}
 		}
@@ -167,7 +99,7 @@ public class Score {
 		//Check if there are 2 pairs
 		int pair_count = 0;
 		for(int i=0; i<13; i++){
-			if(number_occurences[i] == 2){
+			if(card_number_occurrences[i] == 2){
 				pair_count++;
 			}
 		}
@@ -181,7 +113,7 @@ public class Score {
 	public boolean checkThreeOfAKind(Card[] c){
 		//Check if there are triplets
 		for(int i=0; i<13; i++){
-			if(number_occurences[i] == 3){
+			if(card_number_occurrences[i] == 3){
 				return true;
 			}
 		}
@@ -190,17 +122,17 @@ public class Score {
 	}
 	public boolean checkStraight(Card[] c){
 		//Check if straight is TJQKA (the only straight that is not number sequential)
-		if(number_occurences[9] == 1 && number_occurences[10]==1 && number_occurences[11] == 1 && number_occurences[12] == 1 && number_occurences[13] == 1)
+		if(card_number_occurrences[9] == 1 && card_number_occurrences[10]==1 && card_number_occurrences[11] == 1 && card_number_occurrences[12] == 1 && card_number_occurrences[13] == 1)
 			return true;
 		//Check if the numbers are sequential
 		for(int i=0; i<13; i++){
-			if(number_occurences[i]!=0){
-				if(number_occurences[i]!=1){
+			if(card_number_occurrences[i]!=0){
+				if(card_number_occurrences[i]!=1){
 					return false;
 				}else{
 					if(i<9){ //Not allowing wraparound straights
 						for(int j=i;j<i+5;j++){ //Check the next 5 cards
-							if(number_occurences[j] != 1)
+							if(card_number_occurrences[j] != 1)
 								return false;
 						}
 						return true;
@@ -227,9 +159,9 @@ public class Score {
 		//If checkTwoPair and checkThreeOfAKind are both true and the cards they evaluate are different
 		int npairs = 0, ntriples = 0;
 		for(int i=0; i<13;i++){
-			if(number_occurences[i] == 2)
+			if(card_number_occurrences[i] == 2)
 				npairs++;
-			if(number_occurences[i] == 3)
+			if(card_number_occurrences[i] == 3)
 				ntriples++;
 		}
 		if(npairs == 1 && ntriples == 1)
@@ -241,7 +173,7 @@ public class Score {
 	public boolean checkFourOfAKind(Card[] c){
 		//If there are four cards of the same number
 		for(int i=0; i<13; i++){
-			if(number_occurences[i] == 4){
+			if(card_number_occurrences[i] == 4){
 				return true;
 			}
 		}
@@ -250,7 +182,7 @@ public class Score {
 	
 	public boolean checkFour5_K(Card[] c){
 		for(int i=0; i<13; i++){
-			if(number_occurences[i] == 4 && i!=0 && i>=4){
+			if(card_number_occurrences[i] == 4 && i!=0 && i>=4){
 				return true;
 			}
 		}
@@ -259,7 +191,7 @@ public class Score {
 	
 	public boolean checkFour2_4(Card[] c){
 		for(int i=0; i<13; i++){
-			if(number_occurences[i] == 4 && i!=0 && i<4){
+			if(card_number_occurrences[i] == 4 && i!=0 && i<4){
 				return true;
 			}
 		}
@@ -268,7 +200,7 @@ public class Score {
 	
 	public boolean checkFourAces(Card[] c){
 		for(int i=0; i<13; i++){
-			if(number_occurences[i] == 4 && i==0){
+			if(card_number_occurrences[i] == 4 && i==0){
 				return true;
 			}
 		}
@@ -287,7 +219,7 @@ public class Score {
 	public boolean checkRoyalFlush(Card[] c){
 		//If checkFlush is true and the sequence is a Ten, a Jack, a Queen, a King and an Ace
 		if(checkFlush(c)){
-			if(number_occurences[12] == 1 && number_occurences[11] == 1 && number_occurences[10] == 1 && number_occurences[9] == 1 && number_occurences[0] == 1){
+			if(card_number_occurrences[12] == 1 && card_number_occurrences[11] == 1 && card_number_occurrences[10] == 1 && card_number_occurrences[9] == 1 && card_number_occurrences[0] == 1){
 				return true;
 			}
 		} 
@@ -299,27 +231,27 @@ public class Score {
 		int hits = 0;
 		int[] indexes = new int[N];
 		for(int i=0;i<13;i++){
-			if(number_occurences[8] == 1){
+			if(card_number_occurrences[8] == 1){
 				indexes[hits] = 8;
 				hits++;	
 			}
 			
-			if(number_occurences[9] == 1){
+			if(card_number_occurrences[9] == 1){
 				indexes[hits] = 9;
 				hits++;
 			}
 
-			if(number_occurences[10] == 1){
+			if(card_number_occurrences[10] == 1){
 				indexes[hits] = 10;
 				hits++;
 			}
 
-			if(number_occurences[11] == 1){
+			if(card_number_occurrences[11] == 1){
 				indexes[hits] = 11;
 				hits++;
 			}
 			
-			if(number_occurences[12] == 1){
+			if(card_number_occurrences[12] == 1){
 				indexes[hits] = 12;
 				hits++;
 			}
@@ -345,57 +277,13 @@ public class Score {
 		return true;	
 	}
 	
-	public boolean checkNToStraightFlush(Card[] c, int N){
-		return false;
-	}
-	
-	public boolean checkNToOutsideStraight(Card[] c, int N){
-		return false;
-	}
-	public boolean checkNToInsideStraight(Card[] c, int N){
-		return false;
-	}
-	public boolean checkNToFlush(Card[] c, int N){
-		return false;
-	}
-	public boolean checkHighPair(Card[] c){
-		return false;
-	}
-	public boolean checkLowPair(Card[] c){
-		return false;
-	}
-	public boolean checkAKQJ(Card[] c, int suited){ //0 unsuited, 1 suited
-		return false;
-	}
-	public boolean checkQJ(Card[] c, int suited){
-		return false;
-	}
-	public boolean checkQT(Card[] c, int suited){
-		return false;
-	}
-	public boolean checkJT(Card[] c, int suited){
-		return false;
-	}
-	public boolean checkKQ(Card[] c, int suited){
-		return false;
-	}
-	public boolean checkKJ(Card[] c, int suited){
-		return false;
-	}
-	public boolean getNumHighCards(Card[] c, int suited, int exQJ){
-		return false;
-	}
-	public boolean checkAce(Card[] c){
-		return false;
-	}
-	
-	
 	public static void main(String[] args){
 		//Create a hardcoded hand and a bet
+		/*
 		int bet = 5;
 		Suit suit;
 		Card[] cards = new Card[5];
-		
+		*/
 		/* Pair of 5's -- should give no reward*/
 		/*suit = Suit.Clubs;
 		cards[0] = new Card(suit,5);
@@ -517,6 +405,7 @@ public class Score {
 		cards[4] = new Card(suit,12);*/
 		
 		/* Straight Flush -- should give reward*/
+		/*
 		suit = Suit.Diamonds;
 		cards[0] = new Card(suit,4);
 		suit = Suit.Diamonds;
@@ -527,7 +416,7 @@ public class Score {
 		cards[3] = new Card(suit,7);
 		suit = Suit.Diamonds;
 		cards[4] = new Card(suit,8);
-		
+		*/
 		
 		/* Royal Flush -- should give reward*/
 		/*suit = Suit.Clubs;
@@ -541,8 +430,10 @@ public class Score {
 		suit = Suit.Clubs;
 		cards[4] = new Card(suit,1);*/
 		
+		/*
 		Hand hand = new Hand(cards, 5);
 		Score s = new Score();
 		System.out.println(s.getScore(hand,bet));
+		*/
 	}
 }

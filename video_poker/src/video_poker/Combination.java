@@ -8,7 +8,9 @@ public enum Combination {
 	Straight("Straight"),
 	Flush("Flush"),
 	FullHouse("Full House"),
-	FourOfAKind("Four of a Kind"),
+	Four2_4("Four of a Kind - 2 to 4"),
+	Four5_K("Four of a Kind - 5 to K"),
+	FourAces("Four of a Kind - A"),
 	StraightFlush("Straight Flush"),
 	RoyalFlush("Royal Flush"),
 	Other("Other");
