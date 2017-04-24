@@ -125,50 +125,7 @@ public class Strategy {
 		
 		};
 		//2. Test all the difficult hands
-		Card[][] difficultHands = {
-				//1. SHOULD EVALUATE:1 Keep straight flush, KQJT9
-				{new Card(Suit.Clubs,13), new Card(Suit.Clubs,12), new Card(Suit.Clubs,11), new Card(Suit.Clubs,10), new Card(Suit.Clubs,9)},	
-		
-				//2. SHOULD EVALUATE:2 Keep 4 to a royal flush, AKQJT
-				{new Card(Suit.Diamonds,1), new Card(Suit.Diamonds,13), new Card(Suit.Spades,12), new Card(Suit.Diamonds,11), new Card(Suit.Diamonds,10)},
-		
-				//3. SHOULD EVALUATE:2 Keep 4 to a royal flush, AKJT9
-				{new Card(Suit.Spades,1), new Card(Suit.Spades,13), new Card(Suit.Spades,11), new Card(Suit.Spades,10), new Card(Suit.Spades,9)},
-				
-				//4. SHOULD EVALUATE:3 Keep three aces, AAA22
-				{new Card(Suit.Hearts,1), new Card(Suit.Diamonds,1), new Card(Suit.Spades,1), new Card(Suit.Clubs,2), new Card(Suit.Spades,2)},
-				
-				//5. SHOULD EVALUATE:4 Keep full house, 44455
-				{new Card(Suit.Clubs,4), new Card(Suit.Spades,4), new Card(Suit.Hearts,4), new Card(Suit.Diamonds,5), new Card(Suit.Clubs,5)},
-				
-				//6. SHOULD EVALUATE:4 Keep flush, 5678J
-				{new Card(Suit.Spades,5), new Card(Suit.Spades,6), new Card(Suit.Spades,7), new Card(Suit.Spades,8), new Card(Suit.Spades,11)},
-		
-				//7. SHOULD EVALUATE:4 Keep straight 34567
-				{new Card(Suit.Diamonds,3), new Card(Suit.Hearts,4), new Card(Suit.Hearts,5), new Card(Suit.Hearts,6), new Card(Suit.Hearts,7)},
-				
-				//8. SHOULD EVALUATE:4 Keep straight AKQJT
-				{new Card(Suit.Clubs,1), new Card(Suit.Diamonds,13), new Card(Suit.Diamonds,12), new Card(Suit.Diamonds,11), new Card(Suit.Spades,10)},
-				
-				//9. SHOULD EVALUATE:6 Keep 4 to a straight flush
-				{new Card(Suit.Clubs,13), new Card(Suit.Clubs,12), new Card(Suit.Clubs,11), new Card(Suit.Clubs,9), new Card(Suit.Diamonds,4)},
-				
-				//10. SHOULD EVALUATE:7 Keep Two Pair AAKKQ
-				{new Card(Suit.Hearts,1), new Card(Suit.Spades,1), new Card(Suit.Diamonds,13), new Card(Suit.Spades,13), new Card(Suit.Spades,12)},
-		
-				//11. SHOULD EVALUATE:8 Keep High Pair JJ479
-				{new Card(Suit.Clubs,11), new Card(Suit.Diamonds,11), new Card(Suit.Diamonds,4), new Card(Suit.Diamonds,7), new Card(Suit.Diamonds,9)},
-		
-				//12. SHOULD EVALUATE:8 Keep High Pair QQJA2
-				{new Card(Suit.Spades,12), new Card(Suit.Hearts,12), new Card(Suit.Hearts,11), new Card(Suit.Hearts,1), new Card(Suit.Clubs,2)},
-				
-				//13. SHOULD EVALUATE:9 Keep High Pair 8JQK9
-				{new Card(Suit.Clubs,8), new Card(Suit.Clubs,11), new Card(Suit.Clubs,12), new Card(Suit.Clubs,13), new Card(Suit.Hearts,9)}
-				
-				//14. SHOULD EVALUATE:9
-		
-		};
-		
+		Card[][] difficultHands = Utils.cardFileParser("/home/pedro/poo/video_poker/TESTS/difficult_hands.txt");
 		
 		for(int i=0; i<combinations.length; i++){
 			Hand hand = new Hand(combinations[i], 5);
@@ -180,8 +137,7 @@ public class Strategy {
 		for(int i=0; i<difficultHands.length; i++){
 			Hand hand = new Hand(difficultHands[i], 5);
 			Strategy strategy = new Strategy();
-			System.out.println(strategy.evaluateHand(hand));
-			System.out.println("Above was: " + strategy.getDebugcount());
+			System.out.println((i+1) + ". " + strategy.evaluateHand(hand) + " Result was: " + strategy.getDebugcount());
 		}
 	}
 	

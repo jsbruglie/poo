@@ -226,14 +226,29 @@ public class PlayEvaluator {
 	
 	//----------------------------------------STRAIGHT----------------------------------
 	List<Integer> Straight(Card[] c){
+		List<Integer> temp_c = allCards(c);
 		//If TJQKA cards are not sequential, but its a straight (suits don't matter)
 		if(number_occurences[9].x == 1 && number_occurences[10].x ==1 && number_occurences[11].x == 1 && number_occurences[12].x == 1 && number_occurences[0].x == 1){
-			List<Integer> cs = allCards(c);
-			return cs;
+			return temp_c;
 		}
-
-		List<Integer> cards = NToStraight(c, 5); //returns null if it fails
-		return cards;	
+		List<Integer> temp = new ArrayList<Integer>();
+		for(int i=0; i<5; i++)
+			temp.add(c[i].getNumber());
+		//Order the cards
+		Collections.sort(temp);
+		//Get the lowest card and check if there is only one of it and the 4 buckets after it are filled
+		int j=0;
+		for(int i=temp.get(0); i<5; i++){
+			if(number_occurences[i].x != 1){
+				return null;
+			}else{
+				j++;
+			}
+		}
+		if(j == 5)
+			return temp_c;
+		else 
+			return null;
 	}
 
 	//----------------------------------------FULL HOUSE----------------------------------
