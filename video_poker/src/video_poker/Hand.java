@@ -27,19 +27,7 @@ public class Hand {
 			this.cards[i] = new Card(cards[i].suit, cards[i].number);
 		}
 	}
-	
-	/**
-	 * Constructor
-	 * @param hand
-	 */
-	public Hand(Hand hand){
 		
-		/* TODO - FIGURE OUT WHY THIS IS A THING */
-		
-		this.handsize = hand.handsize;
-		this.cards = hand.cards;
-	}
-	
 	public void swapCard(int index, Card c){
 		this.cards[index] = c;
 	}

@@ -7,7 +7,10 @@ import java.util.List;
 
 public class Strategy {
 
+	/*
+	
 	PlayEvaluator pe;
+
 	int debugcount = 1;
 	public static void main(String[] args){
 		//Create a hardcoded hand and test it
@@ -280,6 +283,6 @@ public class Strategy {
  		return null;
 	}
 	
-	
+	*/
 
 }

@@ -7,6 +7,9 @@
 # Ignore all '.class' in 'bin' dir
 video_poker/bin/*.class
 
+# Ignore documentation folders until release
+video_poker/doc/*
+
 # Ignore all package files in `bin` dir
 video_poker/bin/*.jar
 video_poker/bin/*.war

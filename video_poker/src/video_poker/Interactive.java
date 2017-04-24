@@ -22,10 +22,17 @@ public class Interactive implements Mode {
 		game_over = false;
 	}
 	
-	public void execute(Score score, Player player, Deck deck, Statistics stats){
+	/**
+	 * Mode execution specification
+	 * @param deck The deck of playing cards
+	 * @param player The current player
+	 * @param stats The current game statistics
+	 */
+	public void execute(Player player, Deck deck, Statistics stats){
 		
 		phase = Phase.Bet;
 		reader = new Scanner(System.in);
+		Score score = new Score();
 		String command = null;
 		
 		while(!game_over){	
@@ -92,11 +99,15 @@ public class Interactive implements Mode {
 	}
 	
 	/**
+	 * Behaviour in deal state
 	 * 
-	 * @param command
-	 * @param deck
-	 * @param player
-	 * @param stats
+	 * During this phase, the player is given a hand of cards from the
+	 * top of the deck.
+	 * 
+	 * @param command The input command
+	 * @param deck The deck of playing cards
+	 * @param player The current player
+	 * @param stats The current game statistics
 	 */
 	private void dealState(String command, Deck deck, Player player, Statistics stats){
 		
@@ -119,11 +130,15 @@ public class Interactive implements Mode {
 	}
 	
 	/**
+	 * Behaviour in hold state
 	 * 
-	 * @param command
-	 * @param deck
-	 * @param player
-	 * @param stats
+	 * During this phase the player can decide to hold certain 
+	 * cards and discard the remaining in hand.
+	 * 
+	 * @param command The input command
+	 * @param deck The deck of playing cards
+	 * @param player The current player
+	 * @param stats The current game statistics
 	 */
 	private void holdState(String command, Deck deck, Player player, Statistics stats){
 		
@@ -158,6 +173,7 @@ public class Interactive implements Mode {
 					}
 				}		
 			}
+			// Print the resulting hand
 			player.printHand();
 			phase = phase.next();
 				
@@ -173,31 +189,36 @@ public class Interactive implements Mode {
 	}
 	
 	/**
+	 * Behaviour in results state
 	 * 
-	 * @param player
-	 * @param deck
-	 * @param stats
-	 * @param score
+	 * During this phase the final combination of cards is determined
+	 * and the payout calculated and given to the player.
+	 * The cards are returned to the deck and it is shuffled.
+	 * 
+	 * @param deck The deck of playing cards
+	 * @param player The current player
+	 * @param stats The current game statistics
+	 * @param score The score evaluator class	
 	 */
 	private void resultsState(Player player, Deck deck, Statistics stats, Score score){
 		
 		// Get the combination corresponding to the current player hand
-		Combination comb = score.getCombination(player.getHand());
+		Combination comb = score.evaluateHand(player.getHand());
 		// Get the score corresponding to the player's hand
 		player.addCredit(score.getScore(comb, bet));
 		
-		//Show result
+		// Show result
 		if(comb == Combination.Other){
 			System.out.println("Player loses and his credit is " + player.getCredit());
 		}else{
-			System.out.println("Player wins with a " + comb.getName() + " and his credit is " + player.getCredit());
+			System.out.println("Player wins with a " + comb + " and his credit is " + player.getCredit());
 		}
 		
-		//Add the result to statistics
+		// Add the result to statistics
 		stats.addResults(comb);		
-		//Reinsert all cards in the deck + Shuffle deck at the end
+		// Reinsert all cards in the deck and shuffle it
 		deck.shuffle();
-		//Ready for a new round
-		phase = Phase.Bet; //Go back to first phase
+		
+		phase = phase.next();
 	}
 }

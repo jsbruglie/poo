@@ -9,14 +9,17 @@ public class Game {
 	Statistics stats;
 	
 	public Game(String[] args){
+		
+		int initial_credit = 30;
+		
 		//Double bonus game
 		
 		if(args[0].equals("-i")){
-			mode = new Interactive(args);
+			mode = new Interactive();
 		}else if(args[0] == "-d"){
-			mode = new Debug(args);
+			mode = new Debug();
 		}else if(args[0] == "-s"){
-			mode = new Simulation(args);
+			mode = new Simulation();
 		}else{
 			System.out.println("USAGE: ");
 			System.out.println("Interactive Mode: ");
@@ -28,19 +31,16 @@ public class Game {
 		// Create game and player
 		// Create game (for now has a bet)
 
-		// Create the evaluator
-		this.score = new Score();
 		// Create player
-		this.player = new Player(mode.getCredit());
+		this.player = new Player(initial_credit);
 		// Create deck and shuffle it
 		this.deck = new Deck(true);
-		
 		// Create the statistics for the game
-		this.stats = new Statistics(player.getCredit());
+		this.stats = new Statistics(initial_credit);
 	}
 	
 	public void start(){
-		this.mode.execute(score, player, deck, stats);
+		this.mode.execute(player, deck, stats);
 	}
 	
 	public void end(){

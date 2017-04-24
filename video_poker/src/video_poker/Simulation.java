@@ -1,7 +1,13 @@
 package video_poker;
 
-public class Simulation extends Mode {
+public class Simulation implements Mode {
+
+	public void execute(Player player, Deck deck, Statistics stats) {
+		// TODO Auto-generated method stub
+		
+	}
 	
+	/*
 	int bet_value, number_deals = 0;
 	
 	public Simulation(String[] args) {
@@ -18,5 +24,5 @@ public class Simulation extends Mode {
 	public void execute(Score score, Player player, Deck deck, Statistics stats){
 		
 	}
-	
+	*/
 }

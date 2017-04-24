@@ -14,7 +14,6 @@ public class Card {
 	 * Card Constructor
 	 * @param suit The card's suit
 	 * @param number The card's number
-	 * @return The resulting card instance
 	 */
 	public Card(Suit suit, CardNumber number){
 		this.suit = suit;

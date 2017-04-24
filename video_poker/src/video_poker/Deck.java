@@ -45,7 +45,7 @@ public class Deck {
 	 * 
 	 * Implements the Fisher-Yates shuffle algorithm, which effectively
 	 * creates an unbiased permutation of a finite sequence.
-	 * @see <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle>Wikipedia - Fisher–Yates shuffle</a>
+	 * @see <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle"> Wikipedia - Fisher–Yates shuffle</a>
 	 */
 	public void shuffle() {
 		Random r = new Random();
@@ -81,7 +81,6 @@ public class Deck {
  	/**
  	 * Draws a single card from the deck
  	 * 
- 	 * @throws Exception in case the deck is empty
  	 * @return The drawn card upon success
  	 */
  	public Card draw() throws DeckEmptyException{

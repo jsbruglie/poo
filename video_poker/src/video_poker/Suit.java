@@ -5,9 +5,13 @@ package video_poker;
  */
 public enum Suit {
 	
+	/** Clubs \u2663 */
 	Clubs('C','\u2663'),
+	/** Diamonds \u2666 */
 	Diamonds('D','\u2666'),
+	/** Spades \u2660 */
 	Spades('S','\u2660'),
+	/** Hearts \u2764 */
 	Hearts('H','\u2764');
 	
 	/** The corresponding regular character */
@@ -23,4 +27,6 @@ public enum Suit {
 	public char getSymbol(){
 		return symbol;
 	}
+	
+	// TODO - Add conversion mechanism from string to enum, by using value field
 }
