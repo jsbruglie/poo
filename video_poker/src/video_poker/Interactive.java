@@ -7,6 +7,8 @@ import java.util.Scanner;
  */
 public class Interactive implements Mode {
 	
+	/** Deck of playing cards */
+	private Deck deck;
 	/** Last bet */
 	private int bet;
 	/** Current game mode phase */
@@ -17,6 +19,8 @@ public class Interactive implements Mode {
 	private boolean game_over;
 	
 	public Interactive(){
+		// Create a full deck and shuffle it
+		deck = new Deck(true);
 		// If no previous bet is set, the maximum bet is chosen
 		bet = 5;
 		game_over = false;
@@ -25,14 +29,13 @@ public class Interactive implements Mode {
 	/**
 	 * Mode execution specification
 	 * @param deck The deck of playing cards
-	 * @param player The current player
 	 * @param stats The current game statistics
 	 */
-	public void execute(Player player, Deck deck, Statistics stats){
+	public void execute(Player player, Statistics stats){
 		
 		phase = Phase.Bet;
 		reader = new Scanner(System.in);
-		Score score = new Score();
+		Score score = new Score(new DoubleBonus10_7());
 		String command = null;
 		
 		while(!game_over){	
@@ -43,11 +46,11 @@ public class Interactive implements Mode {
 			if (phase == Phase.Bet){
 				betState(command, player, stats);
 			}else if (phase == Phase.Deal){
-				dealState(command, deck, player, stats);
+				dealState(command, player, stats);
 			}else if (phase == Phase.Hold){
-				holdState(command, deck, player, stats);
+				holdState(command, player, stats);
 			}else if (phase == Phase.Results){
-				resultsState(player, deck, stats, score);
+				resultsState(player, stats, score);
 				if (player.getCredit() == 0){
 					game_over = true;
 				}
@@ -105,11 +108,10 @@ public class Interactive implements Mode {
 	 * top of the deck.
 	 * 
 	 * @param command The input command
-	 * @param deck The deck of playing cards
 	 * @param player The current player
 	 * @param stats The current game statistics
 	 */
-	private void dealState(String command, Deck deck, Player player, Statistics stats){
+	private void dealState(String command, Player player, Statistics stats){
 		
 		if(command.equals("d")){
 			// Draw 5 cards and add them to the player's hand
@@ -136,11 +138,10 @@ public class Interactive implements Mode {
 	 * cards and discard the remaining in hand.
 	 * 
 	 * @param command The input command
-	 * @param deck The deck of playing cards
 	 * @param player The current player
 	 * @param stats The current game statistics
 	 */
-	private void holdState(String command, Deck deck, Player player, Statistics stats){
+	private void holdState(String command, Player player, Statistics stats){
 		
 		String[] tokens = command.split(" ");
 		if(tokens[0].equals("h")){
@@ -195,12 +196,11 @@ public class Interactive implements Mode {
 	 * and the payout calculated and given to the player.
 	 * The cards are returned to the deck and it is shuffled.
 	 * 
-	 * @param deck The deck of playing cards
 	 * @param player The current player
 	 * @param stats The current game statistics
 	 * @param score The score evaluator class	
 	 */
-	private void resultsState(Player player, Deck deck, Statistics stats, Score score){
+	private void resultsState(Player player, Statistics stats, Score score){
 		
 		// Get the combination corresponding to the current player hand
 		Combination comb = score.evaluateHand(player.getHand());

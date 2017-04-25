@@ -5,42 +5,26 @@ public class Game {
 	Mode mode;
 	Score score;
 	Player player;
-	Deck deck;
 	Statistics stats;
 	
 	public Game(String[] args){
 		
-		int initial_credit = 30;
+		Options opt = new Options(args);
 		
-		//Double bonus game
-		
-		if(args[0].equals("-i")){
-			mode = new Interactive();
-		}else if(args[0] == "-d"){
-			mode = new Debug();
-		}else if(args[0] == "-s"){
-			mode = new Simulation();
-		}else{
-			System.out.println("USAGE: ");
-			System.out.println("Interactive Mode: ");
-			System.out.println("Debug Mode: ");
-			System.out.println("Simulation Mode: ");
-			
+		if (opt.mode == null){
 			System.exit(1);
 		}
-		// Create game and player
-		// Create game (for now has a bet)
-
+		
+		// Assign game mode
+		this.mode = opt.mode;
 		// Create player
-		this.player = new Player(initial_credit);
-		// Create deck and shuffle it
-		this.deck = new Deck(true);
+		this.player = new Player(opt.initial_credit);
 		// Create the statistics for the game
-		this.stats = new Statistics(initial_credit);
+		this.stats = new Statistics(opt.initial_credit);
 	}
 	
 	public void start(){
-		this.mode.execute(player, deck, stats);
+		this.mode.execute(player, stats);
 	}
 	
 	public void end(){

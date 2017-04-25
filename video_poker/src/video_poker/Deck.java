@@ -30,7 +30,7 @@ public class Deck {
 		this.number_cards = MAX_CARDS;
 		this.cards = new Card[this.number_cards];
 		for(int c = 0, s = 0; s < SUITS; s++){
-			for(int n = 1; n <= CARDS_PER_SUIT; n++, c++){
+			for(int n = 1; n < CARDS_PER_SUIT; n++, c++){
 				this.cards[c] = new Card(Suit.values()[s], CardNumber.values()[n]);
 			}
 		}

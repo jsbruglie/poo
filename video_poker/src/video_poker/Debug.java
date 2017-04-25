@@ -2,7 +2,7 @@ package video_poker;
 
 public class Debug implements Mode {
 
-	public void execute(Player player, Deck deck, Statistics stats) {
+	public void execute(Player player, Statistics stats) {
 		// TODO Auto-generated method stub
 		
 	}

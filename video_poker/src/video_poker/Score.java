@@ -10,7 +10,7 @@ import static video_poker.CardNumber.*;		// Use CardNumber enums
 public class Score {
 
 	/** A table assigning a payout for each combination per bet value */
-	private int[][] paytable;
+	private PayTable pay_table;
 	/** An array with the card number occurrences in a given hand */
 	private int[] card_number_occurrences;
 	
@@ -23,23 +23,9 @@ public class Score {
 	/** Cards per suit */
 	private final int CARDS_PER_SUIT = CardNumber.values().length;
 	
-	public Score(){
+	public Score(PayTable pay_table){
 		
-		paytable = new int[][]{			
-			{ 1,   2,   3,   4,	   5    },	// Jacks or Better
-			{ 1,   2,   3,   4,    5    },	// Two Pair
-			{ 3,   6,   9,   12,   15   },	// Three of a Kind
-			{ 5,   10,  15,  20,   25   },	// Straight
-			{ 7,   14,  21,  28,   35   },	// Flush
-			{ 10,  20,  30,  40,   50   },	// Full House
-			{ 50,  100, 150, 200,  250  },	// Four 5-K
-			{ 80,  160, 240, 320,  400  },	// Four 2-4
-			{ 160, 320, 480, 640,  800  },	// Four Aces
-			{ 50,  100, 150, 200,  250  },	// Straight Flush
-			{ 250, 500, 750, 1000, 4000 },	// Royal Flush
-			{ 0,   0,   0,   0,    0    }	// Other - Invalid Combination
-		};
-		
+		this.pay_table = pay_table;
 		card_number_occurrences = new int[Combination.values().length];
 	}
 	
@@ -57,7 +43,7 @@ public class Score {
 		
 		for (int i = 0; i < CardNumber.values().length; i++)
 			card_number_occurrences[i] = 0;
-		for (int i = 0; i < 5;i++){
+		for (int i = 0; i < MAX_CARDS; i++){
 			card_number_occurrences[c[i].number.ordinal()]++;
 		}
 		
@@ -93,7 +79,7 @@ public class Score {
 	 */
 	public int getScore(Combination comb, int bet){
 		if (bet >= 1 && bet <= 5){
-			return paytable[comb.ordinal()][bet];
+			return pay_table.getPayout(comb, bet);
 		}
 		return 0;
 	}
