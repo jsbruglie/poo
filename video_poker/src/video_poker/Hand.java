@@ -41,7 +41,7 @@ public class Hand {
 	@Override
 	public String toString() {
 		return "player's hand " + Arrays.toString(cards).
-				replace('[', ' ').replace(']', ' ').replace(',', ' ').trim();
+			replace('[', ' ').replace(']', ' ').replace(',', ' ').trim();
 	}
 
 }

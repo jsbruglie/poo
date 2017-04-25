@@ -44,8 +44,18 @@ public class Statistics {
 	public void printStatistics(int curr_credit){
 		
 		System.out.printf(format1, "Hand", "Nb");
-		for (Combination c : Combination.values()){
-			System.out.printf(format2, c.toString(), number_hand_occurrences[c.ordinal()]);
+		Combination comb[] = Combination.values();
+		for (int i = 0; i < comb.length; i++){
+			if (i == Combination.Four2_4.ordinal()){
+				// Group all possible Four of a Kind combinations
+				System.out.printf(format2, "Four of a Kind",
+						number_hand_occurrences[Combination.Four2_4.ordinal()] +
+						number_hand_occurrences[Combination.Four5_K.ordinal()] +
+						number_hand_occurrences[Combination.FourAces.ordinal()]);
+				i += 2;
+			}else{
+			      System.out.printf(format2, comb[i], number_hand_occurrences[i]);
+			}
 		}
 		
 		System.out.printf(format2, "Total", number_deals);
