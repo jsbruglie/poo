@@ -355,7 +355,4 @@ public class Strategy {
 		
  		return null;
 	}
-	
-	
-
 }
