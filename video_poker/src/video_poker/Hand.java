@@ -17,15 +17,9 @@ public class Hand {
 	 * @param cards Array of cards to add to the hand
 	 * @param handsize The number of cards in hand
 	 */
-	public Hand(Card[] cards, int handsize){
-		this.handsize = handsize;
-		this.cards = new Card[handsize];
-		
-		/* TODO - FIX OUT OF BOUNDS */
-		
-		for(int i = 0; i < handsize; i++){
-			this.cards[i] = new Card(cards[i].suit, cards[i].number);
-		}
+	public Hand(Card[] cards){
+		this.cards = cards;
+		this.handsize = cards.length;
 	}
 		
 	public void swapCard(int index, Card c){
@@ -46,7 +40,8 @@ public class Hand {
 	}
 	@Override
 	public String toString() {
-		return "Hand [cards=" + Arrays.toString(cards) + ", handsize=" + handsize + "]";
+		return "player's hand " + Arrays.toString(cards).
+				replace('[', ' ').replace(']', ' ').replace(',', ' ').trim();
 	}
 
 }

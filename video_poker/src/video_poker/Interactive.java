@@ -17,6 +17,8 @@ public class Interactive implements Mode {
 	private Scanner reader;
 	/** Whether the game is over */
 	private boolean game_over;
+	/** The size of a player hand */
+	private final int hand_size = 5;
 	
 	public Interactive(){
 		// Create a full deck and shuffle it
@@ -75,7 +77,7 @@ public class Interactive implements Mode {
 					if (0 < new_bet && new_bet <= 5){
 						bet = new_bet;
 					}else{
-						System.out.println("Please introduce a bet between 1 and 5.");
+						System.out.println("b: illegal amount");
 						return;
 					}
 				}
@@ -87,6 +89,7 @@ public class Interactive implements Mode {
 					return;
 				}
 				
+				System.out.println("player is betting " + bet);
 				phase = phase.next();
 				
 			}else{
@@ -95,7 +98,7 @@ public class Interactive implements Mode {
 		}else if (tokens[0].equals("s")){
 			stats.printStatistics(player.getCredit());
 		}else if (tokens[0].equals("$")){
-			System.out.println("Player credit is: " + player.getCredit());
+			System.out.println("player credit is: " + player.getCredit());
 		}else{
 			System.out.println(tokens[0] + ": illegal command");
 		}
@@ -115,9 +118,7 @@ public class Interactive implements Mode {
 		
 		if(command.equals("d")){
 			// Draw 5 cards and add them to the player's hand
-			Card[] c = deck.getHand();
-			Hand h = new Hand(c, 5);
-			player.setHand(h);
+			player.setHand(deck.getHand(hand_size));
 			
 			player.printHand();
 			phase = phase.next();
@@ -144,29 +145,36 @@ public class Interactive implements Mode {
 	private void holdState(String command, Player player, Statistics stats){
 		
 		String[] tokens = command.split(" ");
-		if(tokens[0].equals("h")){
+		int index = -1;
+		
+		if (tokens[0].equals("h")){
 			
 			boolean hold[] = new boolean[5];
 			
 			// If the player desires to hold certain cards (discarding others)
-			if(tokens.length > 1 && tokens.length <= 5){
+			if (tokens.length > 1 && tokens.length <= 5){
 				//Check if all tokens are valid numbers between 1-5 inclusive
-				for(int i = 1; i < tokens.length; i++){
-					int index = Integer.parseInt(tokens[i]);
-					if(index < 1 || index > 5){
+				for (int i = 1; i < tokens.length; i++){
+					try{
+						index = Integer.parseInt(tokens[i]);
+					} catch (NumberFormatException e){
+						System.err.println("Invalid card held: " + index);
+						return;
+					}
+					if (index < 1 || index > 5){
 						System.out.println("Invalid card held: " + index);
 						return;
 					}
-					hold[index] = true;
+					hold[index - 1] = true;
 				}
 				
-				for(int i = 1; i < 5; i++){
-					if (hold[i]){
+				for (int i = 1; i < 5; i++){
+					if (! hold[i]){
 						// Draw a card from the deck and replace the discarded one
 						Card drawn;
 						try{
 							drawn = deck.draw();
-						}catch (DeckEmptyException e){
+						} catch (DeckEmptyException e){
 							System.err.println("The deck has insufficient cards for a draw.");
 							return;
 						}
@@ -209,9 +217,9 @@ public class Interactive implements Mode {
 		
 		// Show result
 		if(comb == Combination.Other){
-			System.out.println("Player loses and his credit is " + player.getCredit());
+			System.out.println("player loses and his credit is " + player.getCredit());
 		}else{
-			System.out.println("Player wins with a " + comb + " and his credit is " + player.getCredit());
+			System.out.println("player wins with a " + comb.toString().toUpperCase() + " and his credit is " + player.getCredit());
 		}
 		
 		// Add the result to statistics

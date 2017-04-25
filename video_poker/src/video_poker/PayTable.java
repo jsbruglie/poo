@@ -11,7 +11,7 @@ public abstract class PayTable {
 	
 	public int getPayout(Combination c, int bet){
 		if (bet > 0 && bet <= MAX_BET){
-			return table[c.ordinal()][bet];
+			return table[c.ordinal()][bet - 1];
 		}
 	return 0;
 	}

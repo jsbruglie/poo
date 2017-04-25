@@ -30,7 +30,7 @@ public class Deck {
 		this.number_cards = MAX_CARDS;
 		this.cards = new Card[this.number_cards];
 		for(int c = 0, s = 0; s < SUITS; s++){
-			for(int n = 1; n < CARDS_PER_SUIT; n++, c++){
+			for(int n = 0; n < CARDS_PER_SUIT; n++, c++){
 				this.cards[c] = new Card(Suit.values()[s], CardNumber.values()[n]);
 			}
 		}
@@ -60,14 +60,15 @@ public class Deck {
 	}
 	
 	/**
-	 * Draws a hand (5 cards) from the deck
+	 * Draws a hand from the deck
 	 * 
+	 * @param size The size of a player's hand
 	 * @return The array of drawn cards
 	 */
- 	public Card[] getHand(){
+ 	public Hand getHand(int size){
  		
- 		Card[] c = new Card[5];
- 		for(int i = 0; i < 5; i++){
+ 		Card[] c = new Card[size];
+ 		for(int i = 0; i < size; i++){
  			try{
  				c[i] = this.draw();
  			}catch(DeckEmptyException e){
@@ -75,7 +76,8 @@ public class Deck {
  				return null;
  			}
  		}
- 		return c;
+ 		
+ 		return new Hand(c);
  	}
  	
  	/**

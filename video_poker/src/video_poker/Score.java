@@ -26,7 +26,7 @@ public class Score {
 	public Score(PayTable pay_table){
 		
 		this.pay_table = pay_table;
-		card_number_occurrences = new int[Combination.values().length];
+		card_number_occurrences = new int[CARDS_PER_SUIT];
 	}
 	
 	/**
@@ -41,8 +41,10 @@ public class Score {
 			return null;
 		}
 		
-		for (int i = 0; i < CardNumber.values().length; i++)
+		for (int i = 0; i < CARDS_PER_SUIT ; i++){
 			card_number_occurrences[i] = 0;
+			//System.out.println(i + " " + card_number_occurrences[i]);
+		}
 		for (int i = 0; i < MAX_CARDS; i++){
 			card_number_occurrences[c[i].number.ordinal()]++;
 		}
