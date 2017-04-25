@@ -18,7 +18,10 @@ public class Player {
 		this.credit = credit;
 	}
 	
-	public void removeCredit(int bet) {
+	public void removeCredit(int bet) throws InsufficientCreditException {
+		if (bet > this.credit){
+			throw new InsufficientCreditException();
+		}
 		this.credit -= bet;
 	}
 	public void addCredit(int gain) {
