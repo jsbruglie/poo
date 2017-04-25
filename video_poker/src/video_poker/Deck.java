@@ -31,7 +31,7 @@ public class Deck {
 		this.cards = new Card[this.number_cards];
 		for(int c = 0, s = 0; s < SUITS; s++){
 			for(int n = 0; n < CARDS_PER_SUIT; n++, c++){
-				this.cards[c] = new Card(Suit.values()[s], CardNumber.values()[n]);
+				this.cards[c] = new Card(CardNumber.values()[n], Suit.values()[s]);
 			}
 		}
 		if(shuffle){

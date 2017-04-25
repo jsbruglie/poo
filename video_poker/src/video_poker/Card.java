@@ -5,19 +5,19 @@ package video_poker;
  */
 public class Card {
 
-	/** The card's suit */
-	public Suit suit;
 	/** The card's number */
 	public CardNumber number;
+	/** The card's suit */
+	public Suit suit;
 	
 	/**
 	 * Card Constructor
-	 * @param suit The card's suit
 	 * @param number The card's number
+	 * @param suit The card's suit
 	 */
-	public Card(Suit suit, CardNumber number){
-		this.suit = suit;
+	public Card(CardNumber number, Suit suit){
 		this.number = number;
+		this.suit = suit;
 	}
 	
 	@Override

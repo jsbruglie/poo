@@ -21,7 +21,7 @@ public class Hand {
 		this.cards = cards;
 		this.handsize = cards.length;
 	}
-		
+	
 	public void swapCard(int index, Card c){
 		this.cards[index] = c;
 	}

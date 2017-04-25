@@ -33,19 +33,33 @@ public enum CardNumber {
 	A("A");
 	
 	/** Textual description of a card number */
-	private final String text;
+	private final String value;
 	
 	/**
 	 * Private constructor to allow internally set parameters 
-	 * @param text The textual description of a card number
+	 * @param value The textual description of a card number
 	 */
-	private CardNumber(final String text){
-		this.text = text;
+	private CardNumber(final String value){
+		this.value = value;
+	}
+	
+	/**
+	 * Return the corresponding card number enum given the textual description
+	 * @param text The textual description
+	 * @return the corresponding card number enum
+	 */
+	public static CardNumber fromString(String text) {
+		for (CardNumber number : CardNumber.values()) {
+			if (number.value.equalsIgnoreCase(text)) {
+				return number;
+		    }
+		}
+		return null;
 	}
 	
 	@Override
     public String toString() {
-        return text;
+        return value;
     }
 	
 	// TODO - Add conversion mechanism from string to enum, by using text field
