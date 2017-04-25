@@ -31,13 +31,13 @@ public class Interactive implements Mode {
 	/**
 	 * Mode execution specification
 	 * @param deck The deck of playing cards
+	 * @param score The score object for evaluating hands and calculating payouts
 	 * @param stats The current game statistics
 	 */
-	public void execute(Player player, Statistics stats){
+	public void execute(Player player, Score score, Statistics stats){
 		
 		phase = Phase.Bet;
 		reader = new Scanner(System.in);
-		Score score = new Score(new DoubleBonus10_7());
 		String command = null;
 		
 		while(!game_over){	
@@ -58,6 +58,8 @@ public class Interactive implements Mode {
 				}
 			}
 		}
+		
+		System.out.println("Player has lost. Exiting...");
 	}
 	
 	/**
@@ -152,7 +154,7 @@ public class Interactive implements Mode {
 			boolean hold[] = new boolean[5];
 			
 			// If the player desires to hold certain cards (discarding others)
-			if (tokens.length > 1 && tokens.length <= 5){
+			if (tokens.length >= 1 && tokens.length <= 5){
 				//Check if all tokens are valid numbers between 1-5 inclusive
 				for (int i = 1; i < tokens.length; i++){
 					try{
@@ -168,7 +170,7 @@ public class Interactive implements Mode {
 					hold[index - 1] = true;
 				}
 				
-				for (int i = 1; i < 5; i++){
+				for (int i = 0; i < 5; i++){
 					if (! hold[i]){
 						// Draw a card from the deck and replace the discarded one
 						Card drawn;
