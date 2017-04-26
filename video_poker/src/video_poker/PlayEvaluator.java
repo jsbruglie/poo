@@ -6,14 +6,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class PlayEvaluator {
+
 	private Bin[] card_number_occurrences;
 	private int[] suit_occurrences;
+	
 	public PlayEvaluator(){
 		card_number_occurrences = new Bin[13];
 		suit_occurrences = new int[4];
 		
 	}
-	/* The following are all package methods */
+	// The following are all package methods
 	
 	//----------------------------------------INITIALIZE--------------------------------
 	//Every time a new card is evaluated call this method
@@ -535,7 +537,7 @@ public class PlayEvaluator {
 	List<Integer> _4ToInsideStraight(Card[] c, int nHighcards){
 		List<Integer> temp_c = new ArrayList<Integer>();
 		List<Integer> temp = new ArrayList<Integer>();
-		/* The following 2 NEED TO BE FIXED to return hand indexes instead of number of occurences*/
+		// The following 2 NEED TO BE FIXED to return hand indexes instead of number of occurences
 		//Check if A234  is in the hand
 		if(card_number_occurrences[0].count >= 1 && card_number_occurrences[1].count >= 1 && card_number_occurrences[2].count >= 1 && card_number_occurrences[3].count >= 1){
 			if(nHighcards == 1 || nHighcards == 2){ //These are the only situations where this makes sense
@@ -757,5 +759,5 @@ public class PlayEvaluator {
 		}
 		return null;
 	}
-
+	*/
 }

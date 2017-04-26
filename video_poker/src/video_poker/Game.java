@@ -2,45 +2,35 @@ package video_poker;
 
 public class Game {
 	
+	/** The game mode */
 	Mode mode;
-	Score score;
+	/** The player */
 	Player player;
-	Deck deck;
+	/** The score class that evaluates hands and determines payouts */
+	Score score;
+	/** Basic outcome statistics */
 	Statistics stats;
 	
 	public Game(String[] args){
-		//Double bonus game
 		
-		if(args[0].equals("-i")){
-			mode = new Interactive(args);
-		}else if(args[0] == "-d"){
-			mode = new Debug(args);
-		}else if(args[0] == "-s"){
-			mode = new Simulation(args);
-		}else{
-			System.out.println("USAGE: ");
-			System.out.println("Interactive Mode: ");
-			System.out.println("Debug Mode: ");
-			System.out.println("Simulation Mode: ");
-			
+		Options opt = new Options(args);
+		
+		if (opt.mode == null){
 			System.exit(1);
 		}
-		//Create game and player
-		//Create game (for now has a bet)
-
-		//Create the evaluator
-		this.score = new Score();
-		//Create player
-		this.player = new Player(mode.getCredit());
-		//Create deck and shuffle it
-		this.deck = new Deck(52,true); //! 52 cards, shuffle upon creation
 		
-		//Create the statistics for the game
-		this.stats = new Statistics(player.getCredit());
+		// Assign game mode
+		this.mode = opt.mode;
+		// Create player
+		this.player = new Player(opt.initial_credit);
+		// Create a score instance
+		this.score = new Score(new DoubleBonus10_7());
+		// Create the statistics for the game
+		this.stats = new Statistics(opt.initial_credit);
 	}
 	
 	public void start(){
-		this.mode.execute(score, player, deck, stats);
+		this.mode.execute(player, score, stats);
 	}
 	
 	public void end(){

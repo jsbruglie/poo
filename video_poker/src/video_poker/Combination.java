@@ -1,28 +1,45 @@
 package video_poker;
 
 public enum Combination {
-	JacksOrBetter(0, "JACKS OR BETTER"),
-	TwoPair(1, "TWO PAIR"),
-	ThreeOfAKind(2, "THREE OF A KIND"),
-	Straight(3, "STRAIGHT"),
-	Flush(4, "FLUSH"),
-	FullHouse(5, "FULL HOUSE"),
-	FourOfAKind(6, "FOUR OF A KIND"),
-	StraightFlush(7, "STRAIGHT FLUSH"),
-	RoyalFlush(8, "ROYAL FLUSH"),
-	Other(9, null);
 	
-	private final int value;
+	/** Jacks or Better */
+	JacksOrBetter("Jacks or Better"),
+	/** Two Pair */
+	TwoPair("Two Pair"),
+	/** Three of a Kind */
+	ThreeOfAKind("Three of a Kind"),
+	/** Straight */
+	Straight("Straight"),
+	/** Flush */
+	Flush("Flush"),
+	/** Full House */
+	FullHouse("Full House"),
+	/** Four of a Kind, 2 to 4 */
+	Four2_4("Four of a Kind - 2 to 4"),
+	/** Four of a Kind, 5 to King */
+	Four5_K("Four of a Kind - 5 to K"),
+	/** Four Aces */
+	FourAces("Four of a Kind - A"),
+	/** Straight Flush */
+	StraightFlush("Straight Flush"),
+	/** Royal Flush */
+	RoyalFlush("Royal Flush"),
+	/** Other (invalid) combination */
+	Other("Other");
+	
+	/** Textual description of a combination */
 	private final String name;
 	
-	private Combination(int value, String name){
-		this.value = value;
+	/**
+	 * Private constructor to allow internally set parameters
+	 * @param name A textual description of the combination
+	 */
+	private Combination(String name){
 		this.name = name;
 	}
-	public int getValue(){
-		return value;
-	}
-	public String getName(){
-		return name;
-	}
+	
+	@Override
+    public String toString() {
+        return name;
+    }
 }

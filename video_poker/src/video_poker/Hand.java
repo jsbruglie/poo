@@ -2,21 +2,24 @@ package video_poker;
 
 import java.util.Arrays;
 
+/**
+ * 
+ */
 public class Hand {
+	
+	/* The array of cards in hand */
 	private Card[] cards;
+	/* The amount of cards in hand */
 	private int handsize;
 	
-	public Hand(Card[] cards, int handsize){
-		this.handsize = handsize;
-		this.cards = new Card[handsize];
-		
-		for(int i=0;i<handsize;i++){
-			this.cards[i] = new Card(cards[i].getSuit(), cards[i].getNumber());
-		}
-	}
-	public Hand(Hand hand){
-		this.handsize = hand.handsize;
-		this.cards = hand.cards;
+	/**
+	 * Constructor
+	 * @param cards Array of cards to add to the hand
+	 * @param handsize The number of cards in hand
+	 */
+	public Hand(Card[] cards){
+		this.cards = cards;
+		this.handsize = cards.length;
 	}
 	
 	public void swapCard(int index, Card c){
@@ -37,7 +40,8 @@ public class Hand {
 	}
 	@Override
 	public String toString() {
-		return "Hand [cards=" + Arrays.toString(cards) + ", handsize=" + handsize + "]";
+		return "player's hand " + Arrays.toString(cards).
+			replace('[', ' ').replace(']', ' ').replace(',', ' ').trim();
 	}
 
 }

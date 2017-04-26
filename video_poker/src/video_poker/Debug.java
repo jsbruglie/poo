@@ -1,8 +1,15 @@
 package video_poker;
 
-public class Debug extends Mode {
+public class Debug implements Mode {
+
+	public void execute(Player player, Score score, Statistics stats) {
+		// TODO Auto-generated method stub
+		
+	}
 	
-	String cmd_file, card_file;
+	/*
+	
+	String cmd_file, card_file; 
 	
 	public Debug(String[] args) {
 		super();
@@ -15,8 +22,6 @@ public class Debug extends Mode {
 			card_file = args[3];
 		}
 	}
-	public void execute(Score score, Player player, Deck deck, Statistics stats){
-		
-	}
-
+	
+	 */
 }
