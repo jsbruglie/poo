@@ -2,7 +2,7 @@ package video_poker;
 
 // Static imports to use name space
 import static video_poker.Combination.*;	// Use Combination enums
-import static video_poker.CardNumber.*;		// Use CardNumber enums
+import static video_poker.Rank.*;		// Use CardNumber enums
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class Score {
 	/** A table assigning a payout for each combination per bet value */
 	private PayTable pay_table;
 	/** An array with the card number occurrences in a given hand */
-	private int[] card_number_occurrences;
+	private int[] card_rank_occurrences;
 	
 	/** Maximum number of cards in hand/combination */
 	private final int MAX_CARDS = 5;
@@ -27,12 +27,12 @@ public class Score {
 	// as the maximum number of cards in a combination (5, by default).
 	
 	/** Cards per suit */
-	private final int CARDS_PER_SUIT = CardNumber.values().length;
+	private final int CARDS_PER_SUIT = Rank.values().length;
 	
 	public Score(PayTable pay_table){
 		
 		this.pay_table = pay_table;
-		card_number_occurrences = new int[CARDS_PER_SUIT];
+		card_rank_occurrences = new int[CARDS_PER_SUIT];
 	}
 	
 	/**
@@ -48,11 +48,11 @@ public class Score {
 		}
 		
 		for (int i = 0; i < CARDS_PER_SUIT ; i++){
-			card_number_occurrences[i] = 0;
+			card_rank_occurrences[i] = 0;
 			//System.out.println(i + " " + card_number_occurrences[i]);
 		}
 		for (int i = 0; i < MAX_CARDS; i++){
-			card_number_occurrences[c[i].number.ordinal()]++;
+			card_rank_occurrences[c[i].rank.ordinal()]++;
 		}
 		
 		if (checkRoyalFlush(c)){ 
@@ -102,25 +102,10 @@ public class Score {
 	public boolean checkJacksOrBetter(Card[] c){
 		//Check if there is a pair of jacks or better
 		//Check in number of occurrences the number of elements
-		for(int i = 0; i < CardNumber.values().length; i++){
+		for(int i = 0; i < Rank.values().length; i++){
 			if(i == A.ordinal() || i >= J.ordinal()){
-				if(this.card_number_occurrences[i] == 2)
+				if(this.card_rank_occurrences[i] == 2)
 					return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if a given set of cards is Jacks or Better
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 * TODO - replace by V2, once tested
-	 */
-	public boolean checkJacksOrBetterV2(Card[] c){
-		for (int i = J.ordinal(); i <= A.ordinal(); i++){
-			if (card_number_occurrences[i] == 2){
-				return true;
 			}
 		}
 		return false;
@@ -136,7 +121,7 @@ public class Score {
 		int pair_count = 0;
 		// For each card number, count the number of pairs
 		for(int i = 0; i < CARDS_PER_SUIT; i++){
-			if(card_number_occurrences[i] == 2){
+			if(card_rank_occurrences[i] == 2){
 				pair_count++;
 			}
 		}
@@ -154,7 +139,7 @@ public class Score {
 	public boolean checkThreeOfAKind(Card[] c){
 		// Check if there are triplets
 		for (int i = 0; i < CARDS_PER_SUIT; i++){
-			if (card_number_occurrences[i] == 3){
+			if (card_rank_occurrences[i] == 3){
 				return true;
 			}
 		}
@@ -168,23 +153,26 @@ public class Score {
 	 * @return Whether the set of cards has the desired combination
 	 */
 	public boolean checkStraight(Card[] c){
+		
+		// Corner case: Ace high straight 
+		if (card_rank_occurrences[T.ordinal()] == 1 && 
+			card_rank_occurrences[J.ordinal()] == 1 &&
+			card_rank_occurrences[Q.ordinal()] == 1 &&
+			card_rank_occurrences[K.ordinal()] == 1 &&
+			card_rank_occurrences[A.ordinal()] == 1){
+			
+			return true;
+		}
+		
 		for (int i = 0; i < CARDS_PER_SUIT - MAX_CARDS; i++){
-			if (card_number_occurrences[i] == 1){
+			if (card_rank_occurrences[i] == 1){
 				for (int j = i; j < i + MAX_CARDS; j++){
-					if (card_number_occurrences[j] != 1){
+					if (card_rank_occurrences[j] != 1){
 						return false;
 					}
 				}
 				return true;
 			}
-		}
-		if (card_number_occurrences[A.ordinal()] == 1 && 
-			card_number_occurrences[n2.ordinal()] == 1 &&
-			card_number_occurrences[n3.ordinal()] == 1 &&
-			card_number_occurrences[n4.ordinal()] == 1 &&
-			card_number_occurrences[n5.ordinal()] == 1){
-			
-			return true;
 		}
 		return false;
 	}
@@ -211,9 +199,9 @@ public class Score {
 	public boolean checkFullHouse(Card[] c){
 		int npairs = 0, ntriples = 0;
 		for (int i = 0; i < CARDS_PER_SUIT; i++){
-			if (card_number_occurrences[i] == 2)
+			if (card_rank_occurrences[i] == 2)
 				npairs++;
-			if (card_number_occurrences[i] == 3)
+			if (card_rank_occurrences[i] == 3)
 				ntriples++;
 		}
 		if (npairs == 1 && ntriples == 1){
@@ -229,7 +217,7 @@ public class Score {
 	 */
 	public boolean checkFour2_4(Card[] c){
 		for (int i = n2.ordinal(); i <= n4.ordinal() ; i++){
-			if (card_number_occurrences[i] == 4){
+			if (card_rank_occurrences[i] == 4){
 				return true;
 			}
 		}
@@ -243,7 +231,7 @@ public class Score {
 	 */
 	public boolean checkFour5_K(Card[] c){
 		for (int i = n5.ordinal(); i <= K.ordinal(); i++){
-			if(card_number_occurrences[i] == 4){
+			if(card_rank_occurrences[i] == 4){
 				return true;
 			}
 		}
@@ -256,7 +244,7 @@ public class Score {
 	 * @return Whether the set of cards is the desired combination
 	 */
 	public boolean checkFourAces(Card[] c){
-		if(card_number_occurrences[A.ordinal()] == 4){
+		if(card_rank_occurrences[A.ordinal()] == 4){
 			return true;
 		}
 		return false;
@@ -278,11 +266,11 @@ public class Score {
 	 */
 	public boolean checkRoyalFlush(Card[] c){
 		if (checkFlush(c)){
-			if (card_number_occurrences[T.ordinal()] == 1 &&
-				card_number_occurrences[J.ordinal()] == 1 &&
-				card_number_occurrences[Q.ordinal()] == 1 &&
-				card_number_occurrences[K.ordinal()] == 1 &&
-				card_number_occurrences[A.ordinal()] == 1){
+			if (card_rank_occurrences[T.ordinal()] == 1 &&
+				card_rank_occurrences[J.ordinal()] == 1 &&
+				card_rank_occurrences[Q.ordinal()] == 1 &&
+				card_rank_occurrences[K.ordinal()] == 1 &&
+				card_rank_occurrences[A.ordinal()] == 1){
 				
 				return true;
 			}
@@ -308,7 +296,7 @@ public class Score {
 		final String regex = "(10|[0-9]|[JQKA])([HCDS])";
 		final Pattern pattern = Pattern.compile(regex);
 		
-		CardNumber number = null;
+		Rank number = null;
 		Suit suit = null;
 		
 		Score score = new Score(new DoubleBonus10_7());
@@ -323,7 +311,7 @@ public class Score {
 				for (int i = 0; i < split.length; i++){
 					Matcher matcher = pattern.matcher(split[i]);
 					while (matcher.find()) {
-						number = CardNumber.fromString(matcher.group(1));
+						number = Rank.fromString(matcher.group(1));
 						suit = Suit.fromString(matcher.group(2));
 					}
 					cards[i] = new Card(number, suit);

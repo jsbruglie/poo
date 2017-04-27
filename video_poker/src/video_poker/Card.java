@@ -1,28 +1,30 @@
 package video_poker;
 
+import java.util.Comparator;
+
 /**
  * Public Card Class
  */
 public class Card {
 
 	/** The card's number */
-	public CardNumber number;
+	public Rank rank;
 	/** The card's suit */
 	public Suit suit;
 	
 	/**
 	 * Card Constructor
-	 * @param number The card's number
+	 * @param rank The card's rank
 	 * @param suit The card's suit
 	 */
-	public Card(CardNumber number, Suit suit){
-		this.number = number;
+	public Card(Rank rank, Suit suit){
+		this.rank = rank;
 		this.suit = suit;
 	}
 	
 	@Override
 	public String toString() {
-		String name = this.number.toString();
+		String name = this.rank.toString();
 		return name + (char) this.suit.getSymbol();
 	}
 
@@ -30,7 +32,7 @@ public class Card {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((number == null) ? 0 : number.hashCode());
+		result = prime * result + ((rank == null) ? 0 : rank.hashCode());
 		result = prime * result + ((suit == null) ? 0 : suit.hashCode());
 		return result;
 	}
@@ -47,12 +49,22 @@ public class Card {
 			return false;
 		}
 		Card other = (Card) obj;
-		if (number != other.number) {
+		if (rank != other.rank) {
 			return false;
 		}
 		if (suit != other.suit) {
 			return false;
 		}
 		return true;
-	}	
+	}
+	
+	/**
+	 *
+	 */
+	public static class CardComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card c1, Card c2) {
+			return c1.rank.ordinal() - c2.rank.ordinal();
+		}
+	}
 }

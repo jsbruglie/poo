@@ -1,14 +1,22 @@
 package video_poker;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Strategy {
-
+	
 	PlayEvaluator pe;
 
 	int debugcount = 1;
 	public static void main(String[] args){
+		
+		/*
+		
 		//Create a hardcoded hand and test it
 		//1. Test all combinations in the list 
 		Card[][] combinations = {
@@ -125,6 +133,10 @@ public class Strategy {
 				{new Card(Suit.Spades,2), new Card(Suit.Spades,8), new Card(Suit.Diamonds,10), new Card(Suit.Spades,7), new Card(Suit.Clubs,4)},
 		
 		};
+		
+		*/
+		
+		/*
 		//2. Test all the difficult hands
 		Card[][] difficultHands = Utils.cardFileParser("/home/pedro/poo/video_poker/TESTS/difficult_hands.txt");
 		
@@ -140,6 +152,44 @@ public class Strategy {
 			Strategy strategy = new Strategy();
 			System.out.println((i+1) + ". " + strategy.evaluateHand(hand) + " Result was: " + strategy.getDebugcount());
 		}
+		*/
+		
+		Strategy strategy = new Strategy();
+		
+		final String regex = "(10|[0-9]|[JQKA])([HCDS])";
+		final Pattern pattern = Pattern.compile(regex);
+		
+		Rank rank = null;
+		Suit suit = null;
+		
+		int counter = 1;
+		
+		try (Scanner scanner = new Scanner(new File("src/video_poker/difficult_hands.txt"))) {
+			while (scanner.hasNext()){
+				
+				String line = scanner.nextLine();
+				String[] split = line.split(" ");
+				Card[] cards = new Card[split.length];
+				
+				for (int i = 0; i < split.length; i++){
+					Matcher matcher = pattern.matcher(split[i]);
+					while (matcher.find()) {
+						rank = Rank.fromString(matcher.group(1));
+						suit = Suit.fromString(matcher.group(2));
+					}
+					cards[i] = new Card(rank, suit);
+				}
+				
+				Hand hand = new Hand(cards);
+				System.out.println(counter + " - " + hand);
+				String keep = strategy.evaluateHand(hand);
+				System.out.println("\t" + strategy.getDebugcount() + " - Keep " + keep);
+				counter++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public int getDebugcount() {
@@ -156,19 +206,20 @@ public class Strategy {
 
 	public String evaluateHand(Hand hand){
 		//Get value of hand and display advice of cards to keep
-		List<Integer> cardsKeep = valueHand(hand);
-		if(cardsKeep != null)
-			return cardsKeep.toString();
-		else
-			return "Discard Everything";
+		List<Card> cardsKeep = valueHand(hand);
+		if (cardsKeep != null){
+			if(!cardsKeep.isEmpty())
+				return cardsKeep.toString();
+		}
+		return "Discard Everything";
 	}
 	
-	public List<Integer> valueHand(Hand hand){ //Returns the cards to keep, later process can be done
+	public List<Card> valueHand(Hand hand){ //Returns the cards to keep, later process can be done
 		
 		Card[] c = hand.getCards();
-		pe.initialize(c);
+		pe.initialise(c);
 		
-		List<Integer> cardsKeep = new ArrayList<Integer>();
+		List<Card> cardsKeep = new ArrayList<Card>();
 		debugcount=1;
 		
 		//1. Straight Flush, Four of A kind, Royal Flush
@@ -203,12 +254,12 @@ public class Strategy {
 		if(cardsKeep != null) return cardsKeep;
  		debugcount++;
 		
-		//5. Three of A Kind
-		cardsKeep = pe.ThreeOfAKind(c); //Except aces
+		//5. Three of a kind (except aces)
+		cardsKeep = pe.ThreeOfAKind(c);
 		if(cardsKeep != null) return cardsKeep;
  		debugcount++;
 		
-		//6. 
+		//6. 4 to a straight flush
 		cardsKeep = pe._4ToStraightFlush(c);
 		if(cardsKeep != null) return cardsKeep;
  		debugcount++;
@@ -259,7 +310,7 @@ public class Strategy {
  		debugcount++;
 		
 		//16.
-		cardsKeep = pe.QJ(c, true); //Suited
+		cardsKeep = pe.QJunsuitedOrSuited(c, true); //Suited
 		if(cardsKeep != null) return cardsKeep;
  		debugcount++;
 		
@@ -267,7 +318,10 @@ public class Strategy {
 		cardsKeep = pe._3ToFlush_nHighCards(c, 2);
 		if(cardsKeep != null) return cardsKeep;
  		debugcount++;
-		/*cardsKeep = pe.NToFlush(c, 2);
+	
+ 		// TODO
+ 		
+ 		/*cardsKeep = pe.NToFlush(c, 2);
 		if(cardsKeep != null) return cardsKeep;
  		debugcount++;*/
 		
@@ -302,7 +356,7 @@ public class Strategy {
  		debugcount++;
 		
 		//24.
-		cardsKeep = pe.QJ(c, false); //unsuited
+		cardsKeep = pe.QJunsuitedOrSuited(c, false); //unsuited
 		if(cardsKeep != null) return cardsKeep;
  		debugcount++;
 		

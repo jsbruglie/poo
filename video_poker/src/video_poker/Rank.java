@@ -3,8 +3,10 @@ package video_poker;
 /**
  * Enum that represents a card number
  */
-public enum CardNumber {
+public enum Rank {
 	
+	/** Ace */
+	A("A"),
 	/** Number 2 */
 	n2("2"),
 	/** Number 3 */
@@ -28,9 +30,7 @@ public enum CardNumber {
 	/** Queen */
 	Q("Q"),
 	/** King */
-	K("K"),
-	/** Ace */
-	A("A");
+	K("K");
 	
 	/** Textual description of a card number */
 	private final String value;
@@ -39,7 +39,7 @@ public enum CardNumber {
 	 * Private constructor to allow internally set parameters 
 	 * @param value The textual description of a card number
 	 */
-	private CardNumber(final String value){
+	private Rank(final String value){
 		this.value = value;
 	}
 	
@@ -48,8 +48,8 @@ public enum CardNumber {
 	 * @param text The textual description
 	 * @return the corresponding card number enum
 	 */
-	public static CardNumber fromString(String text) {
-		for (CardNumber number : CardNumber.values()) {
+	public static Rank fromString(String text) {
+		for (Rank number : Rank.values()) {
 			if (number.value.equalsIgnoreCase(text)) {
 				return number;
 		    }
