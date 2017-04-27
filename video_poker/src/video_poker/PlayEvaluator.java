@@ -9,23 +9,23 @@ import static video_poker.Rank.*;		// Use Rank enums
 
 public class PlayEvaluator {
 	
-	/** */
+	/** Array to keep track of rank occurrences */
 	private int[] rank_occurrences;
-	/** */
+	/** Array to keep track of suit occurrences */
 	private int[] suit_occurrences;
 	
 	/** Constant number of suits */
-	private final int SUITS = 4;
+	private final int SUITS = Suit.values().length;
 	/** Constant value of Cards per suit */
-	private final int CARDS_PER_SUIT = 13;
+	private final int RANKS = Rank.values().length;
 	/** Constant value of the hand size */
 	private final int HAND_SIZE = 5;
 	
 	/**
-	 * 
+	 * Constructor
 	 */
 	public PlayEvaluator(){
-		rank_occurrences = new int[CARDS_PER_SUIT];
+		rank_occurrences = new int[RANKS];
 		suit_occurrences = new int[SUITS];
 		
 	}
@@ -131,7 +131,7 @@ public class PlayEvaluator {
 	 */
 	public boolean checkFullHouse(Card[] c){
 		int npairs = 0, ntriples = 0;
-		for (int i = 0; i < CARDS_PER_SUIT; i++){
+		for (int i = 0; i < RANKS; i++){
 			if (rank_occurrences[i] == 2)
 				npairs++;
 			if (rank_occurrences[i] == 3)
@@ -173,7 +173,7 @@ public class PlayEvaluator {
 			return true;
 		}
 		
-		for (int i = 0; i < CARDS_PER_SUIT - HAND_SIZE; i++){
+		for (int i = 0; i < RANKS - HAND_SIZE; i++){
 			if (rank_occurrences[i] == 1){
 				for (int j = i; j < i + HAND_SIZE; j++){
 					if (rank_occurrences[j] != 1){
@@ -193,7 +193,7 @@ public class PlayEvaluator {
 	 */
 	public boolean checkThreeOfAKind(Card[] c){
 		// Check if there are triplets
-		for (int i = 0; i < CARDS_PER_SUIT; i++){
+		for (int i = 0; i < RANKS; i++){
 			if (rank_occurrences[i] == 3){
 				return true;
 			}
@@ -211,7 +211,7 @@ public class PlayEvaluator {
 		
 		int pair_count = 0;
 		// For each card number, count the number of pairs
-		for(int i = 0; i < CARDS_PER_SUIT; i++){
+		for(int i = 0; i < RANKS; i++){
 			if(rank_occurrences[i] == 2){
 				pair_count++;
 			}
@@ -280,8 +280,9 @@ public class PlayEvaluator {
 	public int getNumHighCards(List<Card> l){
 		int nb_high_cards = 0;
 		for (int i = 0; i < l.size(); i++){
-			if (isHighCard(l.get(i)));
+			if (isHighCard(l.get(i))){
 				nb_high_cards++;
+			}	
 		}
 		return nb_high_cards;
 	}
@@ -293,9 +294,10 @@ public class PlayEvaluator {
 	 */
 	public int getNumHighCards(Card c[]){
 		int nb_high_cards = 0;
-		for (int i = 0; i < c.length; i++){
-			if (isHighCard(c[i]));
+		for (Card card : c){
+			if (isHighCard(card)){
 				nb_high_cards++;
+			}
 		}
 		return nb_high_cards;
 	}
@@ -306,15 +308,15 @@ public class PlayEvaluator {
 	 * @return Whether the card is high
 	 */
 	public boolean isHighCard(Card c){
-		return (c.rank == A || c.rank.ordinal() > J.ordinal());
+		return (c.rank.equals(A) || c.rank.ordinal() >= J.ordinal());
 	}
 	
 	/**
-	 * Given a list of Rank enumerators cehcks for the
+	 * Given a list of Rank enumerators checks for the
 	 * unsuited combination
-	 * @param c
-	 * @param l
-	 * @return
+	 * @param c The card list to be evaluated
+	 * @param l The desired ranks to match
+	 * @return The list of matched cards
 	 */
 	List<Card> cardsUnsuited(Card[] c, List<Rank> l){
 		
@@ -340,9 +342,9 @@ public class PlayEvaluator {
 	/**
 	 * Given a list of Rank enumerators checks for the
 	 * suited combination
-	 * @param c
-	 * @param l
-	 * @return
+	 * @param c The card list to be evaluated
+	 * @param l The desired ranks to match
+	 * @return The list of matched cards
 	 */
 	List<Card> cardsSuited(Card[] c, List<Rank> l){
 		
@@ -374,6 +376,33 @@ public class PlayEvaluator {
 		}
 		return null;
 		
+	}
+	
+	/**
+	 * Aux method for 4 to inside straight gaps
+	 * @param l
+	 * @param has_ace_high Whether one desires to test for Ace High straight
+	 * @see 
+	 * @return
+	 */
+	int _4ToInsideStraightGaps(List<Card> l, boolean has_ace_high){
+		int gaps = 0; int gap = 0;
+		for (int i = 0; i < l.size() - 1; i++){
+			// Ace high sorted
+			if (has_ace_high){
+				gap = (((l.get(i+1).rank == A)? RANKS : l.get(i+1).rank.ordinal()) -
+					   ((l.get(i).rank == A)? RANKS : l.get(i).rank.ordinal()) - 1);
+			} else {
+				gap = ((l.get(i+1).rank.ordinal()) -
+					   (l.get(i).rank.ordinal()) - 1);
+			}
+			// If a pair is found
+			if (gap == -1){
+				return -1;
+			}
+			gaps += gap;
+		}
+		return gaps;
 	}
 	
 	/**********************************************************************
@@ -581,7 +610,7 @@ public class PlayEvaluator {
 	List<Card> TwoPair(Card[] c){
 		
 		List<Card> hold = new ArrayList<Card>();
-		for (int i = 0; i < CARDS_PER_SUIT; i++){
+		for (int i = 0; i < RANKS; i++){
 			if(rank_occurrences[i] == 2){
 				for (int j = 0; j < c.length; j++){
 					if (c[j].rank.ordinal() == i){
@@ -613,7 +642,7 @@ public class PlayEvaluator {
 			}
 		}
 		// Check for Jacks or higher
-		for (int i = J.ordinal(); i < CARDS_PER_SUIT; i++){
+		for (int i = J.ordinal(); i < RANKS; i++){
 			if(rank_occurrences[i] == 2){
 				for (int j = 0; j < c.length; j++){
 					if (c[j].rank.ordinal() == i){
@@ -661,12 +690,12 @@ public class PlayEvaluator {
 			
 			List <Card> hold = new ArrayList<Card>();
 			for (int j = i; j < i + (c.length - 1); j++){
-				hold.add(c[i]);
+				hold.add(c[j]);
 			}
 			Collections.sort(hold, new Card.CardComparator());
 			
 			// A234X is the only possible straight, and it is a corner-case inside straight
-			if (hold.get(0).rank == A){
+			if (hold.get(0).rank != A){
 				// successful comparisons
 				int success = 0;
 				for (int k = 0; k < (HAND_SIZE - 2); k++){
@@ -674,6 +703,7 @@ public class PlayEvaluator {
 						success++;
 					}
 				}
+				
 				// Matched 4 cards that are part of an outside straight
 				if (success == 3){
 					return hold;
@@ -763,7 +793,7 @@ public class PlayEvaluator {
 			}
 			
 			if (nb_high_cards >= gaps){
-				System.out.println("3 to Straight Flush - Type 1");
+				//System.out.println("3 to Straight Flush - Type 1");
 				return flush;
 			}
 		} else if (type == 2){
@@ -771,20 +801,20 @@ public class PlayEvaluator {
 			if (flush.get(0).rank == n2 &&
 				flush.get(1).rank == n3 &&
 				flush.get(2).rank == n4){
-				System.out.println("3 to Straight Flush - Type 2");
+				//System.out.println("3 to Straight Flush - Type 2");
 				return flush;
 			}
 			
 			if ((gaps == 1 && nb_high_cards == 0) ||
 				(gaps == 2 && nb_high_cards == 1) ||
 				(has_ace && ((gaps == 1) || (gaps == 2 && nb_high_cards == 2)))){
-				System.out.println("3 to Straight Flush - Type 2");
+				//System.out.println("3 to Straight Flush - Type 2");
 				return flush;
 			}
 		} else if (type == 3){
 			if (!has_ace){
 				if(nb_high_cards == 0 && gaps == 2){
-					System.out.println("3 to Straight Flush - Type 3");
+					//System.out.println("3 to Straight Flush - Type 3");
 					return flush;
 				}
 			}
@@ -792,174 +822,72 @@ public class PlayEvaluator {
 		return null;
 	}
 	
-	//----------------------------------------4 TO AN INSIDE STRAIGHT. ALL HIGH CARDS----------------------------------
+	// TODO
 	
 	/**
 	 * 4 to an Inside straight
 	 */
-	
-	/*
-	List<Card> _4ToInsideStraight(Card c[]){
+	List<Card> _4ToInsideStraight(Card c[], int desired_high_cards){
 		
-		int nb_high_cards = getNumHighCards(c);
-		boolean has_ace = (card_number_occurrences[A.ordinal()] > 0);
+		boolean has_ace = (rank_occurrences[A.ordinal()] > 0);
+		int nb_high_cards = 0;
 		
-		int gaps = HAND_SIZE;
-		
+		// Sort ascendingly, Ace at the bottom
 		Arrays.sort(c, new Card.CardComparator());
+		List<Card> hold = allCards(c);
+		
+		nb_high_cards = getNumHighCards(hold); 
+		
+		// Test exception "Inside" straights
+		// A 2 3 4 X
+		if (hold.get(0).rank == A  && hold.get(1).rank == n2 &&
+			hold.get(2).rank == n3 && hold.get(3).rank == n4) {
+			hold.remove(4);
+			if (nb_high_cards == desired_high_cards)
+				return hold;
+		}
+		// (A) X J Q K A
+		if (hold.get(0).rank == A && hold.get(2).rank == J &&
+			hold.get(3).rank == Q && hold.get(4).rank == K) {
+			hold.remove(1);
+			if (nb_high_cards == desired_high_cards)
+				return hold;
+		}
+		
+		// Generate subset assuming ace high
+		if (has_ace && nb_high_cards > 1){
+			Arrays.sort(c, new Card.CardComparatorAceHigh());
+		}
 		
 		for (int i = 0; i < c.length - (HAND_SIZE - 2); i++){
-			
-			// Generate the 2 possible ordered combinations of 4 out of 5 cards
-			List <Card> hold = new ArrayList<Card>();
+						
+			// Create a subset of 4 cards to be evaluated
+			List<Card> subset = new ArrayList<Card>();	
 			for (int j = i; j < i + (c.length - 1); j++){
-				hold.add(c[i]);
+				subset.add(c[j]);
 			}
-			Collections.sort(hold, new Card.CardComparator());
 			
-			// A234X is the only possible straight, and it is a corner-case inside straight
-			if (hold.get(0).rank == A){
-				// successful comparisons
-				int success = 0;
-				for (int k = 0; k < (HAND_SIZE - 2); k++){
-					if (hold.get(k + 1).rank.ordinal() == hold.get(k).rank.ordinal() + 1){
-						success++;
-					}
-				}
-				// Matched 4 cards that are part of an outside straight
-				if (success == 3){
-					return hold;
-				}
-			}	
-			return null;
-		}
-		
-	}
-	
-	*/
-	
-	List<Card> aceCheck(Card c[], int nb_high_cards){
-		
-		/*
-		Card[] c_ace = new Card[5];
-		
-		for(int i=0; i<5; i++){
-			if(c[i].getNumber() != 1)
-				c_ace[i] = new Card(c[i].getSuit(), c[i].getNumber());
-			else
-				c_ace[i] = new Card(c[i].getSuit(), 14);
-				
-		}
-		List<Integer> tempace_c = new ArrayList<Integer>();
-		List<Integer> tempace = new ArrayList<Integer>();
-		for(int i=0; i<5; i++)
-			tempace.add(c_ace[i].getNumber());
-
-		Collections.sort(tempace);
-		
-		for(int i=0; i<5; i++){
-			for(int j=0; j<5; j++){
-				if(c_ace[j].getNumber() == tempace.get(i)){
-					tempace_c.add(j);
-				}
-			}
-		}
-		for(int i=0; i<2; i++){
-			List<Integer> sub_c = new ArrayList<Integer>(); List<Integer> sub = new ArrayList<Integer>();
-			sub_c.add(tempace_c.get(i));sub_c.add(tempace_c.get(i+1));sub_c.add(tempace_c.get(i+2));sub_c.add(tempace_c.get(i+3));
-			sub.add(tempace.get(i));sub.add(tempace.get(i+1));sub.add(tempace.get(i+2));sub.add(tempace.get(i+3));
-			Collections.sort(sub);
-			//System.out.println(sub);
-			int gaps = 0;
+			nb_high_cards = getNumHighCards(subset);
 			
-			for(int j=0; j<3; j++){
-				int g = ((sub.get(j+1)-sub.get(j))-1);
-				if(g == -1) g=0; //This means j+1 and j are equal
-				gaps+=g;
-			}
-			//System.out.println(gaps);
-			if(gaps == 1){
-				//Compare result with given nHighCards
-				if(getNumHighCards(sub) == nb_high_cards)
-					return sub_c;
+			// Test Ace High
+			if (has_ace){
 				
+				int gaps = _4ToInsideStraightGaps(subset, true);
+				if (gaps == 1){
+					if (nb_high_cards == desired_high_cards)
+						return subset;
+				} else if( gaps == -1){
+					break;
+				}
+			}
+			
+			int gaps = _4ToInsideStraightGaps(subset, false);
+			if (gaps == 1){
+				if (nb_high_cards == desired_high_cards)
+					return subset;
 			}
 		}
-		*/
-		
 		return null;
-	}
-	
-	// TODO
-	
-	List<Card> _4ToInsideStraight(Card[] c, int nHighcards){
-		
-		/*
-		List<Integer> temp_c = new ArrayList<Integer>();
-		List<Integer> temp = new ArrayList<Integer>();
-		// The following 2 NEED TO BE FIXED to return hand indexes instead of number of occurences
-		//Check if A234  is in the hand
-		if(card_number_occurrences[0].count >= 1 && card_number_occurrences[1].count >= 1 && card_number_occurrences[2].count >= 1 && card_number_occurrences[3].count >= 1){
-			if(nHighcards == 1 || nHighcards == 2){ //These are the only situations where this makes sense
-				//Add A234 to temp and return
-				for(int i=0; i<4; i++)
-					temp.add(card_number_occurrences[i].cardlist.get(0));
-			}
-		}
-		//Check if JQKA is in the hand
-		if(card_number_occurrences[0].count >= 1 && card_number_occurrences[12].count >= 1 && card_number_occurrences[11].count >= 1 && card_number_occurrences[10].count >= 1){
-			if(nHighcards == 3){ //These are the only situations where this makes sense
-				//Add JQKA to temp and return
-				temp.add(card_number_occurrences[0].cardlist.get(0)); 
-				for(int i=10; i<13; i++)
-					temp.add(card_number_occurrences[i].cardlist.get(0));
-			}	
-		}
-		//Add all cards to temp
-		for(int i=0; i<5; i++)
-			temp.add(c[i].getNumber());
-		//Order and find 4 cards with only gaps == 1 (its either cards 0 1 2 3 or 1 2 3 4)
-		//Order temp, create two sublists for 0 1 2 3 and 1 2 3 4, check if gaps == 1, if they are evaluate nHighCards of each sublist
-		Collections.sort(temp);
-		for(int i=0; i<5; i++){
-			for(int j=0; j<5; j++){
-				if(c[j].getNumber() == temp.get(i)){
-					temp_c.add(j);
-				}
-			}
-		}
-		
-		//If there is an Ace in the hand try it first with Ace = 14
-		if(temp.get(0) == 1){
-			List<Integer> aceList = aceCheck(c, nHighcards);
-			if(aceList != null)
-				return aceList;
-		}
-		
-		//Since this did not work go ahead and try with the normal ace
-		for(int i=0; i<2; i++){
-			List<Integer> sub_c = new ArrayList<Integer>(); List<Integer> sub = new ArrayList<Integer>();
-			sub_c.add(temp_c.get(i));sub_c.add(temp_c.get(i+1));sub_c.add(temp_c.get(i+2));sub_c.add(temp_c.get(i+3));
-			sub.add(temp.get(i));sub.add(temp.get(i+1));sub.add(temp.get(i+2));sub.add(temp.get(i+3));
-			Collections.sort(sub);
-			//System.out.println(sub);
-			int gaps = 0;
-			//int gaps1 = ((sub1.get(1)-sub1.get(0))-1)+((sub1.get(2)-sub1.get(1))-1)+((sub1.get(3)-sub1.get(2))-1);
-			for(int j=0; j<3; j++){
-				int g = ((sub.get(j+1)-sub.get(j))-1);
-				if(g == -1) g=0;
-				gaps+=g;
-			}
-			//System.out.println(gaps);
-			if(gaps == 1){
-				//Compare result with given nHighCards
-				if(getNumHighCards(sub) == nHighcards)
-					return sub_c;
-			}
-		}
-		*/
-		
-		return null;	
 	}
 	
 	/**

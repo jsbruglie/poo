@@ -67,4 +67,17 @@ public class Card {
 			return c1.rank.ordinal() - c2.rank.ordinal();
 		}
 	}
+	
+	/**
+	 *
+	 */
+	public static class CardComparatorAceHigh implements Comparator<Card> {
+		@Override
+		public int compare(Card c1, Card c2) {
+			int ace_high = Rank.values().length;
+			int r1 = (c1.rank == Rank.A)? ace_high : Rank.A.ordinal();
+			int r2 = (c2.rank == Rank.A)? ace_high : Rank.A.ordinal();
+			return r1 - r2;
+		}
+	}
 }

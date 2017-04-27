@@ -133,25 +133,6 @@ public class Strategy {
 				{new Card(Suit.Spades,2), new Card(Suit.Spades,8), new Card(Suit.Diamonds,10), new Card(Suit.Spades,7), new Card(Suit.Clubs,4)},
 		
 		};
-		
-		*/
-		
-		/*
-		//2. Test all the difficult hands
-		Card[][] difficultHands = Utils.cardFileParser("/home/pedro/poo/video_poker/TESTS/difficult_hands.txt");
-		
-		for(int i=0; i<combinations.length; i++){
-			Hand hand = new Hand(combinations[i], 5);
-			Strategy strategy = new Strategy();
-			System.out.println(strategy.evaluateHand(hand));
-			System.out.println("Above was: " + strategy.getDebugcount());
-		}
-		System.out.println("Testing difficult hands....");
-		for(int i=0; i<difficultHands.length; i++){
-			Hand hand = new Hand(difficultHands[i], 5);
-			Strategy strategy = new Strategy();
-			System.out.println((i+1) + ". " + strategy.evaluateHand(hand) + " Result was: " + strategy.getDebugcount());
-		}
 		*/
 		
 		Strategy strategy = new Strategy();
