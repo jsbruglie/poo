@@ -9,23 +9,14 @@ public class Interactive implements Mode {
 	
 	/** Deck of playing cards */
 	private Deck deck;
-	/** Last bet */
-	private int bet;
 	/** Current game mode phase */
 	private Phase phase;
 	/** Scan for command-line input */
 	private Scanner reader;
-	/** Whether the game is over */
-	private boolean game_over;
-	/** The size of a player hand */
-	private final int hand_size = 5;
 	
 	public Interactive(){
 		// Create a full deck and shuffle it
 		deck = new Deck(true);
-		// If no previous bet is set, the maximum bet is chosen
-		bet = 5;
-		game_over = false;
 	}
 	
 	/**
@@ -36,30 +27,38 @@ public class Interactive implements Mode {
 	 */
 	public void execute(Player player, Score score, Statistics stats){
 		
-		phase = Phase.Bet;
 		reader = new Scanner(System.in);
 		String command = null;
+		State current_state, temp_state;
+		State sfinal = new StateFinal(null,  new String[]{}, false, true);
 		
-		while(!game_over){	
-			if (phase != Phase.Results){
-				command = reader.nextLine();
-			}
+		State bet = new StateBet( "b", new String[]{"s", "$", "q"} , true, false, sfinal);
+		State deal = new StateDeal("d", new String[]{"s", "$"}, true, false);
+		State hold = new StateHold("h", new String[]{"s", "$", "a"}, true, false, false);
+		State results = new StateResults(null, new String[]{}, false,false, sfinal, false);
+
+		bet.setNextState(deal); 
+		deal.setNextState(hold);
+		hold.setNextState(results);
+		results.setNextState(bet); //By default the next
+		current_state = bet;
+		
+		while(current_state.isFinal != true){
 			
-			if (phase == Phase.Bet){
-				betState(command, player, stats);
-			}else if (phase == Phase.Deal){
-				dealState(command, player, stats);
-			}else if (phase == Phase.Hold){
-				holdState(command, player, stats);
-			}else if (phase == Phase.Results){
-				resultsState(player, stats, score);
-				if (player.getCredit() == 0){
-					game_over = true;
-				}
+			if (current_state.acceptsInput){
+				command = reader.nextLine();
+			}else{
+				command = "results";
+				// Reinsert all cards in the deck and shuffle it
+				deck.shuffle();
 			}
+			temp_state = current_state.run(command, player, stats, score, deck);
+			if(temp_state != null)
+				current_state = temp_state;
+			
 		}
 		
-		System.out.println("Player has lost. Exiting...");
+		System.out.println("Player has lost (or quited). Exiting...");
 	}
 	
 	/**
@@ -77,7 +76,7 @@ public class Interactive implements Mode {
 				if (tokens.length == 2){
 					int new_bet = Integer.parseInt(tokens[1]);
 					if (0 < new_bet && new_bet <= 5){
-						bet = new_bet;
+						player.setBet(new_bet);
 					}else{
 						System.out.println("b: illegal amount");
 						return;
@@ -85,13 +84,13 @@ public class Interactive implements Mode {
 				}
 				
 				try{
-					player.removeCredit(bet);
+					player.removeCredit(player.getBet());
 				}catch (Exception InsufficientCreditException){
 					System.out.println("Player has insufficient credit.");
 					return;
 				}
 				
-				System.out.println("player is betting " + bet);
+				System.out.println("player is betting " + player.getBet());
 				phase = phase.next();
 				
 			}else{
@@ -120,7 +119,7 @@ public class Interactive implements Mode {
 		
 		if(command.equals("d")){
 			// Draw 5 cards and add them to the player's hand
-			player.setHand(deck.getHand(hand_size));
+			player.setHand(deck.getHand(player.hand_size));
 			
 			player.printHand();
 			phase = phase.next();
@@ -215,7 +214,7 @@ public class Interactive implements Mode {
 		// Get the combination corresponding to the current player hand
 		Combination comb = score.evaluateHand(player.getHand());
 		// Get the score corresponding to the player's hand
-		player.addCredit(score.getScore(comb, bet));
+		player.addCredit(score.getScore(comb, player.getBet()));
 		
 		// Show result
 		if(comb == Combination.Other){

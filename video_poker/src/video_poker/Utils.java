@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static video_poker.Suit.*;
+import static video_poker.Rank.*;
 
 public final class Utils {
 	public static void main(String[] args){
@@ -40,10 +41,10 @@ public final class Utils {
 
         while(sc.hasNextLine()){
         	List<Card> temp = parseCardLine(sc.nextLine());
-        	System.out.println(temp);
+        	//System.out.println(temp);
         	cards[i] = new Card[temp.size()];
         	for(int j=0; j<temp.size(); j++)
-        		cards[i][j] = new Card(temp.get(j).getSuit(), temp.get(j).getNumber());
+        		cards[i][j] = new Card(temp.get(j).rank, temp.get(j).suit);
               
         	i++;
         }
@@ -58,62 +59,62 @@ public final class Utils {
 		
 		for(int i=0; i<parts.length; i++){
 			String cardstring = parts[i];
-			System.out.println(cardstring);
-			int number = 0;
+			//System.out.println(cardstring);
+			Rank rank = null;
 			switch(cardstring.charAt(0)){
 			case 'A':
-				number = 1;
+				rank = A;
 				break;
 			case '2':
-				number = 2;
+				rank = n2;
 				break;
 			case '3':
-				number = 3;
+				rank = n3;
 				break;
 			case '4':
-				number = 4;
+				rank = n4;
 				break;
 			case '5':
-				number = 5;
+				rank = n5;
 				break;
 			case '6':
-				number = 6;
+				rank = n6;
 				break;
 			case '7':
-				number = 7;
+				rank = n7;
 				break;
 			case '8':
-				number = 8;
+				rank = n8;
 				break;
 			case '9':
-				number = 9;
+				rank = n9;
 				break;
 			case 'T':
-				number = 10;
+				rank = T;
 				break;
 			case 'J':
-				number = 11;
+				rank = J;
 				break;
 			case 'Q':
-				number = 12;
+				rank = Q;
 				break;
 			case 'K':
-				number = 13;
+				rank = K;
 				break;
 			}
-			System.out.println(number);
+			
 			switch(cardstring.charAt(1)){
 				case 'H':
-					cardlist.add(new Card(Hearts,number));
+					cardlist.add(new Card(rank, Hearts));
 					break;
 				case 'D':
-					cardlist.add(new Card(Diamonds,number));
+					cardlist.add(new Card(rank, Diamonds));
 					break;
 				case 'S':
-					cardlist.add(new Card(Spades,number));
+					cardlist.add(new Card(rank, Spades));
 					break;
 				case 'C':
-					cardlist.add(new Card(Clubs,number));
+					cardlist.add(new Card(rank, Clubs));
 					break;
 			}
 		}
