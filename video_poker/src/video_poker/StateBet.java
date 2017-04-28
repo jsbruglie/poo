@@ -1,10 +1,11 @@
 package video_poker;
 
 public class StateBet extends State {
-
-	public StateBet(String mainCommand, String[] commands, boolean acceptsInput, boolean isFinal, State finalState) {
+	private boolean simulation;
+	public StateBet(String mainCommand, String[] commands, boolean acceptsInput, boolean isFinal, State finalState, boolean simulation) {
 		super(mainCommand, commands, acceptsInput, isFinal);
 		this.finalState = finalState;
+		this.simulation = simulation;
 	}
 
 	@Override
@@ -27,8 +28,8 @@ public class StateBet extends State {
 				System.out.println("Player has insufficient credit.");
 				return;
 			}
-			
-			System.out.println("player is betting " + player.getBet());
+			if(!simulation)
+				System.out.println("player is betting " + player.getBet());
 			
 		}else{
 			System.out.println("Please bet to start game");

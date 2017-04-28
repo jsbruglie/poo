@@ -12,11 +12,13 @@ public class StateHold extends State {
 	
 	public List<Integer> indexOf(Card[] c, List<Card> l){
 			
+		if(l == null)
+			return new ArrayList<Integer>();
 		List<Integer> indices = new ArrayList<Integer>();
 		for (int i = 0; i < l.size(); i++){
 			for (int j = 0; j < c.length; j++){
 				if (l.get(i).equals(c[j])){
-					indices.add(j);
+					indices.add(j+1);
 				}
 			}
 		}
@@ -35,14 +37,17 @@ public class StateHold extends State {
 			tokens = command.split(" ");
 		}else{
 			//Get strategy
+			//System.out.println("Getting strategy...");
 			Strategy strategy = new Strategy();
 			List<Card> cardsKeep = strategy.valueHand(player.getHand());
 			List<Integer> indexKeep = indexOf(player.getHand().getCards(),cardsKeep);
 			tokens = new String[indexKeep.size()+1];
 			tokens[0] = "h";
-			for(int i = 1; i < indexKeep.size(); i++){
-				tokens[i] = Integer.toString(indexKeep.get(i));
+			for(int i = 0; i < indexKeep.size(); i++){
+				tokens[i+1] = Integer.toString(indexKeep.get(i));
+				//System.out.println("TOKEN: " + tokens[i+1]);
 			}
+			
 		}
 		int index = -1;
 		// If the player desires to hold certain cards (discarding others)
@@ -79,7 +84,8 @@ public class StateHold extends State {
 
 
 		// Print the resulting hand
-		player.printHand();
+		if(!simulation)
+			player.printHand();
 
 	}
 

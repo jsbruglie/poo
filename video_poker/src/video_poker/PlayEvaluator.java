@@ -763,7 +763,7 @@ public class PlayEvaluator {
 			}
 			
 			if (nb_high_cards >= gaps){
-				System.out.println("3 to Straight Flush - Type 1");
+				//System.out.println("3 to Straight Flush - Type 1");
 				return flush;
 			}
 		} else if (type == 2){
@@ -771,20 +771,20 @@ public class PlayEvaluator {
 			if (flush.get(0).rank == n2 &&
 				flush.get(1).rank == n3 &&
 				flush.get(2).rank == n4){
-				System.out.println("3 to Straight Flush - Type 2");
+				//System.out.println("3 to Straight Flush - Type 2");
 				return flush;
 			}
 			
 			if ((gaps == 1 && nb_high_cards == 0) ||
 				(gaps == 2 && nb_high_cards == 1) ||
 				(has_ace && ((gaps == 1) || (gaps == 2 && nb_high_cards == 2)))){
-				System.out.println("3 to Straight Flush - Type 2");
+				//System.out.println("3 to Straight Flush - Type 2");
 				return flush;
 			}
 		} else if (type == 3){
 			if (!has_ace){
 				if(nb_high_cards == 0 && gaps == 2){
-					System.out.println("3 to Straight Flush - Type 3");
+					//System.out.println("3 to Straight Flush - Type 3");
 					return flush;
 				}
 			}

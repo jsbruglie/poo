@@ -65,8 +65,8 @@ public class Debug implements Mode {
 		State sfinal = new StateFinal(null,  new String[]{}, false, true);
 		
 		State results = new StateResults(null, new String[]{}, false,false, sfinal, false);
-		State bet = new StateBet( "b", new String[]{"s", "$", "q"} , true, false, sfinal);
-		State deal = new StateDeal("d", new String[]{"s", "$"}, true, false);
+		State bet = new StateBet( "b", new String[]{"s", "$", "q"} , true, false, sfinal, false);
+		State deal = new StateDeal("d", new String[]{"s", "$"}, true, false, false);
 		State hold = new StateHold("h", new String[]{"s", "$", "a"}, true, false, false);
 
 		bet.setNextState(deal); 

@@ -16,8 +16,8 @@ public class Simulation implements Mode {
 		State sfinal = new StateFinal(null,  new String[]{}, false, true);
 		
 		State results = new StateResults(null, new String[]{}, false,false, sfinal, true); //Last parameter is if we are running a simulation
-		State bet = new StateBet( "b", new String[]{"s", "$", "q"} , true, false, sfinal);
-		State deal = new StateDeal("d", new String[]{"s", "$"}, true, false);
+		State bet = new StateBet( "b", new String[]{"s", "$", "q"} , true, false, sfinal, true);
+		State deal = new StateDeal("d", new String[]{"s", "$"}, true, false, true);
 		State hold = new StateHold("h", new String[]{"s", "$", "a"}, true, false, true); //Last parameter is if we are running a simulation
 
 		bet.setNextState(deal); 
@@ -26,17 +26,27 @@ public class Simulation implements Mode {
 		results.setNextState(bet); //By default the next
 		current_state = bet;
 		
-		String command = null;
+		//String command = null;
 		
 		String[] commands = new String[]{"b", "d", "h", "endround"};
 		
+		System.out.println(nb_deals);
+		System.out.println(this.bet);
+		
 		for(int i=0; i<nb_deals; i++){
 			for(int j=0; j < commands.length; j++){
-				temp_state = current_state.run(command, player, stats, score, deck);
+				if(commands[j] == "endround")
+					deck.shuffle();
+				//System.out.println(commands[j]);
+				temp_state = current_state.run(commands[j], player, stats, score, deck);
 				if(temp_state != null)
 					current_state = temp_state;
 			}
 		}
+		/*
+		 * Show statistics at the end!
+		 */
+		stats.printStatistics(player.getCredit());
 		
 	}
 	
