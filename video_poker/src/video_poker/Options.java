@@ -19,9 +19,10 @@ public class Options {
 	public int nb_deals;
 	
 	/** Current program version */
-	private final String VERSION = "v0.5";
-	private final String DEFAULT_CMD_FILE = "cmd-file.txt";
-	private final String DEFAULT_CARD_FILE = "card-file.txt";
+	private final String VERSION = "v0.7";
+	private final String WORKING_DIRECTORY = "/home/pedro/poo/video_poker/";
+	private final String DEFAULT_CMD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
+	private final String DEFAULT_CARD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
 	
 	public Options(String args[]){
 		
@@ -35,8 +36,7 @@ public class Options {
 			}
 			
 			if (args[0].equals("-g")){
-				// GUI Option chosen. Further options are chosen from GUI
-				// TODO
+				mode = new GUIMode();
 				return;
 			}else if (args[0].equals("-i")){
 				// Interactive mode chosen
@@ -53,7 +53,7 @@ public class Options {
 					printUsage();
 					return;
 				}
-				mode = new Debug();
+				mode = new Debug(cmd_file, card_file);
 				
 			}else if (args[0].equals("-s")){
 				// Simulation mode chosen
@@ -65,7 +65,7 @@ public class Options {
 						System.err.println("Invalid bet or number of deals provided!");
 					} 
 					// TODO Safety check value of bet
-					mode = new Simulation();
+					mode = new Simulation(bet, nb_deals);
 				}
 			}else{
 				printUsage();

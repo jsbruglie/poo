@@ -9,7 +9,10 @@ public class Player {
 	private int credit;
 	/** The player's hand */
 	private Hand hand;
-	
+	/** Last bet */
+	private int bet = 5;
+	/** The size of a player hand */
+	final int hand_size = 5;
 	/**
 	 * Constructor
 	 * @param credit The player's initial credit
@@ -28,6 +31,13 @@ public class Player {
 		if(gain != -1){
 			this.credit += gain;
 		}
+	}
+	
+	public int getBet(){
+		return this.bet;
+	}
+	public void setBet(int bet) {
+		this.bet = bet;
 	}
 	
 	public void printHand() {

@@ -195,6 +195,13 @@ public class Strategy {
 		return "Discard Everything";
 	}
 	
+	public List<Card> debugValueHand(Hand hand){
+		//Get value of hand and display advice of cards to keep
+		List<Card> cardsKeep = valueHand(hand);
+		System.out.println(debugcount);
+		return cardsKeep;
+	}
+	
 	public List<Card> valueHand(Hand hand){ //Returns the cards to keep, later process can be done
 		
 		Card[] c = hand.getCards();

@@ -39,7 +39,16 @@ public class Deck {
 		}
 		top = number_cards - 1;
 	}
-	
+	/**
+	 * Alternative Constructor useful for debug mode
+	 * @param lits of cards from card-file.txt
+	 */
+	public Deck(Card[] cards){
+		this.number_cards = cards.length;
+		this.cards = cards;
+		//Do not shuffle this deck
+		top = this.number_cards - 1;
+	}
 	/**
 	 * Shuffles the deck randomly
 	 * 
