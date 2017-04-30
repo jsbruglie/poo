@@ -60,6 +60,8 @@ public abstract class State {
 					System.out.println("Player credit is: " + player.getCredit());
 				}else if(tokens[0].equals("a")){
 					//Advice
+					Strategy strategy = new Strategy();
+					System.out.println(rules.Utils.indexOf(player.getHand().getCards(), strategy.valueHand(player.getHand())));
 				}else if(tokens[0].equals("q")){
 					return this.finalState;
 				}

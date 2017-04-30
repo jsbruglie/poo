@@ -10,6 +10,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import rules.RoyalFlush;
+import rules.Rule;
 /**
  * 
  */
@@ -55,27 +57,27 @@ public class Score {
 			card_rank_occurrences[c[i].rank.ordinal()]++;
 		}
 		
-		if (checkRoyalFlush(c)){ 
+		if (rules.RoyalFlush.checkRoyalFlush(c, card_rank_occurrences)){ 
 			return RoyalFlush;
-		} else if (checkStraightFlush(c)){
+		} else if (rules.StraightFlush.checkStraightFlush(c, card_rank_occurrences)){
 			return StraightFlush;
-		} else if (checkFourAces(c)){
+		} else if (rules.FourOfAKind.checkFourAces(c, card_rank_occurrences)){
 			return FourAces;
-		} else if (checkFour2_4(c)){
+		} else if (rules.FourOfAKind.checkFour2_4(c, card_rank_occurrences)){
 			return Four2_4;
-		} else if (checkFour5_K(c)){
+		} else if (rules.FourOfAKind.checkFour5_K(c, card_rank_occurrences)){
 			return Four5_K;
-		} else if (checkFullHouse(c)){
+		} else if (rules.FullHouse.checkFullHouse(c, card_rank_occurrences)){
 			return FullHouse;
-		} else if (checkStraight(c)){
+		} else if (rules.Straight.checkStraight(c, card_rank_occurrences)){
 			return Straight;
-		} else if(checkFlush(c)){
+		} else if(rules.Flush.checkFlush(c)){
 			return Flush;
-		} else if(checkThreeOfAKind(c)){
+		} else if(rules.ThreeOfAKind.checkThreeOfAKind(c, card_rank_occurrences)){
 			return ThreeOfAKind;
-		} else if(checkTwoPair(c)){
+		} else if(rules.TwoPair.checkTwoPair(c, card_rank_occurrences)){
 			return TwoPair;
-		} else if(checkJacksOrBetter(c)){
+		} else if(rules.HighPair.checkJacksOrBetter(c, card_rank_occurrences)){
 			return JacksOrBetter;
 		}
 		return Other;
@@ -94,189 +96,6 @@ public class Score {
 		return 0;
 	}
 	
-	/**
-	 * Checks if a given set of cards is Jacks or Better
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkJacksOrBetter(Card[] c){
-		//Check if there is a pair of jacks or better
-		//Check in number of occurrences the number of elements
-		for(int i = 0; i < Rank.values().length; i++){
-			if(i == A.ordinal() || i >= J.ordinal()){
-				if(this.card_rank_occurrences[i] == 2)
-					return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if a given set of cards is Two Pairs
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkTwoPair(Card[] c){
-		
-		int pair_count = 0;
-		// For each card number, count the number of pairs
-		for(int i = 0; i < CARDS_PER_SUIT; i++){
-			if(card_rank_occurrences[i] == 2){
-				pair_count++;
-			}
-		}
-		if(pair_count == 2){
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if a given set of cards is Three of a Kind
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkThreeOfAKind(Card[] c){
-		// Check if there are triplets
-		for (int i = 0; i < CARDS_PER_SUIT; i++){
-			if (card_rank_occurrences[i] == 3){
-				return true;
-			}
-		}
-		return false;
-
-	}
-	
-	/**
-	 * Checks if a given set of cards is a Straight
-	 * @param c The set of cards to be evaluated
-	 * @return Whether the set of cards has the desired combination
-	 */
-	public boolean checkStraight(Card[] c){
-		
-		// Corner case: Ace high straight 
-		if (card_rank_occurrences[T.ordinal()] == 1 && 
-			card_rank_occurrences[J.ordinal()] == 1 &&
-			card_rank_occurrences[Q.ordinal()] == 1 &&
-			card_rank_occurrences[K.ordinal()] == 1 &&
-			card_rank_occurrences[A.ordinal()] == 1){
-			
-			return true;
-		}
-		
-		for (int i = 0; i < CARDS_PER_SUIT - MAX_CARDS; i++){
-			if (card_rank_occurrences[i] == 1){
-				for (int j = i; j < i + MAX_CARDS; j++){
-					if (card_rank_occurrences[j] != 1){
-						return false;
-					}
-				}
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if a given set of cards is a Flush
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkFlush(Card[] c){
-		
-		for (int i = 0; i < MAX_CARDS - 1; i++){
-			if (!c[i].suit.equals(c[i + 1].suit))
-				return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Checks if a given set of cards is a Full House
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkFullHouse(Card[] c){
-		int npairs = 0, ntriples = 0;
-		for (int i = 0; i < CARDS_PER_SUIT; i++){
-			if (card_rank_occurrences[i] == 2)
-				npairs++;
-			if (card_rank_occurrences[i] == 3)
-				ntriples++;
-		}
-		if (npairs == 1 && ntriples == 1){
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if a given set of cards is a Four of a Kind, from 2 to 4
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkFour2_4(Card[] c){
-		for (int i = n2.ordinal(); i <= n4.ordinal() ; i++){
-			if (card_rank_occurrences[i] == 4){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if a given set of cards is a Four of a Kind, from 5 to K
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkFour5_K(Card[] c){
-		for (int i = n5.ordinal(); i <= K.ordinal(); i++){
-			if(card_rank_occurrences[i] == 4){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if a given set of cards is Four Aces
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkFourAces(Card[] c){
-		if(card_rank_occurrences[A.ordinal()] == 4){
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks if a given set of cards is a Straight Flush
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkStraightFlush(Card[] c){
-		return (checkStraight(c) && checkFlush(c));
-	}
-	
-	/**
-	 * Checks if a given set of cards is a Straight Flush
-	 * @param c The set of cards to be evaluated  
-	 * @return Whether the set of cards is the desired combination
-	 */
-	public boolean checkRoyalFlush(Card[] c){
-		if (checkFlush(c)){
-			if (card_rank_occurrences[T.ordinal()] == 1 &&
-				card_rank_occurrences[J.ordinal()] == 1 &&
-				card_rank_occurrences[Q.ordinal()] == 1 &&
-				card_rank_occurrences[K.ordinal()] == 1 &&
-				card_rank_occurrences[A.ordinal()] == 1){
-				
-				return true;
-			}
-		} 
-		return false;
-	}
 	
 	public static void main(String[] args){
 		
