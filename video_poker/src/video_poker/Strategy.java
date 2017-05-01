@@ -16,8 +16,9 @@ public class Strategy {
 	Occurrences occurrences;
 	List<Rule> ruleList;
 	int debugcount = 1;
+	
 	/**
-	 * Main to test stategy evaluation
+	 * Main to test stRategy evaluation
 	 * @param args
 	 */
 	public static void main(String[] args){
@@ -154,8 +155,9 @@ public class Strategy {
 		//Get value of hand and display advice of cards to keep
 		List<Card> cardsKeep = valueHand(hand);
 		if (cardsKeep != null){
-			if(!cardsKeep.isEmpty())
-				return cardsKeep.toString();
+			if(!cardsKeep.isEmpty()) {
+				return rules.Utils.indexOf(hand.getCards(), cardsKeep).toString();
+			}	
 		}
 		return "Discard Everything";
 	}
@@ -173,10 +175,17 @@ public class Strategy {
 		occurrences.initialise(c);
 		
 		/*Go through the list until a rule doesn't return null*/
-		List<Card> cardsKeep = new ArrayList<Card>();
-		for(int i=0; i<ruleList.size(); i++){
+		List<Card> cardsKeep = null;
+		for(int i = 0; i < ruleList.size(); i++){
 			cardsKeep = ruleList.get(i).run(c, occurrences.rank_occurrences, occurrences.suit_occurrences);
 			if(cardsKeep != null){
+				// TODO - DEBUG
+				
+				System.out.print(ruleList.get(i).getClass().getSimpleName()+ ": ");
+				for (Card card : cardsKeep){
+					System.out.print(card + " ");
+				}
+				
 				return cardsKeep;
 			}
 		}

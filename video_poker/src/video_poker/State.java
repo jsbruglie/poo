@@ -3,76 +3,89 @@ package video_poker;
 import java.util.Arrays;
 
 public abstract class State {
+	
+	/* 
+	 * Main command - mainly used for state transition triggers
+	 */
+	String main_command;
+	
 	/*
-	 * Array of additional commands to check for this state 
+	 * Array of additional commands or parameters
 	 */
 	String[] commands;
 	
-	/* 
-	 * Main command for this state
+	/**
+	 * Whether the state accepts user input
 	 */
-	String mainCommand;
+	boolean accepts_input;
 	
-	//This state accepts input
-	boolean acceptsInput;
+	/**
+	 * The state that naturally follows the current state
+	 */
+	State next_state;
 	
-	//If the state is final
-	boolean isFinal;
-	
-	//Indicate the final state
-	State finalState;
-	
-	//Next state of this state
-	State nextState;
-	
-	
-	public State(String mainCommand, String[] commands, boolean acceptsInput, boolean isFinal){
-		this.mainCommand = mainCommand;
+	/**
+	 * Constructor
+	 * @param main_command
+	 * @param commands
+	 * @param accepts_input
+	 */
+	public State(String main_command, String[] commands, boolean accepts_input){
+		this.main_command = main_command;
 		this.commands = commands;
-		this.acceptsInput = acceptsInput;
-		this.isFinal = isFinal;
-		
+		this.accepts_input = accepts_input;
 	}
 	
-	public void setNextState(State nextState){
-		this.nextState = nextState;
+	public void setNextState(State next_state){
+		this.next_state = next_state;
 	}
 	
 	
-	public State run(String command, Player player, Statistics stats, Score score, Deck deck){
-			if(command == "endround"){ //This is for results and sfinal
-				stateMethod(command, player, stats, score, deck);
-				return this.nextState;
+	public State run(	String command,
+						Player player,
+						Statistics stats,
+						Score score,
+						Deck deck){
+			
+			if (main_command == null){
+				return stateMethod(command, player, stats, score, deck);
 			}
-			//Check if command given is the main command for this state
+		
+			// Check if command given is the main command for this state
 			String[] tokens = command.split(" ");
 		
-			//If it is it will call it's specific function and return the next state 
-			if(tokens[0].equals(mainCommand)){
-				stateMethod(command, player, stats, score, deck);
-				return this.nextState;
+			// If it is it will call it's specific function and return the next state 
+			if (tokens[0].equals(main_command)){
+				return stateMethod(command, player, stats, score, deck);
 				
-			}else if(Arrays.asList(commands).contains(tokens[0])){ //Check if command given is allowed for this state
+			} else if (Arrays.asList(commands).contains(tokens[0])){ //Check if command given is allowed for this state
 				//Process the command as one the following:
-				if(tokens[0].equals("s")){
+				if (tokens[0].equals("s")){
 					stats.printStatistics(player.getCredit());
-				}else if(tokens[0].equals("$")){
+				} else if (tokens[0].equals("$")){
 					System.out.println("Player credit is: " + player.getCredit());
-				}else if(tokens[0].equals("a")){
+				} else if (tokens[0].equals("a")){
 					//Advice
 					Strategy strategy = new Strategy();
-					System.out.println(rules.Utils.indexOf(player.getHand().getCards(), strategy.valueHand(player.getHand())));
-				}else if(tokens[0].equals("q")){
-					return this.finalState;
+					System.out.println(strategy.evaluateHand(player.getHand()));
+				}else if (tokens[0].equals("q")){
+					return null;
 				}
 			}else{
-				//Say it's not allowed
 				System.out.println(tokens[0] + ": illegal command");
 			}
-			return null;
+			/* Remain in current state */
+			return this;
 	}
 	
-	public abstract void stateMethod(String command, Player player, Statistics stats, Score score, Deck deck);
-	
-	
+	/**
+	 * To be implemented by each state
+	 * @param command
+	 * @param player
+	 * @param stats
+	 * @param score
+	 * @param deck
+	 * @return 
+	 */
+	public abstract State stateMethod(String command, Player player, Statistics stats, Score score, Deck deck);
 }

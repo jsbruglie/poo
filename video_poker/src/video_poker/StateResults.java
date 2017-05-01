@@ -1,16 +1,28 @@
 package video_poker;
 
 public class StateResults extends State {
+	
 	private boolean simulation;
-	public StateResults(String mainCommand, String[] commands, boolean acceptsInput, boolean isFinal, State finalState, boolean simulation) {
-		super(mainCommand, commands, acceptsInput, isFinal);
-		// TODO Auto-generated constructor stub
-		this.finalState = finalState;
+	
+	/**
+	 * 
+	 * @param main_command
+	 * @param commands
+	 * @param accepts_input
+	 * @param simulation
+	 */
+	public StateResults(String main_command,
+						String[] commands,
+						boolean accepts_input,
+						boolean simulation) {
+		
+		super(main_command, commands, accepts_input);
 		this.simulation = simulation;
 	}
 
 	@Override
-	public void stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
+	public State stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
+		
 		// Get the combination corresponding to the current player hand
 		Combination comb = score.evaluateHand(player.getHand());
 		// Get the score corresponding to the player's hand
@@ -29,7 +41,9 @@ public class StateResults extends State {
 		stats.addResults(comb);		
 		
 		if (player.getCredit() == 0){
-			this.nextState = finalState;
+			return null;
+		} else {
+			return this.next_state;
 		}
 	}
 

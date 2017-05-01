@@ -30,6 +30,7 @@ public class FourToInsideStraight implements Rule {
 	 * @return
 	 */
 	int _4ToInsideStraightGaps(List<Card> l, boolean has_ace_high){
+		
 		int gaps = 0; int gap = 0;
 		for (int i = 0; i < l.size() - 1; i++){
 			// Ace high sorted
@@ -51,12 +52,18 @@ public class FourToInsideStraight implements Rule {
 	
 	@Override
 	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
+		
 		boolean has_ace = (rank_occurrences[A.ordinal()] > 0);
 		int nb_high_cards = 0;
 		
+		Card[] sorted = new Card[Occurrences.HAND_SIZE];
+		for (int i = 0; i < sorted.length; i++){
+			sorted[i] = c[i];
+		}
+		
 		// Sort ascendingly, Ace at the bottom
-		Arrays.sort(c, new Card.CardComparator());
-		List<Card> hold = Utils.allCards(c);
+		Arrays.sort(sorted, new Card.CardComparator());
+		List<Card> hold = Utils.allCards(sorted);
 		
 		nb_high_cards = Utils.getNumHighCards(hold); 
 		
@@ -78,15 +85,15 @@ public class FourToInsideStraight implements Rule {
 		
 		// Generate subset assuming ace high
 		if (has_ace && nb_high_cards > 1){
-			Arrays.sort(c, new Card.CardComparatorAceHigh());
+			Arrays.sort(sorted, new Card.CardComparatorAceHigh());
 		}
 		
-		for (int i = 0; i < c.length - (Occurrences.HAND_SIZE - 2); i++){
+		for (int i = 0; i < sorted.length - (Occurrences.HAND_SIZE - 2); i++){
 						
 			// Create a subset of 4 cards to be evaluated
 			List<Card> subset = new ArrayList<Card>();	
-			for (int j = i; j < i + (c.length - 1); j++){
-				subset.add(c[j]);
+			for (int j = i; j < i + (sorted.length - 1); j++){
+				subset.add(sorted[j]);
 			}
 			
 			nb_high_cards = Utils.getNumHighCards(subset);

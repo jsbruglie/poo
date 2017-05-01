@@ -24,7 +24,7 @@ public enum Rank {
 	/** Number 9 */
 	n9("9"),
 	/** Number 10 */
-	T("10"),
+	T("T"),
 	/** Jack */
 	J("J"),
 	/** Queen */

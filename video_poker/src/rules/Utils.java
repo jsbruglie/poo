@@ -136,10 +136,15 @@ public class Utils {
 	static public List<Integer> indexOf(Card[] c, List<Card> l){
 		
 		List<Integer> indices = new ArrayList<Integer>();
-		for (int i = 0; i < l.size(); i++){
-			for (int j = 0; j < c.length; j++){
-				if (l.get(i).equals(c[j])){
-					indices.add(j+1);
+		
+		if (l == null){
+			return null;
+		}
+		
+		for (int i = 0; i < c.length; i++){
+			for (int j = 0; j < l.size(); j++){
+				if (c[i].equals(l.get(j))){
+					indices.add(i+1);
 				}
 			}
 		}

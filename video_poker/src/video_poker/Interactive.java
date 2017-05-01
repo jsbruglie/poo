@@ -12,6 +12,9 @@ public class Interactive implements Mode {
 	/** Scan for command-line input */
 	private Scanner reader;
 	
+	/**
+	 * Constructor
+	 */
 	public Interactive(){
 		// Create a full deck and shuffle it
 		deck = new Deck(true);
@@ -25,37 +28,38 @@ public class Interactive implements Mode {
 	 */
 	public void execute(Player player, Score score, Statistics stats){
 		
+		// TODO - DEBUG (FORCE CONSOLE)
+		System.out.println("Starting new game...");
+		
 		reader = new Scanner(System.in);
 		String command = null;
-		State current_state, temp_state;
-		State sfinal = new StateFinal(null,  new String[]{}, false, true);
+		State current_state, next_state;
 		
-		State bet = new StateBet( "b", new String[]{"s", "$", "q"} , true, false, sfinal, false);
-		State deal = new StateDeal("d", new String[]{"s", "$"}, true, false, false);
-		State hold = new StateHold("h", new String[]{"s", "$", "a"}, true, false, false);
-		State results = new StateResults(null, new String[]{}, false,false, sfinal, false);
-
+		/* State declaration */
+		State bet		= new StateBet( "b", new String[]{"s", "$", "q"} , true, false);
+		State deal		= new StateDeal("d", new String[]{"s", "$"}, true, false);
+		State hold		= new StateHold("h", new String[]{"s", "$", "a"}, true, false);
+		State results	= new StateResults(null, new String[]{}, false,false);
+		
+		/* Declare default state transitions */
 		bet.setNextState(deal); 
 		deal.setNextState(hold);
 		hold.setNextState(results);
-		results.setNextState(bet); //By default the next
+		results.setNextState(bet);
+		
+		/* Initial state */
 		current_state = bet;
 		
-		while(current_state.isFinal != true){
-			
-			if (current_state.acceptsInput){
+		while (current_state != null){
+			if (current_state.accepts_input){
 				command = reader.nextLine();
-			}else{
-				command = "endround";
-				// Reinsert all cards in the deck and shuffle it
+			} else {
+				command = null;
 				deck.shuffle();
 			}
-			temp_state = current_state.run(command, player, stats, score, deck);
-			if(temp_state != null)
-				current_state = temp_state;
-			
+			next_state = current_state.run(command, player, stats, score, deck);
+			current_state = next_state;
 		}
-		
 		System.out.println("Player has lost (or quited). Exiting...");
 	}
 	

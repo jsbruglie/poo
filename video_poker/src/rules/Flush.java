@@ -18,6 +18,7 @@ public class Flush implements Rule {
 		}
 		return true;
 	}
+	
 	@Override
 	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
 		if (checkFlush(c)){

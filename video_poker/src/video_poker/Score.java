@@ -99,50 +99,13 @@ public class Score {
 	
 	public static void main(String[] args){
 		
-		// 5C 7D 8H 2S 5D	: Pair of 5 - No reward		
-		// KC 6D 8H 2S KD	: Pair of Kings
-		// JC 7D 7H 2S JD	: Pair of 7's and Jacks
-		// 4C 4D 7H 4S JD	: Triple 4's
-		// 4C 5D 6H 7S 8D	: Straight
-		// KC AC 2D 3S 4H	: Wrap-around Straight - No reward
-		// 4C 5C 6C 2C TC	: Flush
-		// 4C 4D 4H QS QD	: Full House Pair 4's Triple Queens
-		// 3C 3D 3H 3S QD	: Four 2-4
-		// 8C 8D 8H 8S QD	: Four 5-K
-		// AC AD AH AS QD	: Four Aces
-		// 4D 5D 6D 7D 8D	: Straight Flush
-		
-		final String regex = "(10|[0-9]|[JQKA])([HCDS])";
-		final Pattern pattern = Pattern.compile(regex);
-		
-		Rank number = null;
-		Suit suit = null;
-		
+		Card[][] matrix = Utils.cardFileParser("TESTS/score_test.txt");
 		Score score = new Score(new DoubleBonus10_7());
 		
-		try (Scanner scanner = new Scanner(new File("src/video_poker/score_test.txt"))) {
-			while (scanner.hasNext()){
-				
-				String line = scanner.nextLine();
-				String[] split = line.split(" ");
-				Card[] cards = new Card[split.length];
-				
-				for (int i = 0; i < split.length; i++){
-					Matcher matcher = pattern.matcher(split[i]);
-					while (matcher.find()) {
-						number = Rank.fromString(matcher.group(1));
-						suit = Suit.fromString(matcher.group(2));
-					}
-					cards[i] = new Card(number, suit);
-				}
-				
-				Hand hand = new Hand(cards);
-				System.out.println(hand);
-				System.out.println(score.evaluateHand(hand));
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (Card[] array : matrix){
+			Hand hand = new Hand(array);
+			System.out.println(hand);
+			System.out.println(score.evaluateHand(hand));
 		}
-		
 	}
 }

@@ -19,8 +19,8 @@ public class Options {
 	public int nb_deals;
 	
 	/** Current program version */
-	private final String VERSION = "v0.7";
-	private final String WORKING_DIRECTORY = "/home/pedro/poo/video_poker/";
+	private final String VERSION = "v0.9";
+	private final String WORKING_DIRECTORY = "";
 	private final String DEFAULT_CMD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
 	private final String DEFAULT_CARD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
 	

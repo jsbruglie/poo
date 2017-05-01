@@ -22,12 +22,18 @@ public class Card {
 		this.suit = suit;
 	}
 	
+	/**
+	 * Card toString. Generate textual description
+	 */
 	@Override
 	public String toString() {
 		String name = this.rank.toString();
 		return name + (char) this.suit.getSymbol();
 	}
 
+	/**
+	 * Generate hashcode based on rank and suit enums
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -36,7 +42,10 @@ public class Card {
 		result = prime * result + ((suit == null) ? 0 : suit.hashCode());
 		return result;
 	}
-
+	
+	/**
+	 * Equals
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -59,7 +68,8 @@ public class Card {
 	}
 	
 	/**
-	 *
+	 * CardComparator Object
+	 * Allows to sort card by ascending rank enum (Ace low)
 	 */
 	public static class CardComparator implements Comparator<Card> {
 		@Override
@@ -69,7 +79,8 @@ public class Card {
 	}
 	
 	/**
-	 *
+	 * CardComparator Object
+	 * Allows to sort card by ascending rank enum (Ace high)
 	 */
 	public static class CardComparatorAceHigh implements Comparator<Card> {
 		@Override

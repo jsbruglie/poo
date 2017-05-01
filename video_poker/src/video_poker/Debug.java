@@ -1,23 +1,5 @@
 package video_poker;
 
-import static video_poker.Rank.A;
-import static video_poker.Rank.J;
-import static video_poker.Rank.K;
-import static video_poker.Rank.Q;
-import static video_poker.Rank.T;
-import static video_poker.Rank.n2;
-import static video_poker.Rank.n3;
-import static video_poker.Rank.n4;
-import static video_poker.Rank.n5;
-import static video_poker.Rank.n6;
-import static video_poker.Rank.n7;
-import static video_poker.Rank.n8;
-import static video_poker.Rank.n9;
-import static video_poker.Suit.Clubs;
-import static video_poker.Suit.Diamonds;
-import static video_poker.Suit.Hearts;
-import static video_poker.Suit.Spades;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -33,13 +15,9 @@ public class Debug implements Mode {
 	String cmd_file, card_file; 
 
 	public Debug(String cmd_file, String card_file) {
-		this.cmd_file = "/home/pedro/poo/video_poker/TESTS/cmd-file.txt";
-		this.card_file = "/home/pedro/poo/video_poker/TESTS/card-file.txt";
-		Card[][] c= Utils.cardFileParser(this.card_file);
-		//DEBUG
-		/*for(int i=0; i<c[0].length; i++)
-			System.out.println(c[0][i]);*/
-		
+		this.cmd_file = cmd_file;
+		this.card_file = card_file;
+		Card[][] c = Utils.cardFileParser(this.card_file);
 		deck = new Deck(c[0]);
 	}
 	
@@ -61,40 +39,47 @@ public class Debug implements Mode {
 		/*for(int i=0; i<commands.size(); i++)
 			System.out.println(commands.get(i));*/
 		
-		State current_state, temp_state;
-		State sfinal = new StateFinal(null,  new String[]{}, false, true);
+		State current_state, next_state;
 		
-		State results = new StateResults(null, new String[]{}, false,false, sfinal, false);
-		State bet = new StateBet( "b", new String[]{"s", "$", "q"} , true, false, sfinal, false);
-		State deal = new StateDeal("d", new String[]{"s", "$"}, true, false, false);
-		State hold = new StateHold("h", new String[]{"s", "$", "a"}, true, false, false);
-
+		/* State declaration */
+		State bet		= new StateBet( "b", new String[]{"s", "$", "q"} , true, false);
+		State deal		= new StateDeal("d", new String[]{"s", "$"}, true, false);
+		State hold		= new StateHold("h", new String[]{"s", "$", "a"}, true, false);
+		State results	= new StateResults(null, new String[]{}, false, false);	
+		
+		/* Declare default state transitions */
 		bet.setNextState(deal); 
 		deal.setNextState(hold);
 		hold.setNextState(results);
-		results.setNextState(bet); //By default the next
+		results.setNextState(bet);
+		
+		/* Initial state */
 		current_state = bet;
+		
 		String command = null;
-		for(int i=0; i<commands.size(); i++){
-			if (current_state.acceptsInput){
-				command = commands.get(i);
-			}else{
-				command = "endround";
-				i--; //Freeze i for the next command after showing results
+		int i = 0;
+		
+		while (current_state != null){
+			
+			if (current_state.accepts_input){
+				if ( i == commands.size()){
+					break;
+				} else {
+					command = commands.get(i++);
+				}
+			} else {
+				command = null;
+				deck.shuffle();
 			}
-			System.out.println("[" + command + "]");
-			temp_state = current_state.run(command, player, stats, score, deck);
-			if(temp_state != null)
-				current_state = temp_state;
-			//if the current state after last command is a results or sfinal 
-			//and this is the last round, show the results (or show nothing if sfinal) and leave
-			if(i == commands.size()-1 && current_state.mainCommand==null) 
-				temp_state = current_state.run("endround", player, stats, score, deck);
+			next_state = current_state.run(command, player, stats, score, deck);
+			current_state = next_state;
 		}
 		
-		
-		
+		System.out.println("Player has lost (or quited). Exiting...");
 	}
+	
+	// TODO Migrate to Utils
+	
 	public static boolean isNumber(String value) {
 	    boolean ret = false;
 	    ret = value.matches("^[0-9]*$"); //Accepts exactly one digit between 1 and 5 
