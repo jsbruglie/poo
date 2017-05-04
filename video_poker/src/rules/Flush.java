@@ -3,8 +3,9 @@ package rules;
 import java.util.List;
 
 import video_poker.Card;
+import video_poker.CombinationChecker;
 
-public class Flush implements Rule {
+public class Flush implements Rule, CombinationChecker {
 	/**
 	 * Checks if a given set of cards is a Flush
 	 * @param c The set of cards to be evaluated  
@@ -28,9 +29,21 @@ public class Flush implements Rule {
 	}
 
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	@Override
+	public boolean check(Card[] cards) {
+		Occurrences occurrences = new Occurrences();
+		occurrences.initialise(cards);
+		return this.check(cards, occurrences);
+	}
 
+	// TODO All Same suit, or check suit occurrences, since we bother calculating them
+	@Override
+	public boolean check(Card[] cards, Occurrences occurrences) {
+		for (int i = 0; i < Occurrences.HAND_SIZE - 1; i++){
+			if (!cards[i].suit.equals(cards[i + 1].suit))
+				return false;
+		}
+		return true;
 	}
 
 }

@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import video_poker.Card;
+import video_poker.CombinationChecker;
 import video_poker.Rank;
 
-public class ThreeOfAKind implements Rule {
+public class ThreeOfAKind implements Rule, CombinationChecker {
 	
 	/**
 	 * Checks if a given set of cards is Three of a Kind
@@ -42,9 +43,21 @@ public class ThreeOfAKind implements Rule {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	@Override
+	public boolean check(Card[] cards) {
+		Occurrences occurrences = new Occurrences();
+		occurrences.initialise(cards);
+		return this.check(cards, occurrences);
+	}
 
+	@Override
+	public boolean check(Card[] cards, Occurrences occurrences) {
+		for (int i = 0; i < Occurrences.RANKS; i++){
+			if (occurrences.rank_occurrences[i] == 3){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

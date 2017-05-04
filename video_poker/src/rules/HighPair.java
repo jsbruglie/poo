@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import video_poker.Card;
+import video_poker.CombinationChecker;
 import video_poker.Rank;
 
-public class HighPair implements Rule {
+public class HighPair implements Rule, CombinationChecker {
 	
 	/**
 	 * Checks if a given set of cards is Jacks or Better
@@ -55,10 +56,22 @@ public class HighPair implements Rule {
 		return null;
 	}
 
+	@Override
+	public boolean check(Card[] cards) {
+		Occurrences occurrences = new Occurrences();
+		occurrences.initialise(cards);
+		return this.check(cards, occurrences);
+	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	@Override
+	public boolean check(Card[] cards, Occurrences occurrences) {
+		for(int i = 0; i < Rank.values().length; i++){
+			if(i == A.ordinal() || i >= J.ordinal()){
+				if(occurrences.rank_occurrences[i] == 2)
+					return true;
+			}
+		}
+		return false;
 	}
 
 }

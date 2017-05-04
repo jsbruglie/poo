@@ -24,9 +24,9 @@ public class Game {
 		// Create player
 		this.player = new Player(opt.initial_credit);
 		// Create a score instance
-		this.score = new Score(new DoubleBonus10_7());
+		this.score = new Score(new PT_DoubleBonus10_7());
 		// Create the statistics for the game
-		this.stats = new Statistics(opt.initial_credit);
+		this.stats = new Statistics(opt.initial_credit, null);
 	}
 	
 	public void start(){

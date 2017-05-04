@@ -1,10 +1,6 @@
 package rules;
 
-import static video_poker.Rank.A;
-import static video_poker.Rank.K;
-import static video_poker.Rank.n2;
-import static video_poker.Rank.n4;
-import static video_poker.Rank.n5;
+import static video_poker.Rank.*;
 
 import java.util.List;
 

@@ -3,8 +3,9 @@ package rules;
 import java.util.List;
 
 import video_poker.Card;
+import video_poker.CombinationChecker;
 
-public class FullHouse implements Rule {
+public class FullHouse implements Rule, CombinationChecker {
 	
 	/**
 	 * Checks if a given set of cards is a Full House
@@ -32,10 +33,26 @@ public class FullHouse implements Rule {
 		return null;
 	}
 
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	@Override
+	public boolean check(Card[] cards) {
+		Occurrences occurrences = new Occurrences();
+		occurrences.initialise(cards);
+		return this.check(cards, occurrences);
+	}
+	
+	@Override
+	public boolean check(Card[] cards, Occurrences occurrences) {
+		int npairs = 0, ntriples = 0;
+		for (int i = 0; i < Occurrences.RANKS; i++){
+			if (occurrences.rank_occurrences[i] == 2)
+				npairs++;
+			if (occurrences.rank_occurrences[i] == 3)
+				ntriples++;
+		}
+		if (npairs == 1 && ntriples == 1){
+			return true;
+		}
+		return false;
 	}
 
 }

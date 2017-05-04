@@ -1,45 +1,36 @@
 package video_poker;
 
-public enum Combination {
+public class Combination {
 	
-	/** Jacks or Better */
-	JacksOrBetter("Jacks or Better"),
-	/** Two Pair */
-	TwoPair("Two Pair"),
-	/** Three of a Kind */
-	ThreeOfAKind("Three of a Kind"),
-	/** Straight */
-	Straight("Straight"),
-	/** Flush */
-	Flush("Flush"),
-	/** Full House */
-	FullHouse("Full House"),
-	/** Four of a Kind, 2 to 4 */
-	Four2_4("Four of a Kind - 2 to 4"),
-	/** Four of a Kind, 5 to King */
-	Four5_K("Four of a Kind - 5 to K"),
-	/** Four Aces */
-	FourAces("Four of a Kind - A"),
-	/** Straight Flush */
-	StraightFlush("Straight Flush"),
-	/** Royal Flush */
-	RoyalFlush("Royal Flush"),
-	/** Other (invalid) combination */
-	Other("Other");
-	
-	/** Textual description of a combination */
-	private final String name;
+	/** Textual description of the combination */
+	public String name;
+	/** The payout array */
+	private int[] payout;
+	/** The checker class */
+	public CombinationChecker checker;
 	
 	/**
-	 * Private constructor to allow internally set parameters
-	 * @param name A textual description of the combination
+	 * Constructor
+	 * @param name The combination name
+	 * @param payout The combination payout entry
+	 * @param checker The combination checker class
 	 */
-	private Combination(String name){
+	Combination(String name, int[] payout, CombinationChecker checker){
+		
 		this.name = name;
+		this.payout = new int[payout.length];
+		this.checker = checker;
 	}
 	
-	@Override
-    public String toString() {
-        return name;
-    }
+	/*
+	 * Returns the payout for a given bet
+	 */
+	public int getPayout(int bet){
+		try{
+			return payout[bet];
+		} catch (IndexOutOfBoundsException e){
+			System.err.println("Invalid payout table entry requested.");
+			return 0;
+		}
+	}
 }

@@ -20,9 +20,10 @@ public class Statistics {
 	/**
 	 * Constructor
 	 * @param credit Initial player credit
+	 * @param combinations 
 	 */
-	public Statistics(int credit){
-		this.number_hand_occurrences = new int[Combination.values().length];
+	public Statistics(int credit, Combination[] combinations){
+		this.number_hand_occurrences = new int[CombinationDB10_7.values().length];
 		this.number_deals = 0;
 		this.initial_player_credit = credit;
 		
@@ -32,7 +33,7 @@ public class Statistics {
 	 * Adds a given combination to the occurrence table
 	 * @param combination The combination to be added
 	 */
-	public void addResults(Combination combination){
+	public void addResults(CombinationDB10_7 combination){
 		number_hand_occurrences[combination.ordinal()]++;
 		number_deals++;
 	}
@@ -44,14 +45,14 @@ public class Statistics {
 	public void printStatistics(int curr_credit){
 		
 		System.out.printf(format1, "Hand", "Nb");
-		Combination comb[] = Combination.values();
+		CombinationDB10_7 comb[] = CombinationDB10_7.values();
 		for (int i = 0; i < comb.length; i++){
-			if (i == Combination.Four2_4.ordinal()){
+			if (i == CombinationDB10_7.Four2_4.ordinal()){
 				// Group all possible Four of a Kind combinations
 				System.out.printf(format2, "Four of a Kind",
-						number_hand_occurrences[Combination.Four2_4.ordinal()] +
-						number_hand_occurrences[Combination.Four5_K.ordinal()] +
-						number_hand_occurrences[Combination.FourAces.ordinal()]);
+						number_hand_occurrences[CombinationDB10_7.Four2_4.ordinal()] +
+						number_hand_occurrences[CombinationDB10_7.Four5_K.ordinal()] +
+						number_hand_occurrences[CombinationDB10_7.FourAces.ordinal()]);
 				i += 2;
 			}else{
 			      System.out.printf(format2, comb[i], number_hand_occurrences[i]);

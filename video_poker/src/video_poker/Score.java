@@ -1,7 +1,7 @@
 package video_poker;
 
 // Static imports to use name space
-import static video_poker.Combination.*;	// Use Combination enums
+import static video_poker.CombinationDB10_7.*;	// Use Combination enums
 import static video_poker.Rank.*;		// Use CardNumber enums
 
 import java.io.File;
@@ -42,7 +42,7 @@ public class Score {
 	 * @param hand The hand to be evaluated
 	 * @return The corresponding combination Enum
 	 */
-	public Combination evaluateHand(Hand hand){
+	public CombinationDB10_7 evaluateHand(Hand hand){
 		
 		Card[] c = hand.getCards();
 		if (c.length != MAX_CARDS){
@@ -89,7 +89,7 @@ public class Score {
 	 * @param bet The player proposed bet
 	 * @return The corresponding payout
 	 */
-	public int getScore(Combination comb, int bet){
+	public int getScore(CombinationDB10_7 comb, int bet){
 		if (bet >= 1 && bet <= 5){
 			return pay_table.getPayout(comb, bet);
 		}
@@ -100,7 +100,7 @@ public class Score {
 	public static void main(String[] args){
 		
 		Card[][] matrix = Utils.cardFileParser("TESTS/score_test.txt");
-		Score score = new Score(new DoubleBonus10_7());
+		Score score = new Score(new PT_DoubleBonus10_7());
 		
 		for (Card[] array : matrix){
 			Hand hand = new Hand(array);
