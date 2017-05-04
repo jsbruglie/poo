@@ -15,58 +15,6 @@ public class Strategy {
 	
 	Occurrences occurrences;
 	List<Rule> ruleList;
-	int debugcount = 1;
-	
-	/**
-	 * Main to test stRategy evaluation
-	 * @param args
-	 */
-	public static void main(String[] args){
-		Strategy strategy = new Strategy();
-		
-		final String regex = "(10|[0-9]|[JQKA])([HCDS])";
-		final Pattern pattern = Pattern.compile(regex);
-		
-		Rank rank = null;
-		Suit suit = null;
-		
-		int counter = 1;
-		
-		try (Scanner scanner = new Scanner(new File("src/video_poker/difficult_hands.txt"))) {
-			while (scanner.hasNext()){
-				
-				String line = scanner.nextLine();
-				String[] split = line.split(" ");
-				Card[] cards = new Card[split.length];
-				
-				for (int i = 0; i < split.length; i++){
-					Matcher matcher = pattern.matcher(split[i]);
-					while (matcher.find()) {
-						rank = Rank.fromString(matcher.group(1));
-						suit = Suit.fromString(matcher.group(2));
-					}
-					cards[i] = new Card(rank, suit);
-				}
-				
-				Hand hand = new Hand(cards);
-				System.out.println(counter + " - " + hand);
-				String keep = strategy.evaluateHand(hand);
-				System.out.println("\t" + strategy.getDebugcount() + " - Keep " + keep);
-				counter++;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	public int getDebugcount() {
-		return debugcount;
-	}
-
-	public void setDebugcount(int debugcount) {
-		this.debugcount = debugcount;
-	}
 
 	public Strategy() {
 		occurrences = new Occurrences();
@@ -156,10 +104,12 @@ public class Strategy {
 		List<Card> cardsKeep = valueHand(hand);
 		if (cardsKeep != null){
 			if(!cardsKeep.isEmpty()) {
-				return rules.Utils.indexOf(hand.getCards(), cardsKeep).toString();
+				return "player should hold cards " + 
+						rules.Utils.indexOf(hand.getCards(), cardsKeep).toString().
+						replace('[', ' ').replace(']', ' ').replace(',', ' ').trim();
 			}	
 		}
-		return "Discard Everything";
+		return "player should discard everything";
 	}
 	
 	public List<Card> debugValueHand(Hand hand){
@@ -180,16 +130,70 @@ public class Strategy {
 			cardsKeep = ruleList.get(i).run(c, occurrences.rank_occurrences, occurrences.suit_occurrences);
 			if(cardsKeep != null){
 				// TODO - DEBUG
-				
+				/*
 				System.out.print(ruleList.get(i).getClass().getSimpleName()+ ": ");
 				for (Card card : cardsKeep){
 					System.out.print(card + " ");
 				}
-				
+				*/
 				return cardsKeep;
 			}
 		}
 
  		return null;
-	}	
+	}
+	
+
+	/**
+	 * Main to test stRategy evaluation
+	 * @param args
+	 */
+	public static void main(String[] args){
+		Strategy strategy = new Strategy();
+		
+		final String regex = "(T|[0-9]|[JQKA])([HCDS])";
+		final Pattern pattern = Pattern.compile(regex);
+		
+		Rank rank = null;
+		Suit suit = null;
+		
+		int counter = 1;
+		
+		try (Scanner scanner = new Scanner(new File("TESTS/difficult_hands.txt"))) {
+			while (scanner.hasNext()){
+				
+				String line = scanner.nextLine();
+				String[] split = line.split(" ");
+				Card[] cards = new Card[split.length];
+				
+				for (int i = 0; i < split.length; i++){
+					Matcher matcher = pattern.matcher(split[i]);
+					while (matcher.find()) {
+						rank = Rank.fromString(matcher.group(1));
+						suit = Suit.fromString(matcher.group(2));
+					}
+					cards[i] = new Card(rank, suit);
+				}
+				
+				Hand hand = new Hand(cards);
+				System.out.println(counter + " - " + hand);
+				String keep = strategy.evaluateHand(hand);
+				System.out.println("\t" + strategy.getDebugcount() + " - " + keep);
+				counter++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	int debugcount = 1;
+	
+	public int getDebugcount() {
+		return debugcount;
+	}
+
+	public void setDebugcount(int debugcount) {
+		this.debugcount = debugcount;
+	}
+	
 }

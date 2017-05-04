@@ -4,25 +4,20 @@ import java.util.Arrays;
 
 public abstract class State {
 	
-	/* 
-	 * Main command - mainly used for state transition triggers
-	 */
+	/* Main command - mainly used for state transition triggers */
 	String main_command;
 	
-	/*
-	 * Array of additional commands or parameters
-	 */
+	/* Array of additional commands or parameters*/
 	String[] commands;
 	
-	/**
-	 * Whether the state accepts user input
-	 */
+	/** Whether the state accepts user input */
 	boolean accepts_input;
 	
-	/**
-	 * The state that naturally follows the current state
-	 */
+	/** The state that naturally follows the current state */
 	State next_state;
+	
+	/** */
+	boolean simulation;
 	
 	/**
 	 * Constructor
@@ -40,6 +35,45 @@ public abstract class State {
 		this.next_state = next_state;
 	}
 	
+	private State changeBet(	String[] tokens,
+								Player player,
+								Statistics stats,
+								Score score,
+								Deck deck){
+		
+		if (tokens.length == 1 || tokens.length == 2){
+			if (tokens.length == 2){
+				int new_bet = 0;
+				try {
+					new_bet = Integer.parseInt(tokens[1]);
+				} catch (NumberFormatException e){
+					if (!simulation){
+						System.out.println("b: illegal parameter (non-integer)");
+					}
+					return this;
+				}
+
+				if (0 < new_bet && new_bet <= 5){
+					player.setBet(new_bet);
+				} else {
+					System.out.println("b: illegal amount");
+					return this;
+				}
+			} else {
+				// TODO - Where does 5 come from
+				player.setBet(5);
+			}
+			
+			if(!simulation){
+				System.out.println("player is betting " + player.getBet());
+			}
+			return this;
+			
+		}else{
+			System.out.println("Please bet to start game");
+		}
+		return this;	
+	}
 	
 	public State run(	String command,
 						Player player,
@@ -60,7 +94,9 @@ public abstract class State {
 				
 			} else if (Arrays.asList(commands).contains(tokens[0])){ //Check if command given is allowed for this state
 				//Process the command as one the following:
-				if (tokens[0].equals("s")){
+				if (tokens[0].equals("b")){
+					changeBet(tokens, player, stats, score, deck);
+				} else if (tokens[0].equals("s")){
 					stats.printStatistics(player.getCredit());
 				} else if (tokens[0].equals("$")){
 					System.out.println("Player credit is: " + player.getCredit());

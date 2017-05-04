@@ -2,8 +2,6 @@ package video_poker;
 
 public class StateResults extends State {
 	
-	private boolean simulation;
-	
 	/**
 	 * 
 	 * @param main_command

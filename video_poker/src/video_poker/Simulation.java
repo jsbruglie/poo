@@ -25,24 +25,23 @@ public class Simulation implements Mode {
 		State current_state, next_state;
 		
 		/* State declaration */
-		State bet		= new StateBet( "b", new String[]{"s", "$", "q"} , true, true);
-		State deal		= new StateDeal("d", new String[]{"s", "$"}, true, true);
+		State deal		= new StateDeal("d", new String[]{"b", "s", "$", "q"}, true, true);
 		State hold		= new StateHold("h", new String[]{"s", "$", "a"}, true, true);
 		State results	= new StateResults(null, new String[]{}, false, true);
 		
 		/* Declare default state transitions */
-		bet.setNextState(deal); 
 		deal.setNextState(hold);
 		hold.setNextState(results);
-		results.setNextState(bet);
+		results.setNextState(deal);
 		
 		/* Initial state */
-		current_state = bet;
+		current_state = deal;
 		
-		String[] commands = new String[]{"b", "d", "h", null};
+		String[] commands = new String[]{"d", "h", null};
 		
 		System.out.println(nb_deals);
 		System.out.println(this.bet);
+		player.setBet(bet);
 		
 		for (int i = 0; i < nb_deals; i++){
 			for (int j = 0; j < commands.length; j++){

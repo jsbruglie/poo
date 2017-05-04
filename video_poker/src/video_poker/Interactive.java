@@ -36,19 +36,17 @@ public class Interactive implements Mode {
 		State current_state, next_state;
 		
 		/* State declaration */
-		State bet		= new StateBet( "b", new String[]{"s", "$", "q"} , true, false);
-		State deal		= new StateDeal("d", new String[]{"s", "$"}, true, false);
+		State deal		= new StateDeal("d", new String[]{"b", "s", "$", "q"}, true, false);
 		State hold		= new StateHold("h", new String[]{"s", "$", "a"}, true, false);
 		State results	= new StateResults(null, new String[]{}, false,false);
 		
 		/* Declare default state transitions */
-		bet.setNextState(deal); 
 		deal.setNextState(hold);
 		hold.setNextState(results);
-		results.setNextState(bet);
+		results.setNextState(deal);
 		
 		/* Initial state */
-		current_state = bet;
+		current_state = deal;
 		
 		while (current_state != null){
 			if (current_state.accepts_input){

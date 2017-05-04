@@ -10,9 +10,10 @@ public class Player {
 	/** The player's hand */
 	private Hand hand;
 	/** Last bet */
-	private int bet = 5;
+	private int bet = -1;
 	/** The size of a player hand */
 	final int hand_size = 5;
+	
 	/**
 	 * Constructor
 	 * @param credit The player's initial credit

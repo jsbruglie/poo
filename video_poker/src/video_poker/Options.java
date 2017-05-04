@@ -19,12 +19,17 @@ public class Options {
 	public int nb_deals;
 	
 	/** Current program version */
-	private final String VERSION = "v0.9";
+	private final String VERSION = "v0.91";
 	private final String WORKING_DIRECTORY = "";
 	private final String DEFAULT_CMD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
 	private final String DEFAULT_CARD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
 	
 	public Options(String args[]){
+		
+		if (args[0].equals("-g")){
+			mode = new GUIMode();
+			return;
+		}
 		
 		if (args.length > 1){
 			
@@ -35,13 +40,10 @@ public class Options {
 				return;
 			}
 			
-			if (args[0].equals("-g")){
-				mode = new GUIMode();
-				return;
-			}else if (args[0].equals("-i")){
+			if (args[0].equals("-i")){
 				// Interactive mode chosen
 				mode = new Interactive();
-			}else if (args[0].equals("-d")){
+			} else if (args[0].equals("-d")){
 				// Debug mode chosen
 				if (args.length == 2){
 					cmd_file = DEFAULT_CMD_FILE;
@@ -55,7 +57,7 @@ public class Options {
 				}
 				mode = new Debug(cmd_file, card_file);
 				
-			}else if (args[0].equals("-s")){
+			} else if (args[0].equals("-s")){
 				// Simulation mode chosen
 				if (args.length == 4){
 					try {
@@ -66,6 +68,8 @@ public class Options {
 					} 
 					// TODO Safety check value of bet
 					mode = new Simulation(bet, nb_deals);
+				} else {
+					printUsage();
 				}
 			}else{
 				printUsage();
@@ -80,18 +84,10 @@ public class Options {
 			"Video Poker OOP Project 2017 - Group 29 " + VERSION + '\n' +
 			"usage: java -jar videopoker.jar [mode] [credit] [args]\n" +
 			"Modes:\n"+
-			"\t-i [credit] \t\t\t\t Interactive mode\n" +
-			"\t-d [credit] [cmd_file] [card_file] \t Debug mode - requires command and card files\n" +
-			"\t-s [credit] [bet] [nbdeals] \t\t Simulation mode\n" +
-			"\t-g \t\t\t\t\t Graphical user interface mode\n"
+			"\t-i [credit] \t\t\t\tInteractive mode\n" +
+			"\t-d [credit] [cmd_file] [card_file]\tDebug mode - requires command and card files\n" +
+			"\t-s [credit] [bet] [nbdeals]\t\tSimulation mode\n" +
+			"\t-g \t\t\t\t\tGraphical user interface mode\n"
 		);
-	}
-	
-	public static void main(String args[]){
-		Options opt = new Options(args);
-		System.out.println(opt.mode);
-		System.out.println(opt.initial_credit);
-		System.out.println(opt.cmd_file);
-		System.out.println(opt.card_file);
 	}
 }

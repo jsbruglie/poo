@@ -5,8 +5,6 @@ import java.util.List;
 
 public class StateHold extends State {
 	
-	private boolean simulation;
-	
 	public StateHold(	String mainCommand,
 						String[] commands,
 						boolean acceptsInput,
