@@ -17,19 +17,13 @@ public class QJunsuitedOrSuited implements Rule {
 	
 	
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
+	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Rank> l = new ArrayList<Rank>();
 		l.add(Q); l.add(J);
 		if (N == 1){
-			return Utils.cardsSuited(c, l, rank_occurrences);
+			return Utils.cardsSuited(c, l, occurrences.rank_occurrences);
 		} else {
-			return Utils.cardsUnsuited(c, l, rank_occurrences);
+			return Utils.cardsUnsuited(c, l, occurrences.rank_occurrences);
 		}
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

@@ -66,7 +66,7 @@ public class StatisticsDB10_7 implements Statistics {
 		for (int i = combinations.length - 1; i >= 0; i--){
 			Combination cb = combinations[i];
 			/* All Four Of A Kind Combinations are shown as one entry */
-			if (cb.name.equals("Four2_4")){
+			if (cb.name.equals("Four 2 to 4")){
 				// Group all possible Four of a Kind combinations
 				System.out.printf(format2, "Four of a Kind",
 						number_hand_occurrences[combinations[i].order] +

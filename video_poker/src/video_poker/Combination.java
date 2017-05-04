@@ -1,5 +1,7 @@
 package video_poker;
 
+import rules.CombinationChecker;
+
 public class Combination {
 	
 	/** Textual description of the combination */

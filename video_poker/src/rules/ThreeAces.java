@@ -10,10 +10,10 @@ import video_poker.Card;
 public class ThreeAces implements Rule {
 
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
+	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Card> hold = new ArrayList<Card>();
 		
-		if(rank_occurrences[A.ordinal()] == 3){
+		if(occurrences.rank_occurrences[A.ordinal()] == 3){
 			for (int i = 0; i < c.length; i++){
 				if (c[i].rank == A){
 					hold.add(c[i]);
@@ -25,10 +25,4 @@ public class ThreeAces implements Rule {
 		}
 		return null;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

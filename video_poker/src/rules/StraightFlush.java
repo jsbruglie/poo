@@ -3,7 +3,6 @@ package rules;
 import java.util.List;
 
 import video_poker.Card;
-import video_poker.CombinationChecker;
 
 public class StraightFlush implements Rule, CombinationChecker {
 	/**
@@ -11,13 +10,13 @@ public class StraightFlush implements Rule, CombinationChecker {
 	 * @param c The set of cards to be evaluated  
 	 * @return Whether the set of cards is the desired combination
 	 */
-	public static boolean checkStraightFlush(Card[] c, int[] rank_occurrences){
-		return (Straight.checkStraight(c, rank_occurrences) && Flush.checkFlush(c));
+	public static boolean checkStraightFlush(Card[] c, Occurrences occurrences){
+		return (Straight.checkStraight(c, occurrences) && Flush.checkFlush(c));
 	}
 	
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
-		if (checkStraightFlush(c, rank_occurrences)){
+	public List<Card> run(Card[] c, Occurrences occurrences) {
+		if (checkStraightFlush(c, occurrences)){
 			return Utils.allCards(c);
 		}
 		return null;
@@ -32,11 +31,6 @@ public class StraightFlush implements Rule, CombinationChecker {
 	
 	@Override
 	public boolean check(Card[] cards, Occurrences occurrences) {
-		if (Straight.checkStraight(cards, occurrences.rank_occurrences) &&
-			Flush.checkFlush(cards)){
-				return true;
-		} 
-		return false;
+		return checkStraightFlush(cards, occurrences);
 	}
-
 }

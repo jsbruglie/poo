@@ -3,7 +3,6 @@ package rules;
 import java.util.List;
 
 import video_poker.Card;
-import video_poker.CombinationChecker;
 
 public class Flush implements Rule, CombinationChecker {
 	/**
@@ -21,7 +20,7 @@ public class Flush implements Rule, CombinationChecker {
 	}
 	
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
+	public List<Card> run(Card[] c, Occurrences occurrences) {
 		if (checkFlush(c)){
 			return Utils.allCards(c);
 		}
@@ -31,19 +30,13 @@ public class Flush implements Rule, CombinationChecker {
 
 	@Override
 	public boolean check(Card[] cards) {
-		Occurrences occurrences = new Occurrences();
-		occurrences.initialise(cards);
-		return this.check(cards, occurrences);
+		return this.check(cards, null);
 	}
 
 	// TODO All Same suit, or check suit occurrences, since we bother calculating them
 	@Override
 	public boolean check(Card[] cards, Occurrences occurrences) {
-		for (int i = 0; i < Occurrences.HAND_SIZE - 1; i++){
-			if (!cards[i].suit.equals(cards[i + 1].suit))
-				return false;
-		}
-		return true;
+		return checkFlush(cards);
 	}
 
 }

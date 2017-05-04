@@ -3,7 +3,6 @@ package rules;
 import static video_poker.Rank.*;
 
 import video_poker.Card;
-import video_poker.CombinationChecker;
 
 public class Four2_4 implements CombinationChecker {
 

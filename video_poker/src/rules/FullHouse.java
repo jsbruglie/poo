@@ -3,7 +3,6 @@ package rules;
 import java.util.List;
 
 import video_poker.Card;
-import video_poker.CombinationChecker;
 
 public class FullHouse implements Rule, CombinationChecker {
 	
@@ -12,12 +11,12 @@ public class FullHouse implements Rule, CombinationChecker {
 	 * @param c The set of cards to be evaluated  
 	 * @return Whether the set of cards is the desired combination
 	 */
-	public static boolean checkFullHouse(Card[] c, int[] rank_occurrences){
+	public static boolean checkFullHouse(Card[] c, Occurrences occurrences){
 		int npairs = 0, ntriples = 0;
 		for (int i = 0; i < Occurrences.RANKS; i++){
-			if (rank_occurrences[i] == 2)
+			if (occurrences.rank_occurrences[i] == 2)
 				npairs++;
-			if (rank_occurrences[i] == 3)
+			if (occurrences.rank_occurrences[i] == 3)
 				ntriples++;
 		}
 		if (npairs == 1 && ntriples == 1){
@@ -26,8 +25,8 @@ public class FullHouse implements Rule, CombinationChecker {
 		return false;
 	}
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
-		if (checkFullHouse(c, rank_occurrences)){
+	public List<Card> run(Card[] c, Occurrences occurrences) {
+		if (checkFullHouse(c, occurrences)){
 			return Utils.allCards(c);
 		}
 		return null;
@@ -42,17 +41,7 @@ public class FullHouse implements Rule, CombinationChecker {
 	
 	@Override
 	public boolean check(Card[] cards, Occurrences occurrences) {
-		int npairs = 0, ntriples = 0;
-		for (int i = 0; i < Occurrences.RANKS; i++){
-			if (occurrences.rank_occurrences[i] == 2)
-				npairs++;
-			if (occurrences.rank_occurrences[i] == 3)
-				ntriples++;
-		}
-		if (npairs == 1 && ntriples == 1){
-			return true;
-		}
-		return false;
+		return checkFullHouse(cards, occurrences);
 	}
 
 }

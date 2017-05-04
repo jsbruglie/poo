@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import video_poker.Card;
-import video_poker.CombinationChecker;
 import video_poker.Rank;
 
 public class HighPair implements Rule, CombinationChecker {
@@ -17,12 +16,12 @@ public class HighPair implements Rule, CombinationChecker {
 	 * @param c The set of cards to be evaluated  
 	 * @return Whether the set of cards is the desired combination
 	 */
-	public static boolean checkJacksOrBetter(Card[] c, int[] rank_occurrences){
+	public static boolean checkJacksOrBetter(Card[] c, Occurrences occurrences){
 		//Check if there is a pair of jacks or better
 		//Check in number of occurrences the number of elements
 		for(int i = 0; i < Rank.values().length; i++){
 			if(i == A.ordinal() || i >= J.ordinal()){
-				if(rank_occurrences[i] == 2)
+				if(occurrences.rank_occurrences[i] == 2)
 					return true;
 			}
 		}
@@ -30,10 +29,10 @@ public class HighPair implements Rule, CombinationChecker {
 	}
 	
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
+	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Card> hold = new ArrayList<Card>();
 		// Check for Ace pair
-		if (rank_occurrences[A.ordinal()] == 2){
+		if (occurrences.rank_occurrences[A.ordinal()] == 2){
 			for (int i = 0; i < c.length; i++){
 				if (c[i].rank.ordinal() == A.ordinal()){
 					hold.add(c[i]);
@@ -42,7 +41,7 @@ public class HighPair implements Rule, CombinationChecker {
 		}
 		// Check for Jacks or higher
 		for (int i = J.ordinal(); i < Occurrences.RANKS; i++){
-			if(rank_occurrences[i] == 2){
+			if(occurrences.rank_occurrences[i] == 2){
 				for (int j = 0; j < c.length; j++){
 					if (c[j].rank.ordinal() == i){
 						hold.add(c[j]);
@@ -65,13 +64,7 @@ public class HighPair implements Rule, CombinationChecker {
 
 	@Override
 	public boolean check(Card[] cards, Occurrences occurrences) {
-		for(int i = 0; i < Rank.values().length; i++){
-			if(i == A.ordinal() || i >= J.ordinal()){
-				if(occurrences.rank_occurrences[i] == 2)
-					return true;
-			}
-		}
-		return false;
+		return checkJacksOrBetter(cards, occurrences);
 	}
 
 }

@@ -11,9 +11,9 @@ import video_poker.Card;
 public class FourToOutsideStraight implements Rule {
 
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
-		for (int i = 0; i < c.length - (Occurrences.HAND_SIZE - 2); i++){
-			
+	public List<Card> run(Card[] c, Occurrences occurrences) {
+		
+		for (int i = 0; i < c.length - (Occurrences.HAND_SIZE - 2); i++){	
 			List <Card> hold = new ArrayList<Card>();
 			for (int j = i; j < i + (c.length - 1); j++){
 				hold.add(c[j]);
@@ -38,11 +38,4 @@ public class FourToOutsideStraight implements Rule {
 		}
 		return null;
 	}
-
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

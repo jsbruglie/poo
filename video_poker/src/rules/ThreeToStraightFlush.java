@@ -18,9 +18,9 @@ public class ThreeToStraightFlush implements Rule {
 	}
 
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
+	public List<Card> run(Card[] c, Occurrences occurrences) {
 		Rule ntoflush = new NToFlush(3);
-		List<Card> flush = ntoflush.run(c, rank_occurrences, suit_occurrences); 
+		List<Card> flush = ntoflush.run(c, occurrences); 
 		// If the array does not have a flush, return
 		if (flush == null)
 			return null;
@@ -86,10 +86,4 @@ public class ThreeToStraightFlush implements Rule {
 		}
 		return null;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

@@ -60,7 +60,7 @@ public class StateHold extends State {
 		} else {
 			//Get strategy
 			//System.out.println("Getting strategy...");
-			Strategy strategy = new Strategy();
+			StrategyDB10_7 strategy = new StrategyDB10_7();
 			List<Card> cardsKeep = strategy.evaluateHand(player.getHand());
 			List<Integer> indexKeep = indexOf(player.getHand().getCards(), cardsKeep);
 			if (indexKeep != null){

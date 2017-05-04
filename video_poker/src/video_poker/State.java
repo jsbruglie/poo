@@ -102,7 +102,7 @@ public abstract class State {
 					System.out.println("Player credit is: " + player.getCredit());
 				} else if (tokens[0].equals("a")){
 					//Advice
-					Strategy strategy = new Strategy();
+					StrategyDB10_7 strategy = new StrategyDB10_7();
 					System.out.println(strategy.holdAdvice(player.getHand()));
 				}else if (tokens[0].equals("q")){
 					return null;

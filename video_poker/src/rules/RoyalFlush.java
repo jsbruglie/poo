@@ -9,7 +9,6 @@ import static video_poker.Rank.T;
 import java.util.List;
 
 import video_poker.Card;
-import video_poker.CombinationChecker;
 
 public class RoyalFlush implements Rule, CombinationChecker {
 
@@ -18,7 +17,8 @@ public class RoyalFlush implements Rule, CombinationChecker {
 	 * @param c The set of cards to be evaluated  
 	 * @return Whether the set of cards is the desired combination
 	 */
-	public static boolean checkRoyalFlush(Card[] c, int[] rank_occurrences){
+	public static boolean checkRoyalFlush(Card[] c, Occurrences occurrences){
+		int[] rank_occurrences = occurrences.rank_occurrences;
 		if (Flush.checkFlush(c)){
 			if (rank_occurrences[T.ordinal()] == 1 &&
 				rank_occurrences[J.ordinal()] == 1 &&
@@ -32,8 +32,8 @@ public class RoyalFlush implements Rule, CombinationChecker {
 		return false;
 	}
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
-		if (checkRoyalFlush(c, rank_occurrences)){
+	public List<Card> run(Card[] c, Occurrences occurrences) {
+		if (checkRoyalFlush(c, occurrences)){
 			return Utils.allCards(c);
 		}
 		return null;
@@ -48,17 +48,6 @@ public class RoyalFlush implements Rule, CombinationChecker {
 	
 	@Override
 	public boolean check(Card[] cards, Occurrences occurrences) {
-		int[] rank_occurrences = occurrences.rank_occurrences;
-		if (Flush.checkFlush(cards)){
-			if (rank_occurrences[T.ordinal()] == 1 &&
-				rank_occurrences[J.ordinal()] == 1 &&
-				rank_occurrences[Q.ordinal()] == 1 &&
-				rank_occurrences[K.ordinal()] == 1 &&
-				rank_occurrences[A.ordinal()] == 1){
-					return true;
-			}
-		} 
-		return false;
+		return checkRoyalFlush(cards, occurrences);
 	}
-	
 }

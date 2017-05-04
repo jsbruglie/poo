@@ -8,9 +8,9 @@ import video_poker.Card;
 public class FourToStraightFlush implements Rule {
 
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
+	public List<Card> run(Card[] c, Occurrences occurrences) {
 		Rule ntoflush = (Rule) new NToFlush(4);
-		List<Card> flush = ntoflush.run(c, rank_occurrences, suit_occurrences);
+		List<Card> flush = ntoflush.run(c, occurrences);
 				
 		if (flush != null){	
 			Collections.sort(flush, new Card.CardComparator());

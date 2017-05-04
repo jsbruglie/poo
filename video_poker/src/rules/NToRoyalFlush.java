@@ -19,17 +19,17 @@ public class NToRoyalFlush implements Rule {
 	}
 
 	@Override
-	public List<Card> run(Card[] c, int[] rank_occurrences, int[] suit_occurrences) {
+	public List<Card> run(Card[] c, Occurrences occurrences) {
 		int count = 0;
 		
 		// Get N cards from the same suit
 		Rule ntoflush = new NToFlush(N);
-		List<Card> flush = ntoflush.run(c, rank_occurrences, suit_occurrences);
+		List<Card> flush = ntoflush.run(c, occurrences);
 		List<Card> hold = new ArrayList<Card>();
 		
 		//Check over them to see if they are N cards that could form a Royal Flush
-		if(flush != null && flush.size() >= N){
-			for(int i = 0; i < flush.size(); i++){
+		if (flush != null && flush.size() >= N){
+			for (int i = 0; i < flush.size(); i++){
 				//Since cards are of the same suit we can check which ones they are, and we know there are no repetitions
 				Rank rank = flush.get(i).rank;
 				if (rank == T ||
@@ -42,7 +42,7 @@ public class NToRoyalFlush implements Rule {
 				}	
 			}
 		}
-		if(count == N)
+		if (count == N)
 			return hold;
 		else
 			return null;

@@ -7,6 +7,13 @@ public abstract class Variant {
 	/** Strategy for advice and automatic playing */
 	public Strategy strategy;
 	/** Round outcome statistics */
-	public StatisticsDB10_7 stats;
+	public Statistics stats;
 
+	/**
+	 * 
+	 * @param bet
+	 * @return
+	 */
+	public abstract boolean isBetValid(int bet);
+	
 }
