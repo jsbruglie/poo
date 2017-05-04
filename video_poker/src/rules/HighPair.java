@@ -21,7 +21,7 @@ public class HighPair implements Rule, CombinationChecker {
 		//Check in number of occurrences the number of elements
 		for(int i = 0; i < Rank.values().length; i++){
 			if(i == A.ordinal() || i >= J.ordinal()){
-				if(occurrences.rank_occurrences[i] == 2)
+				if(occurrences.ranks[i] == 2)
 					return true;
 			}
 		}
@@ -32,7 +32,7 @@ public class HighPair implements Rule, CombinationChecker {
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Card> hold = new ArrayList<Card>();
 		// Check for Ace pair
-		if (occurrences.rank_occurrences[A.ordinal()] == 2){
+		if (occurrences.ranks[A.ordinal()] == 2){
 			for (int i = 0; i < c.length; i++){
 				if (c[i].rank.ordinal() == A.ordinal()){
 					hold.add(c[i]);
@@ -41,7 +41,7 @@ public class HighPair implements Rule, CombinationChecker {
 		}
 		// Check for Jacks or higher
 		for (int i = J.ordinal(); i < Occurrences.RANKS; i++){
-			if(occurrences.rank_occurrences[i] == 2){
+			if(occurrences.ranks[i] == 2){
 				for (int j = 0; j < c.length; j++){
 					if (c[j].rank.ordinal() == i){
 						hold.add(c[j]);

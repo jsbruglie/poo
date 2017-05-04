@@ -14,9 +14,9 @@ public class FullHouse implements Rule, CombinationChecker {
 	public static boolean checkFullHouse(Card[] c, Occurrences occurrences){
 		int npairs = 0, ntriples = 0;
 		for (int i = 0; i < Occurrences.RANKS; i++){
-			if (occurrences.rank_occurrences[i] == 2)
+			if (occurrences.ranks[i] == 2)
 				npairs++;
-			if (occurrences.rank_occurrences[i] == 3)
+			if (occurrences.ranks[i] == 3)
 				ntriples++;
 		}
 		if (npairs == 1 && ntriples == 1){

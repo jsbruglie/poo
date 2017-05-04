@@ -53,7 +53,7 @@ public class FourToInsideStraight implements Rule {
 	@Override
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		
-		boolean has_ace = (occurrences.rank_occurrences[A.ordinal()] > 0);
+		boolean has_ace = (occurrences.ranks[A.ordinal()] > 0);
 		int nb_high_cards = 0;
 		
 		Card[] sorted = new Card[Occurrences.HAND_SIZE];

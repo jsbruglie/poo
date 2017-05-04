@@ -6,9 +6,9 @@ import video_poker.Suit;
 
 public class Occurrences {
 	/** Array to keep track of rank occurrences */
-	public int[] rank_occurrences;
+	public int[] ranks;
 	/** Array to keep track of suit occurrences */
-	public int[] suit_occurrences;
+	public int[] suits;
 	
 	/** Constant number of suits */
 	public static final int SUITS = Suit.values().length;
@@ -21,8 +21,8 @@ public class Occurrences {
 	 * Constructor
 	 */
 	public Occurrences(){
-		rank_occurrences = new int[RANKS];
-		suit_occurrences = new int[SUITS];
+		ranks = new int[RANKS];
+		suits = new int[SUITS];
 		
 	}
 	
@@ -33,18 +33,18 @@ public class Occurrences {
 	public void initialise(Card c[]){
 		
 		for (Suit s : Suit.values()){
-			suit_occurrences[s.ordinal()] = 0;
+			suits[s.ordinal()] = 0;
 		}
 		
 		for (Rank r : Rank.values()){
-			rank_occurrences[r.ordinal()] = 0;
+			ranks[r.ordinal()] = 0;
 		}
 		
 		for (int i = 0; i < c.length; i++){
 			// Fill suit occurrences
-			suit_occurrences[c[i].suit.ordinal()]++;
+			suits[c[i].suit.ordinal()]++;
 			// Fill number occurrences
-			rank_occurrences[c[i].rank.ordinal()]++;
+			ranks[c[i].rank.ordinal()]++;
 		}
 	}
 }

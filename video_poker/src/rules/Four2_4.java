@@ -16,7 +16,7 @@ public class Four2_4 implements CombinationChecker {
 	@Override
 	public boolean check(Card[] cards, Occurrences occurrences) {
 		for (int i = n2.ordinal(); i <= n4.ordinal() ; i++){
-			if (occurrences.rank_occurrences[i] == 4){
+			if (occurrences.ranks[i] == 4){
 				return true;
 			}
 		}

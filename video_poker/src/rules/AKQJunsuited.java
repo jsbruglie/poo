@@ -17,6 +17,6 @@ public class AKQJunsuited implements Rule {
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Rank> l = new ArrayList<Rank>();
 		l.add(A); l.add(K); l.add(Q); l.add(J);
-		return Utils.cardsUnsuited(c, l, occurrences.rank_occurrences);
+		return Utils.cardsUnsuited(c, l, occurrences.ranks);
 	}
 }

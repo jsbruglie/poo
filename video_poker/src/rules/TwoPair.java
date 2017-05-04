@@ -16,7 +16,7 @@ public class TwoPair implements Rule, CombinationChecker {
 		int pair_count = 0;
 		// For each card number, count the number of pairs
 		for(int i = 0; i < Occurrences.RANKS; i++){
-			if(occurrences.rank_occurrences[i] == 2){
+			if(occurrences.ranks[i] == 2){
 				pair_count++;
 			}
 		}
@@ -30,7 +30,7 @@ public class TwoPair implements Rule, CombinationChecker {
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Card> hold = new ArrayList<Card>();
 		for (int i = 0; i < Occurrences.RANKS; i++){
-			if(occurrences.rank_occurrences[i] == 2){
+			if(occurrences.ranks[i] == 2){
 				for (int j = 0; j < c.length; j++){
 					if (c[j].rank.ordinal() == i){
 						hold.add(c[j]);

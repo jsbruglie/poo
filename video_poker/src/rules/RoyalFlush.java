@@ -18,7 +18,7 @@ public class RoyalFlush implements Rule, CombinationChecker {
 	 * @return Whether the set of cards is the desired combination
 	 */
 	public static boolean checkRoyalFlush(Card[] c, Occurrences occurrences){
-		int[] rank_occurrences = occurrences.rank_occurrences;
+		int[] rank_occurrences = occurrences.ranks;
 		if (Flush.checkFlush(c)){
 			if (rank_occurrences[T.ordinal()] == 1 &&
 				rank_occurrences[J.ordinal()] == 1 &&

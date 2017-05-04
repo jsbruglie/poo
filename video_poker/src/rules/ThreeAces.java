@@ -13,7 +13,7 @@ public class ThreeAces implements Rule {
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Card> hold = new ArrayList<Card>();
 		
-		if(occurrences.rank_occurrences[A.ordinal()] == 3){
+		if(occurrences.ranks[A.ordinal()] == 3){
 			for (int i = 0; i < c.length; i++){
 				if (c[i].rank == A){
 					hold.add(c[i]);

@@ -12,7 +12,7 @@ public class Ace implements Rule {
 	@Override
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Card> hold = new ArrayList<Card>();
-		if(occurrences.rank_occurrences[A.ordinal()] == 1){
+		if(occurrences.ranks[A.ordinal()] == 1){
 			for (Card card : c){
 				if (card.rank == A){
 					hold.add(card);

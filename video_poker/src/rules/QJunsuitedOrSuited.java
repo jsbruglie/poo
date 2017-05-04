@@ -21,9 +21,9 @@ public class QJunsuitedOrSuited implements Rule {
 		List<Rank> l = new ArrayList<Rank>();
 		l.add(Q); l.add(J);
 		if (N == 1){
-			return Utils.cardsSuited(c, l, occurrences.rank_occurrences);
+			return Utils.cardsSuited(c, l, occurrences.ranks);
 		} else {
-			return Utils.cardsUnsuited(c, l, occurrences.rank_occurrences);
+			return Utils.cardsUnsuited(c, l, occurrences.ranks);
 		}
 	}
 }

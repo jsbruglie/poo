@@ -14,7 +14,7 @@ public class ThreeToFlush_nHighCards implements Rule {
 	@Override
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Card> hold = new ArrayList<Card>();
-		int[] suit_occurrences = occurrences.suit_occurrences;
+		int[] suit_occurrences = occurrences.suits;
 		for(int i = 0; i < suit_occurrences.length; i++){
 			if(suit_occurrences[i] == 3){
 				for (int j = 0; j < c.length; j++){

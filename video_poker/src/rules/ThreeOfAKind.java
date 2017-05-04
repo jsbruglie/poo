@@ -16,7 +16,7 @@ public class ThreeOfAKind implements Rule, CombinationChecker {
 	public static boolean checkThreeOfAKind(Card[] c, Occurrences occurrences){
 		// Check if there are triplets
 		for (int i = 0; i < Occurrences.RANKS; i++){
-			if (occurrences.rank_occurrences[i] == 3){
+			if (occurrences.ranks[i] == 3){
 				return true;
 			}
 		}
@@ -28,7 +28,7 @@ public class ThreeOfAKind implements Rule, CombinationChecker {
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Card> hold = new ArrayList<Card>();
 		for (Rank rank : Rank.values()){
-			if(occurrences.rank_occurrences[rank.ordinal()] == 3){
+			if(occurrences.ranks[rank.ordinal()] == 3){
 				for (int j = 0; j < c.length; j++){
 					if (c[j].rank == rank){
 						hold.add(c[j]);

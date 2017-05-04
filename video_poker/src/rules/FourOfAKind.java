@@ -10,7 +10,7 @@ public class FourOfAKind implements Rule {
 	@Override
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		for (Rank r : Rank.values()){
-			if (occurrences.rank_occurrences[r.ordinal()] == 4){
+			if (occurrences.ranks[r.ordinal()] == 4){
 				return Utils.allCards(c);
 			}
 		}	

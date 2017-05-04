@@ -18,7 +18,7 @@ public class Straight implements Rule, CombinationChecker{
 	 * @return Whether the set of cards has the desired combination
 	 */
 	public static boolean checkStraight(Card[] c, Occurrences occurrences){
-		int[] rank_occurrences = occurrences.rank_occurrences;
+		int[] rank_occurrences = occurrences.ranks;
 		// Corner case: Ace high straight 
 		if (rank_occurrences[T.ordinal()] == 1 && 
 			rank_occurrences[J.ordinal()] == 1 &&

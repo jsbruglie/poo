@@ -15,7 +15,7 @@ public class FourAces implements CombinationChecker {
 
 	@Override
 	public boolean check(Card[] cards, Occurrences occurrences) {
-		if (occurrences.rank_occurrences[A.ordinal()] == 4){
+		if (occurrences.ranks[A.ordinal()] == 4){
 			return true;
 		}	
 		return false;

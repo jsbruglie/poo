@@ -17,7 +17,7 @@ public class NToFlush implements Rule {
 		List<Card> hold = new ArrayList<Card>();
 			
 		for (Suit s : Suit.values()){
-			if (occurrences.suit_occurrences[s.ordinal()] == N){
+			if (occurrences.suits[s.ordinal()] == N){
 				for (int j = 0; j < c.length; j++){
 					if (c[j].suit == s){
 						hold.add(c[j]);

@@ -15,6 +15,6 @@ public class QTsuited implements Rule {
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Rank> l = new ArrayList<Rank>();
 		l.add(Q); l.add(T);
-		return Utils.cardsSuited(c, l, occurrences.rank_occurrences);
+		return Utils.cardsSuited(c, l, occurrences.ranks);
 	}
 }
