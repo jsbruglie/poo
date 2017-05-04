@@ -1,98 +1,94 @@
 package video_poker;
 
+import java.util.Comparator;
+
+/**
+ * Public Card Class
+ */
 public class Card {
 
-	private Suit suit; /**< One of the four valid suits	*/
-	private int number; /**< The number, where Ace: 1, Jack-King: 11-13*/
+	/** The card's number */
+	public Rank rank;
+	/** The card's suit */
+	public Suit suit;
 	
-	public Card(Suit suit, int number){
+	/**
+	 * Card Constructor
+	 * @param rank The card's rank
+	 * @param suit The card's suit
+	 */
+	public Card(Rank rank, Suit suit){
+		this.rank = rank;
 		this.suit = suit;
-		this.number = number;
 	}
 	
-	public Suit getSuit() {
-		return suit;
-	}
-	public void setSuit(Suit suit) {
-		this.suit = suit;
-	}
-	public int getNumber() {
-		return number;
-	}
-	public void setNumber(int number) {
-		this.number = number;
-	}
-	
+	/**
+	 * Card toString. Generate textual description
+	 */
 	@Override
 	public String toString() {
-		String name = null;
-		switch(this.number){
-			case 2:
-				name = "Two";
-				break;
-			case 3:
-				name = "Three";
-				break;
-			case 4:
-				name = "Four";
-				break;
-			case 5:
-				name = "Five";
-				break;
-			case 6:
-				name = "Six";
-				break;
-			case 7:
-				name = "Seven";
-				break;
-			case 8:
-				name = "Eight";
-				break;
-			case 9:
-				name = "Nine";
-				break;
-			case 10:
-				name = "Ten";
-				break;
-			case 11:
-				name = "Jack";
-				break;
-			case 12:
-				name = "Queen";
-				break;
-			case 13:
-				name = "King";
-				break;
-			case 1:
-				name = "Ace";
-				break;
-		}
-		return name + " of " + this.suit.toString();
+		String name = this.rank.toString();
+		return name + (char) this.suit.getSymbol();
 	}
-	
+
+	/**
+	 * Generate hashcode based on rank and suit enums
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + number;
+		result = prime * result + ((rank == null) ? 0 : rank.hashCode());
 		result = prime * result + ((suit == null) ? 0 : suit.hashCode());
 		return result;
 	}
+	
+	/**
+	 * Equals
+	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof Card)) {
 			return false;
+		}
 		Card other = (Card) obj;
-		if (number != other.number)
+		if (rank != other.rank) {
 			return false;
-		if (suit != other.suit)
+		}
+		if (suit != other.suit) {
 			return false;
+		}
 		return true;
 	}
 	
+	/**
+	 * CardComparator Object
+	 * Allows to sort card by ascending rank enum (Ace low)
+	 */
+	public static class CardComparator implements Comparator<Card> {
+		@Override
+		public int compare(Card c1, Card c2) {
+			return c1.rank.ordinal() - c2.rank.ordinal();
+		}
+	}
 	
+	/**
+	 * CardComparator Object
+	 * Allows to sort card by ascending rank enum (Ace high)
+	 */
+	public static class CardComparatorAceHigh implements Comparator<Card> {
+		@Override
+		public int compare(Card c1, Card c2) {
+			int ace_high = Rank.values().length;
+			int r1 = (c1.rank == Rank.A)? ace_high : Rank.A.ordinal();
+			int r2 = (c2.rank == Rank.A)? ace_high : Rank.A.ordinal();
+			return r1 - r2;
+		}
+	}
 }

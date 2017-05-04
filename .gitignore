@@ -1,0 +1,19 @@
+# Ignore log files
+*.log
+
+# Ignore binaries
+*.class
+
+# Ignore all '.class' in 'bin' dir
+video_poker/bin/*.class
+
+# Ignore documentation folders until release
+video_poker/doc/*
+
+# Ignore all package files in `bin` dir
+video_poker/bin/*.jar
+video_poker/bin/*.war
+video_poker/bin/*.ear
+video_poker/bin/*.zip
+video_poker/bin/*.tar.gz
+video_poker/bin/*.rar
