@@ -1,5 +1,12 @@
 package video_poker;
 
-public abstract interface Variant {
-	
+public abstract class Variant {
+
+	/** Score class for hand evaluation */
+	public Score score;
+	/** Strategy for advice and automatic playing */
+	public Strategy strategy;
+	/** Round outcome statistics */
+	public StatisticsDB10_7 stats;
+
 }

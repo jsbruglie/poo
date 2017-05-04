@@ -11,6 +11,6 @@ public interface Mode {
 	 * @param score  The score object
 	 * @param stats The statistics object
 	 */
-	public abstract void execute(Player player, Score score, Statistics stats);
+	public abstract void execute(Player player, Score score, Strategy strategy, Statistics stats);
 		
 }

@@ -4,12 +4,10 @@ public class Game {
 	
 	/** The game mode */
 	Mode mode;
+	/** The game variant */
+	Variant variant;
 	/** The player */
 	Player player;
-	/** The score class that evaluates hands and determines payouts */
-	Score score;
-	/** Basic outcome statistics */
-	Statistics stats;
 	
 	public Game(String[] args){
 		
@@ -21,16 +19,14 @@ public class Game {
 		
 		// Assign game mode
 		this.mode = opt.mode;
+		// Assign game variant
+		this.variant = new DoubleBonus10_7(opt.initial_credit);
 		// Create player
 		this.player = new Player(opt.initial_credit);
-		// Create a score instance
-		this.score = new Score(new PT_DoubleBonus10_7());
-		// Create the statistics for the game
-		this.stats = new Statistics(opt.initial_credit, null);
 	}
 	
 	public void start(){
-		this.mode.execute(player, score, stats);
+		this.mode.execute(player, variant.score, variant.strategy, variant.stats);
 	}
 	
 	public void end(){

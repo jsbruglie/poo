@@ -103,7 +103,7 @@ public abstract class State {
 				} else if (tokens[0].equals("a")){
 					//Advice
 					Strategy strategy = new Strategy();
-					System.out.println(strategy.evaluateHand(player.getHand()));
+					System.out.println(strategy.holdAdvice(player.getHand()));
 				}else if (tokens[0].equals("q")){
 					return null;
 				}

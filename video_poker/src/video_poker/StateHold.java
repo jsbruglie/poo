@@ -61,7 +61,7 @@ public class StateHold extends State {
 			//Get strategy
 			//System.out.println("Getting strategy...");
 			Strategy strategy = new Strategy();
-			List<Card> cardsKeep = strategy.valueHand(player.getHand());
+			List<Card> cardsKeep = strategy.evaluateHand(player.getHand());
 			List<Integer> indexKeep = indexOf(player.getHand().getCards(), cardsKeep);
 			if (indexKeep != null){
 				tokens = new String[indexKeep.size() + 1];

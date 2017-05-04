@@ -26,7 +26,7 @@ public class Interactive implements Mode {
 	 * @param score The score object for evaluating hands and calculating payouts
 	 * @param stats The current game statistics
 	 */
-	public void execute(Player player, Score score, Statistics stats){
+	public void execute(Player player, Score score, Strategy strategy, Statistics stats){
 		
 		// TODO - DEBUG (FORCE CONSOLE)
 		System.out.println("Starting new game...");

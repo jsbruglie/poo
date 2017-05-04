@@ -22,13 +22,15 @@ public class StateResults extends State {
 	public State stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
 		
 		// Get the combination corresponding to the current player hand
-		CombinationDB10_7 comb = score.evaluateHand(player.getHand());
-		// Get the score corresponding to the player's hand
-		player.addCredit(score.getScore(comb, player.getBet()));
+		Combination comb = score.evaluateHand(player.getHand());
 		
+		if (comb != null){
+			player.addCredit(comb.getPayout(player.getBet()));
+		}
+			
 		// Show result
 		if(!simulation){
-			if(comb == CombinationDB10_7.Other){
+			if(comb == null){
 				System.out.println("player loses and his credit is " + player.getCredit());
 			}else{
 				System.out.println("player wins with a " + comb.toString().toUpperCase() + " and his credit is " + player.getCredit());

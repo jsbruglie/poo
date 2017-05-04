@@ -21,7 +21,7 @@ public class Debug implements Mode {
 		deck = new Deck(c[0]);
 	}
 	
-	public void execute(Player player, Score score, Statistics stats) {
+	public void execute(Player player, Score score, Strategy strategy, Statistics stats) {
 		File file = new File(this.cmd_file);
         reader = null;
 		try {

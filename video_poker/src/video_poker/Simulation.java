@@ -20,7 +20,7 @@ public class Simulation implements Mode {
 		deck = new Deck(true);
 	}
 	
-	public void execute(Player player, Score score, Statistics stats) {
+	public void execute(Player player, Score score, Strategy strategy, Statistics stats){
 		
 		State current_state, next_state;
 		
