@@ -8,7 +8,7 @@ public abstract class Variant {
 	public Strategy strategy;
 	/** Round outcome statistics */
 	public Statistics stats;
-
+	
 	/**
 	 * 
 	 * @param bet
@@ -16,4 +16,5 @@ public abstract class Variant {
 	 */
 	public abstract boolean isBetValid(int bet);
 	
+	public abstract int getMaxBet();
 }

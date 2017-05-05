@@ -22,12 +22,12 @@ public class Simulation implements Mode {
 	
 	public void execute(Player player, Score score, Strategy strategy, Statistics stats){
 		
-		State current_state, next_state;
+		StateOld current_state, next_state;
 		
 		/* State declaration */
-		State deal		= new StateDeal("d", new String[]{"b", "s", "$", "q"}, true, true);
-		State hold		= new StateHold("h", new String[]{"s", "$", "a"}, true, true);
-		State results	= new StateResults(null, new String[]{}, false, true);
+		StateOld deal		= new StateDeal("d", new String[]{"b", "s", "$", "q"}, true, true);
+		StateOld hold		= new StateHold("h", new String[]{"s", "$", "a"}, true, true);
+		StateOld results	= new StateResults(null, new String[]{}, false, true);
 		
 		/* Declare default state transitions */
 		deal.setNextState(hold);

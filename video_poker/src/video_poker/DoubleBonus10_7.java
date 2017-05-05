@@ -10,6 +10,8 @@ public class DoubleBonus10_7 extends Variant{
 
 	/* Constants /
 	
+	/** Maximum bet */
+	private final int MAX_BET = 5;
 	/** TODO - The maximum number of cards that count towards a combination */
 	private final int COMBINATION_SIZE = 5;
 	/** Total number of valued combinations */
@@ -81,5 +83,10 @@ public class DoubleBonus10_7 extends Variant{
 		db.stats.addResults(null);
 		db.stats.printStatistics(10);
 		
+	}
+
+	@Override
+	public int getMaxBet() {
+		return MAX_BET;
 	}
 }

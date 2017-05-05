@@ -22,7 +22,7 @@ public class Game {
 		// Assign game variant
 		this.variant = new DoubleBonus10_7(opt.initial_credit);
 		// Create player
-		this.player = new Player(opt.initial_credit);
+		this.player = new Player(opt.initial_credit, variant.getMaxBet());
 	}
 	
 	public void start(){

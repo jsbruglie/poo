@@ -1,6 +1,6 @@
 package video_poker;
 
-public class StateDeal extends State {
+public class StateDeal extends StateOld {
 	
 	public StateDeal(	String main_command,
 						String[] commands,
@@ -12,7 +12,7 @@ public class StateDeal extends State {
 	}
 
 	@Override
-	public State stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
+	public StateOld stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
 		
 		
 		

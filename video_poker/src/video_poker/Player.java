@@ -12,14 +12,17 @@ public class Player {
 	/** Last bet */
 	private int bet = -1;
 	/** The size of a player hand */
-	final int hand_size = 5;
+	public final int hand_size = 5;
+	/** The maximum (Default) bet */
+	public final int max_bet;
 	
 	/**
 	 * Constructor
 	 * @param credit The player's initial credit
 	 */
-	public Player(int credit) {
+	public Player(int credit, int max_bet) {
 		this.credit = credit;
+		this.max_bet = max_bet;
 	}
 	
 	public void removeCredit(int bet) throws InsufficientCreditException {

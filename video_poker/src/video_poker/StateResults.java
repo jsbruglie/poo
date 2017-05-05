@@ -1,6 +1,6 @@
 package video_poker;
 
-public class StateResults extends State {
+public class StateResults extends StateOld {
 	
 	/**
 	 * 
@@ -19,7 +19,7 @@ public class StateResults extends State {
 	}
 
 	@Override
-	public State stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
+	public StateOld stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
 		
 		// Get the combination corresponding to the current player hand
 		Combination comb = score.evaluateHand(player.getHand());

@@ -3,7 +3,7 @@ package video_poker;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateHold extends State {
+public class StateHold extends StateOld {
 	
 	public StateHold(	String mainCommand,
 						String[] commands,
@@ -50,7 +50,7 @@ public class StateHold extends State {
 	 * 
 	 */
 	@Override
-	public State stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
+	public StateOld stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
 		
 		boolean hold[] = new boolean[5];
 		String[] tokens = null;

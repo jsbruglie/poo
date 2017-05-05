@@ -2,7 +2,7 @@ package video_poker;
 
 import java.util.Arrays;
 
-public abstract class State {
+public abstract class StateOld {
 	
 	/* Main command - mainly used for state transition triggers */
 	String main_command;
@@ -14,7 +14,7 @@ public abstract class State {
 	boolean accepts_input;
 	
 	/** The state that naturally follows the current state */
-	State next_state;
+	StateOld next_state;
 	
 	/** */
 	boolean simulation;
@@ -25,17 +25,17 @@ public abstract class State {
 	 * @param commands
 	 * @param accepts_input
 	 */
-	public State(String main_command, String[] commands, boolean accepts_input){
+	public StateOld(String main_command, String[] commands, boolean accepts_input){
 		this.main_command = main_command;
 		this.commands = commands;
 		this.accepts_input = accepts_input;
 	}
 	
-	public void setNextState(State next_state){
+	public void setNextState(StateOld next_state){
 		this.next_state = next_state;
 	}
 	
-	private State changeBet(	String[] tokens,
+	private StateOld changeBet(	String[] tokens,
 								Player player,
 								Statistics stats,
 								Score score,
@@ -75,7 +75,7 @@ public abstract class State {
 		return this;	
 	}
 	
-	public State run(	String command,
+	public StateOld run(	String command,
 						Player player,
 						Statistics stats,
 						Score score,
@@ -123,5 +123,5 @@ public abstract class State {
 	 * @param deck
 	 * @return 
 	 */
-	public abstract State stateMethod(String command, Player player, Statistics stats, Score score, Deck deck);
+	public abstract StateOld stateMethod(String command, Player player, Statistics stats, Score score, Deck deck);
 }

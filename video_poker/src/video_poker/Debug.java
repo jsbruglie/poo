@@ -39,12 +39,12 @@ public class Debug implements Mode {
 		/*for(int i=0; i<commands.size(); i++)
 			System.out.println(commands.get(i));*/
 		
-		State current_state, next_state;
+		StateOld current_state, next_state;
 		
 		/* State declaration */
-		State deal		= new StateDeal("d", new String[]{"b", "s", "$", "q"}, true, false);
-		State hold		= new StateHold("h", new String[]{"s", "$", "a"}, true, false);
-		State results	= new StateResults(null, new String[]{}, false, false);	
+		StateOld deal		= new StateDeal("d", new String[]{"b", "s", "$", "q"}, true, false);
+		StateOld hold		= new StateHold("h", new String[]{"s", "$", "a"}, true, false);
+		StateOld results	= new StateResults(null, new String[]{}, false, false);	
 		
 		/* Declare default state transitions */
 		deal.setNextState(hold);
