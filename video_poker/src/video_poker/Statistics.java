@@ -15,5 +15,5 @@ public interface Statistics {
 	 * Prints the current statistics
 	 * @param player_current_credit The player's current credit
 	 */
-	void printStatistics(int player_current_credit);
+	String printStatistics(int player_current_credit);
 }

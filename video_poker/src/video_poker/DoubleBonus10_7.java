@@ -39,7 +39,7 @@ public class DoubleBonus10_7 extends Variant{
 	/**
 	 * Constructor
 	 */
-	DoubleBonus10_7(int initial_credit){
+	public DoubleBonus10_7(int initial_credit){
 		
 		Combination[] c = new Combination[N_COMBINATIONS];
 		c[0] = new Combination("Royal Flush",		0, PAY_TABLE[0], new RoyalFlush());

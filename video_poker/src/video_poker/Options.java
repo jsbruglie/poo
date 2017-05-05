@@ -19,7 +19,7 @@ public class Options {
 	public int nb_deals;
 	
 	/** Current program version */
-	private final String VERSION = "v0.91";
+	private final String VERSION = "v0.94";
 	private final String WORKING_DIRECTORY = "";
 	private final String DEFAULT_CMD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
 	private final String DEFAULT_CARD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";

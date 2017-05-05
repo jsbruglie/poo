@@ -15,7 +15,9 @@ public enum Event {
 	STATS(	"s", ZERO),
 	BALANCE("$", ZERO),
 	QUIT(	"q", ZERO),
-	AUTO();
+	RESULTS(),
+	SHUFFLE(),
+	INVALID();
 	
 	private String command;
 	private EventsMul multiplicity;
@@ -70,7 +72,7 @@ public enum Event {
 			}
 			
 		}
-		return null;
+		return INVALID;
 	}
 	
 	public static void main(String[] args){

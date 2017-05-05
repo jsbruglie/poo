@@ -59,27 +59,28 @@ public class StatisticsDB10_7 implements Statistics {
 	 * Prints statistics regarding hand occurrences and wins/losses
 	 * @param current_credit The current player credit
 	 */
-	public void printStatistics(int current_credit){
+	public String printStatistics(int current_credit){
 		
-		System.out.printf(format1, "Hand", "Nb");
+		String output = String.format(format1, "Hand", "Nb");
 		
 		for (int i = combinations.length - 1; i >= 0; i--){
 			Combination cb = combinations[i];
 			/* All Four Of A Kind Combinations are shown as one entry */
 			if (cb.name.equals("Four 2 to 4")){
 				// Group all possible Four of a Kind combinations
-				System.out.printf(format2, "Four of a Kind",
+				output = output + String.format(format2, "Four of a Kind",
 						number_hand_occurrences[combinations[i].order] +
 						number_hand_occurrences[combinations[i-1].order] +
 						number_hand_occurrences[combinations[i-2].order]);
 				i -= 2;
 			} else {
-			      System.out.printf(format2, cb.name, number_hand_occurrences[i]);
+			      output = output + String.format(format2, cb.name, number_hand_occurrences[i]);
 			}
 		}
 		
-		System.out.printf(format2, "Total", number_deals);
-		System.out.printf(format3, "Credit", current_credit,
+		output = output + String.format(format2, "Total", number_deals);
+		output = output + String.format(format3, "Credit", current_credit,
 				((float)current_credit / (float)initial_player_credit) * 100.0);
+		return output;
 	}
 }

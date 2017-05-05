@@ -97,7 +97,7 @@ public abstract class StateOld {
 				if (tokens[0].equals("b")){
 					changeBet(tokens, player, stats, score, deck);
 				} else if (tokens[0].equals("s")){
-					stats.printStatistics(player.getCredit());
+					System.out.println(stats.printStatistics(player.getCredit()));
 				} else if (tokens[0].equals("$")){
 					System.out.println("Player credit is: " + player.getCredit());
 				} else if (tokens[0].equals("a")){
