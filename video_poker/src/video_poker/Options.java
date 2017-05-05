@@ -57,7 +57,7 @@ public class Options {
 					printUsage();
 					return;
 				}
-				mode = "DEBUG";
+				mode = "Debug";
 				
 			} else if (args[0].equals("-s")){
 				// Simulation mode chosen
