@@ -95,5 +95,7 @@ public enum Event {
 		out_params = new ArrayList<String>();
 		Event e4 = Event.fromString("h 1 2 3 4 5 6", out_params);
 		System.out.println(e4);
+		Event e5 = Event.fromString("$", out_params);
+		System.out.println(e5);
 	}
 }

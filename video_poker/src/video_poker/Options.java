@@ -6,7 +6,7 @@ package video_poker;
 public class Options {
 	
 	/** The chosen game mode */
-	public Mode mode;
+	public String mode;
 	/** The (required) initial credit */
 	public int initial_credit;
 	/** The command file needed for debug mode */
@@ -14,20 +14,22 @@ public class Options {
 	/** The card file needed for debug mode */
 	public String card_file;
 	/** Value of bet to be played each deal in simulation mode */
-	public int bet;
+	public int bet = 0;
 	/** Number of deals for simulation mode */
 	public int nb_deals;
 	
 	/** Current program version */
-	private final String VERSION = "v0.94";
+	private final String VERSION = "v0.99";
 	private final String WORKING_DIRECTORY = "";
 	private final String DEFAULT_CMD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
 	private final String DEFAULT_CARD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
 	
 	public Options(String args[]){
 		
+		mode = null;
+		
 		if (args[0].equals("-g")){
-			mode = new GUIMode();
+			mode = "GUI";
 			return;
 		}
 		
@@ -42,7 +44,7 @@ public class Options {
 			
 			if (args[0].equals("-i")){
 				// Interactive mode chosen
-				mode = new Interactive();
+				mode = "Interactive";
 			} else if (args[0].equals("-d")){
 				// Debug mode chosen
 				if (args.length == 2){
@@ -55,7 +57,7 @@ public class Options {
 					printUsage();
 					return;
 				}
-				mode = new Debug(cmd_file, card_file);
+				mode = "DEBUG";
 				
 			} else if (args[0].equals("-s")){
 				// Simulation mode chosen
@@ -67,7 +69,7 @@ public class Options {
 						System.err.println("Invalid bet or number of deals provided!");
 					} 
 					// TODO Safety check value of bet
-					mode = new Simulation(bet, nb_deals);
+					mode = "Simulation";
 				} else {
 					printUsage();
 				}
@@ -76,6 +78,12 @@ public class Options {
 			}
 		}else{
 			printUsage();
+		}
+		
+		// Check if correct values are present
+		if (initial_credit < 0){
+			System.err.println("Invalid initial credit provided");
+			System.exit(-1);
 		}
 	}
 

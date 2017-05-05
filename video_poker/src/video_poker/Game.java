@@ -17,12 +17,23 @@ public class Game {
 			System.exit(1);
 		}
 		
-		// Assign game mode
-		this.mode = opt.mode;
 		// Assign game variant
 		this.variant = new DoubleBonus10_7(opt.initial_credit);
 		// Create player
 		this.player = new Player(opt.initial_credit, variant.getMaxBet());
+	
+		// Assign game mode
+		if ((opt.mode).equals("Interactive")){
+			this.mode = new InteractiveMode(true);
+		} else if ((opt.mode).equals("Debug")){
+			this.mode = new DebugMode(opt.cmd_file, opt.card_file);
+		} else if ((opt.mode).equals("Simulation")){
+			this.mode = new SimulationMode(variant, player, opt.bet, opt.nb_deals);
+		} else if ((opt.mode).equals("GUI")){
+			// TODO
+		} else {
+			System.exit(-1);
+		}
 	}
 	
 	public void start(){

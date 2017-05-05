@@ -24,7 +24,7 @@ public class Commands {
 		List<String> params = new ArrayList<String>();
 		
 		if (current.has_input){
-			String command = io.input();
+			String command = io.input(current);
 			event = Event.fromString(command, params);
 		} else if (current.has_default_behaviour) {
 			event = current.getDefaultBehaviour();
@@ -36,6 +36,7 @@ public class Commands {
 				
 			return current.getEventOutcome(event, success);
 		}
+		io.errOut("invalid command");
 		return current;
 	}
 	
@@ -100,6 +101,7 @@ public class Commands {
 		} catch (InsufficientCreditException e){
 			// TODO Simulation mode might break this thing into an infinite loop
 			io.errOut("Player has insufficient credit to place desired bet.");
+			System.exit(-1);
 			return false;
 		}
 		
@@ -170,8 +172,14 @@ public class Commands {
 		} else {
 			io.out("player loses and his credit is " + player.getCredit());
 		}
+		
+		// Add the result to statistics
+		stats.addResults(comb);		
+		
 		if (player.getCredit() == 0){
-			return false;
+			io.out("player ran out of credit");
+			io.outForced(stats.printStatistics(player.getCredit()));
+			System.exit(0);
 		}
 		return true;
 	}

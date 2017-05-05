@@ -2,7 +2,15 @@ package state_machine;
 
 public class State {
 	
-	public final String name;
+	public enum StateName{
+		ST_FIRST_BET,
+		ST_DEAL,
+		ST_HOLD,
+		ST_RESULTS,
+		ST_SHUFFLE;
+	}
+	
+	public final StateName name;
 	public final boolean has_input;
 	public final boolean has_default_behaviour;
 	private State[][] transitions;
@@ -12,11 +20,11 @@ public class State {
 	private final int SUCCESS = 0;
 	private final int FAILURE = 1;
 	
-	State(String name, boolean has_input){
+	State(StateName name, boolean has_input){
 		this(name, has_input, null);
 	}
 	
-	State(String name, boolean has_input, Event default_behaviour){
+	State(StateName name, boolean has_input, Event default_behaviour){
 		this.name = name;
 		this.has_input = has_input;
 		this.transitions = new State[Event.values().length][2];
@@ -56,5 +64,4 @@ public class State {
 	public String toString() {
 		return "State " + name;
 	}
-
 }
