@@ -19,6 +19,7 @@ public class GUI {
 	private Boolean[] hold = new Boolean[5];
 	public String ret_input = new String();
 	public String ret_output = new String();
+	private JSlider creditsToBet;
 	
 	private static GUI instance;
 	
@@ -146,10 +147,17 @@ public class GUI {
 		layout.putConstraint(SpringLayout.NORTH, betbtn, 20, SpringLayout.SOUTH, btn[0]);
 		p.add(betbtn);
 		
-		betField = new JTextField(10);
-		layout.putConstraint(SpringLayout.WEST, betField, 10, SpringLayout.EAST, betbtn);
-		layout.putConstraint(SpringLayout.NORTH, betField, 23, SpringLayout.SOUTH, btn[0]);
-		p.add(betField);
+		//betField = new JTextField(10);
+		p.remove(betField);
+		creditsToBet = new JSlider(JSlider.HORIZONTAL, 1, 5, 5);
+		creditsToBet.setMajorTickSpacing(5);
+		creditsToBet.setMinorTickSpacing(1);
+		creditsToBet.setPaintTicks(true);
+		creditsToBet.setSnapToTicks(true);
+		layout.putConstraint(SpringLayout.WEST, creditsToBet, 10, SpringLayout.EAST, betbtn);
+		layout.putConstraint(SpringLayout.NORTH, creditsToBet, 23, SpringLayout.SOUTH, btn[0]);
+		p.add(creditsToBet);
+		//p.add(betField);
 		
 		dealbtn = new JButton("Deal");
 		layout.putConstraint(SpringLayout.WEST, dealbtn, 20, SpringLayout.WEST, p);
@@ -163,15 +171,15 @@ public class GUI {
 		
 		betbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String cash = betField.getText();
-				int initial_credit;
+				//String cash = betField.getText();
+				int initial_credit = creditsToBet.getValue();
 				String inner_ret_input = new String("b");
-				try {
+				/*try {
 					initial_credit = Integer.parseInt(cash);
 				} catch (NumberFormatException z){
 					//do something display worthy, i guess
 					return;
-				}
+				}*/
 				if(initial_credit <= 0)
 					return;
 				
