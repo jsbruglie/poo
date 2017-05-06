@@ -30,7 +30,7 @@ public class Game {
 		} else if ((opt.mode).equals("Simulation")){
 			this.mode = new SimulationMode(variant, player, opt.bet, opt.nb_deals);
 		} else if ((opt.mode).equals("GUI")){
-			// TODO
+			this.mode = new GUIMode();
 		} else {
 			System.exit(-1);
 		}
