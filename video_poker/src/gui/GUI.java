@@ -110,7 +110,7 @@ public class GUI {
 		icon = new ImageIcon[5];
 		btn = new JToggleButton[5];
 		
-		String arg = "/home/mind/Documents/cards/b.gif";
+		String arg = "cards/b.gif";
 		
 		for(int i = 0; i<5; i++){
 			btn[i] = new JToggleButton("Hold Card");
@@ -291,7 +291,7 @@ public class GUI {
 		String parting_string = parting_hand.toString();
 		String parts[] = parting_string.split("\\s+");
 		for(int i = 0; i < 5; i++){
-			initial_string = "/home/mind/Documents/cards/";
+			initial_string = "cards/";
 			initial_string = initial_string.concat(parts[i + 2] + ".gif");
 			ImageIcon inner_icon = new ImageIcon(initial_string);
 			cards[i].setIcon(inner_icon);
