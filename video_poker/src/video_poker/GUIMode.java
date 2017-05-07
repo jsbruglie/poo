@@ -1,48 +1,34 @@
 package video_poker;
 
 import gui.*;
+import state_machine.GUIIO;
+import state_machine.GUISM;
+import state_machine.StateMachineIO;
+import state_machine.VideoPokerSM;
 
 public class GUIMode implements Mode{
 
-	boolean terminal_false;
+	private Deck deck;
+	
+	StateMachineIO state_machine_io;
+	
+	VideoPokerSM state_machine;
 	
 	public GUIMode(){
-		
+		deck = new Deck(true);
+		//state_machine_io = new GUIIO();
+		state_machine_io = new GUIIO();
+		state_machine = new GUISM(state_machine_io);
 	}
 	
 	@Override
 	public void execute(Player player, Score score, Strategy strategy, Statistics stats) {
 		// TODO Auto-generated method stub
 		
-		GUI firstGUI = GUI.getGUI(true);
+		GUI firstGUI = GUI.getGUI();
+		firstGUI.prepareInteractiveGUI(player);
+		state_machine.run(player, deck, strategy, stats, score);
 		
-		String[] args = new String[2];
-		String mode = new String();
-		Boolean[] forward = new Boolean[2];
-		int initial_credit;
-		forward[0] = new Boolean(false);
-		forward[1] = new Boolean(false);
-		firstGUI.prepareSelectorGUI(args,mode,forward);
-		
-		while(!forward[0]){
-			System.out.print("");
-			if(forward[1]){
-				try {
-					initial_credit = Integer.parseInt(args[1]);
-				} catch (NumberFormatException e){
-					//do something display worthy, i guess
-					continue;
-				}
-				if(initial_credit > 0)
-					forward[0] = true;
-			}
-		}
-			
-		
-		Game newgame = new Game(args);
-		firstGUI.prepareInteractiveGUI();
-		newgame.start();
-		newgame.end();
 	}
 
 }

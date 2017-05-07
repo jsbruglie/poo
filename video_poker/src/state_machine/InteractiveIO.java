@@ -1,7 +1,6 @@
 package state_machine;
 
 import java.util.Scanner;
-import gui.GUI;
 
 public class InteractiveIO implements StateMachineIO {
 
@@ -14,10 +13,7 @@ public class InteractiveIO implements StateMachineIO {
 	public InteractiveIO(boolean terminal){
 		this.terminal = terminal;
 		if (terminal){
-			if(GUI.getGUI(false) == null)
 				reader = new Scanner(System.in);
-			else
-				reader = null;
 		} else{
 			reader = null;
 		}
@@ -25,12 +21,8 @@ public class InteractiveIO implements StateMachineIO {
 	
 	@Override
 	public void out(String string) {
-		GUI existingGUI = GUI.getGUI(false); 
 		if (terminal){
-			if(existingGUI == null)
-				System.out.println(string);
-			else
-				existingGUI.output(string);				
+				System.out.println(string);		
 		}
 	}
 	
@@ -41,10 +33,7 @@ public class InteractiveIO implements StateMachineIO {
 
 	@Override
 	public void errOut(String string) {
-		GUI existingGUI = GUI.getGUI(false);
-		
 		if (terminal){
-			if(existingGUI == null)
 				System.err.println(string);
 		}
 
@@ -52,12 +41,8 @@ public class InteractiveIO implements StateMachineIO {
 
 	@Override
 	public String input(State state) {
-		GUI existingGUI = GUI.getGUI(false);
 		if (terminal){
-			if(existingGUI == null)
 				return reader.nextLine();
-			else
-				return existingGUI.input();
 		}
 		return null;
 	}

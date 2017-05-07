@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import video_poker.Hand;
+import video_poker.Player;
+
 
 public class GUI {
 	
@@ -13,9 +16,10 @@ public class GUI {
 	private JPanel p;
 	private Container pane;
 	private JToggleButton[] btn;
-	private JButton betbtn, dealbtn, holdbtn;
+	private JButton betbtn, dealbtn, holdbtn, advicebtn;
 	private SpringLayout layout;
 	private JTextField betField;
+	private JTextField adviceField;
 	private Boolean[] hold = new Boolean[5];
 	public String ret_input = new String();
 	public String ret_output = new String();
@@ -27,19 +31,11 @@ public class GUI {
 		JFrame.setDefaultLookAndFeelDecorated(true);
 	}
 	
-	public static GUI getGUI(boolean maker){
-		if(maker == true){
+	public static GUI getGUI(){
 			if(instance == null)
 				instance = new GUI();
 			else
 				return instance;
-		}
-		if(maker == false){
-			if(instance == null)
-				return null;
-			else
-				return instance;
-		}
 		
 		return instance;
 	}
@@ -50,13 +46,12 @@ public class GUI {
 	
 	public void output(String string){
 		ret_output = string;
-		System.out.println(string);
 	}
 	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public void prepareSelectorGUI(String[] args, String mode, Boolean[] forward){
+	public void prepareSelectorGUI(String[] args, Boolean[] forward){
 		mainFrame = new JFrame("Video Poker - Mode Chooser");
 		p = new JPanel();
 		mainFrame.setSize(1000, 1000);
@@ -96,7 +91,7 @@ public class GUI {
 		mainFrame.setVisible(true);
 	}
 	
-	public void prepareInteractiveGUI(){
+	public void prepareInteractiveGUI(Player player){
 		mainFrame.setVisible(false);
 		mainFrame = new JFrame("Best Test in the West");
 		mainFrame.setSize(1000, 1000);
@@ -147,8 +142,9 @@ public class GUI {
 		layout.putConstraint(SpringLayout.NORTH, betbtn, 20, SpringLayout.SOUTH, btn[0]);
 		p.add(betbtn);
 		
-		//betField = new JTextField(10);
-		p.remove(betField);
+		betField = new JTextField(10);
+		betField.setEditable(false);
+		changeCredits(player);
 		creditsToBet = new JSlider(JSlider.HORIZONTAL, 1, 5, 5);
 		creditsToBet.setMajorTickSpacing(5);
 		creditsToBet.setMinorTickSpacing(1);
@@ -156,8 +152,10 @@ public class GUI {
 		creditsToBet.setSnapToTicks(true);
 		layout.putConstraint(SpringLayout.WEST, creditsToBet, 10, SpringLayout.EAST, betbtn);
 		layout.putConstraint(SpringLayout.NORTH, creditsToBet, 23, SpringLayout.SOUTH, btn[0]);
+		layout.putConstraint(SpringLayout.WEST, betField, 20, SpringLayout.EAST, creditsToBet);
+		layout.putConstraint(SpringLayout.NORTH, betField, 20, SpringLayout.SOUTH, btn[0]);
 		p.add(creditsToBet);
-		//p.add(betField);
+		p.add(betField);
 		
 		dealbtn = new JButton("Deal");
 		layout.putConstraint(SpringLayout.WEST, dealbtn, 20, SpringLayout.WEST, p);
@@ -169,32 +167,39 @@ public class GUI {
 		layout.putConstraint(SpringLayout.NORTH, holdbtn, 20, SpringLayout.SOUTH, dealbtn);
 		p.add(holdbtn);
 		
+		advicebtn = new JButton("Advice");
+		layout.putConstraint(SpringLayout.WEST, advicebtn, 20, SpringLayout.WEST, p);
+		layout.putConstraint(SpringLayout.NORTH, advicebtn, 20, SpringLayout.SOUTH, holdbtn);
+		p.add(advicebtn);
+		
+		adviceField = new JTextField(50);
+		adviceField.setEditable(false);
+		layout.putConstraint(SpringLayout.WEST, adviceField, 20, SpringLayout.EAST, advicebtn);
+		layout.putConstraint(SpringLayout.NORTH, adviceField, 20, SpringLayout.SOUTH, holdbtn);
+		p.add(adviceField);
+		
+		advicebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ret_input = "a";
+				try {
+				    Thread.sleep(10);
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
+				adviceField.setText(ret_output);
+			}
+		});
+		
 		betbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//String cash = betField.getText();
 				int initial_credit = creditsToBet.getValue();
 				String inner_ret_input = new String("b");
-				/*try {
-					initial_credit = Integer.parseInt(cash);
-				} catch (NumberFormatException z){
-					//do something display worthy, i guess
-					return;
-				}*/
+				
 				if(initial_credit <= 0)
 					return;
 				
 				ret_input = inner_ret_input.concat(" " + Integer.toString(initial_credit));
-				System.out.println(ret_input);
 			}
-		});
-		
-		btn[0].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(hold[0] == false)
-					hold[0] = true;
-				else
-					hold[0] = false;
-				}
 		});
 		
 		btn[0].addActionListener(new ActionListener() {
@@ -212,15 +217,6 @@ public class GUI {
 					hold[1] = true;
 				else
 					hold[1] = false;
-				}
-		});
-		
-		btn[2].addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(hold[2] == false)
-					hold[2] = true;
-				else
-					hold[0] = false;
 				}
 		});
 		
@@ -254,20 +250,23 @@ public class GUI {
 		holdbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String int_ret_input = new String("h");
-				for(int i = 0; i < 4; i++)
+				for(int i = 0; i < 5; i++)
 				{
 					if(hold[i] == true)
 						int_ret_input = int_ret_input.concat(" " + Integer.toString(i+1));
 				}
 				ret_input = int_ret_input;
-				changeIcons(false);
+				changeIcons(player);
+				changeCredits(player);
+				unclickAll();
 			}
 		});
 		
 		dealbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ret_input = "d";
-				changeIcons(true);
+				changeIcons(player);
+				changeCredits(player);
 			}
 		});
 		
@@ -281,28 +280,32 @@ public class GUI {
 		
 	}
 	
-	void changeIcons(boolean dealio){
+	void changeIcons(Player player){
 		String initial_string = new String();
-		if(dealio == true)
-		{
-			try {
-			    Thread.sleep(100);
-			} catch(InterruptedException ex) {
-			    Thread.currentThread().interrupt();
-			}
+		try {
+		    Thread.sleep(200);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
 		}
-			try {
-			    Thread.sleep(1);
-			} catch(InterruptedException ex) {
-			    Thread.currentThread().interrupt();
-			}
-		String parts[] = ret_output.split("\\s+");
+		Hand parting_hand = player.getHand();
+		String parting_string = parting_hand.toString();
+		String parts[] = parting_string.split("\\s+");
 		for(int i = 0; i < 5; i++){
 			initial_string = "/home/mind/Documents/cards/";
 			initial_string = initial_string.concat(parts[i + 2] + ".gif");
-			System.out.println(initial_string);
 			ImageIcon inner_icon = new ImageIcon(initial_string);
 			cards[i].setIcon(inner_icon);
+		}
+	}
+	
+	void changeCredits(Player player){
+		betField.setText(Integer.toString(player.getCredit()));
+	}
+	
+	void unclickAll(){
+		for(int i = 0; i < 5; i++){
+			if(hold[i] == true)
+				btn[i].doClick();
 		}
 	}
 
