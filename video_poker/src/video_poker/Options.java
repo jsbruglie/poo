@@ -22,9 +22,13 @@ public class Options {
 	private final String VERSION = "v0.99";
 	private final String WORKING_DIRECTORY = "";
 	private final String DEFAULT_CMD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
-	private final String DEFAULT_CARD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
+	private final String DEFAULT_CARD_FILE = WORKING_DIRECTORY + "TESTS/"+ "card-file.txt";
 	
 	public Options(String args[]){
+		if(args == null){
+			printUsage();
+			System.exit(1);
+		}
 		
 		mode = null;
 		
@@ -69,7 +73,11 @@ public class Options {
 						System.err.println("Invalid bet or number of deals provided!");
 					} 
 					// TODO Safety check value of bet
-					mode = "Simulation";
+					if(bet >= 1 && bet <= 5 && bet == (int)bet && nb_deals == (int)nb_deals && nb_deals > 0){ //Check if bet is an integer between 1 and 5
+						mode = "Simulation";
+					}else{
+						printUsage();
+					}
 				} else {
 					printUsage();
 				}

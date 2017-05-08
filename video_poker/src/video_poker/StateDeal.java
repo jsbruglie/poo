@@ -14,8 +14,6 @@ public class StateDeal extends StateOld {
 	@Override
 	public StateOld stateMethod(String command, Player player, Statistics stats, Score score, Deck deck) {
 		
-		
-		
 		/* In case the player's bet has not been set */
 		if (player.getBet() == -1){
 			System.out.println("Please define an initial bet");

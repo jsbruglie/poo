@@ -45,7 +45,7 @@ public enum Event {
 		
 		if (command != null){
 			
-			List<String> split = new ArrayList<String>(Arrays.asList(command.split(" ")));
+			List<String> split = new ArrayList<String>(Arrays.asList(command.split("\\s+")));
 			
 			for (Event e : Event.values()){
 				if (e.multiplicity == ZERO) {
