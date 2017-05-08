@@ -44,7 +44,10 @@ public class State {
 	}
 	
 	public boolean valid(Event event){
-		return triggered_by[event.ordinal()];
+		if (event != null){
+			return triggered_by[event.ordinal()];
+		}
+		return false;
 	}
 	
 	public Event getDefaultBehaviour(){

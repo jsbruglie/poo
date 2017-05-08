@@ -17,7 +17,7 @@ public class InteractiveMode implements Mode {
 	
 	public InteractiveMode(boolean terminal){
 		deck = new Deck(true);
-		state_machine_io = new InteractiveIO(terminal);
+		state_machine_io = new InteractiveIO();
 		state_machine = new InteractiveSM(state_machine_io);
 	}
 	

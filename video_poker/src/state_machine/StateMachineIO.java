@@ -1,12 +1,25 @@
 package state_machine;
 
 public interface StateMachineIO {
-
-	void out(String string);
-
-	void outForced(String string);
 	
-	void errOut(String string);
+	/**
+	 * Outputs a generic message
+	 * @param tag Communication tag
+	 * @param string The output message
+	 */
+	void out(Tag tag, String string);
 
-	String input(State state);
+	/**
+	 * Outputs an error message
+	 * @param tag Communication tag
+	 * @param string The output error message
+	 */
+	void errOut(Tag tag, String string);
+
+	/**
+	 * Request input
+	 * @param tag Communication tag
+	 * @return The requested user input
+	 */
+	String input(Tag tag);
 }

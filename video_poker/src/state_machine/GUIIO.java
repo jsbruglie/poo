@@ -5,25 +5,19 @@ import gui.GUI;
 public class GUIIO implements StateMachineIO {
 
 	@Override
-	public void out(String string) {
+	public void out(Tag tag, String string) {
 		GUI existingGUI = GUI.getGUI();
 		existingGUI.output(string);
 	}
 
 	@Override
-	public void outForced(String string) {
-		out(string);
-
-	}
-
-	@Override
-	public void errOut(String string) {
+	public void errOut(Tag tag, String string) {
 		//can be changed later, hide errors from terminal
 		//System.err.println(string);
 	}
 
 	@Override
-	public String input(State state) {
+	public String input(Tag tag) {
 		GUI existingGUI = GUI.getGUI();
 		return existingGUI.input();
 	}

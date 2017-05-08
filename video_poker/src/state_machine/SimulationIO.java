@@ -1,6 +1,7 @@
 package state_machine;
 
 import static state_machine.State.StateName.*;
+import static state_machine.Tag.*;
 
 import java.util.List;
 
@@ -11,18 +12,27 @@ import video_poker.Strategy;
 
 import rules.Utils;
 
-public class SimulationIO implements StateMachineIO {
 
+public class SimulationIO implements StateMachineIO {
+	
+	/** The round number counter */
 	private int rounds = 0;
-	
+	/** The number of desired rounds */
 	private final int max_deals;
-	
+	/** The game strategy */
 	private Strategy strategy;
-	
+	/** The game statistics */
 	private Statistics stats;
-	
+	/** The player */
 	private Player player;
 	
+	/**
+	 * Constructor
+	 * @param strategy The game strategy
+	 * @param stats The game statistics
+	 * @param player The player
+	 * @param rounds The number of rounds to be run
+	 */
 	public SimulationIO(Strategy strategy, Statistics stats, Player player, int rounds){
 		this.strategy = strategy;
 		this.stats = stats;
@@ -31,32 +41,30 @@ public class SimulationIO implements StateMachineIO {
 	}
 	
 	@Override
-	public void out(String string) {
-		//System.out.println(string);
+	public void out(Tag tag, String string) {
+		if (tag == Out_GameOver){
+			System.out.println(stats.printStatistics(player.getCredit()));
+		}
+		// Ignore other output
 	}
 	
 	@Override
-	public void outForced(String string) {
-		System.out.println(string);
-	}
-	
-	@Override
-	public void errOut(String string) {
+	public void errOut(Tag tag, String string) {
 		System.err.println(string);
 	}
 
 	@Override
-	public String input(State state) {
-		if (state.name == ST_FIRST_BET){
+	public String input(Tag tag) {
+		if (tag == In_Bet){
 			return "b";
-		} else if (state.name == ST_DEAL){
+		} else if (tag == In_Deal){
 			if (rounds == max_deals){
 				System.out.println(stats.printStatistics(player.getCredit()));
 				return "q";
 			}
 			rounds++;
 			return "d";
-		} else if (state.name == ST_HOLD){
+		} else if (tag == In_Hold){
 			List<Card> hold =  strategy.evaluateHand(player.getHand());
 			List<Integer> idx = Utils.indexOf(player.getHand().getCards(), hold);
 			String output = "h";
