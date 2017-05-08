@@ -23,8 +23,7 @@ public class GUIMode implements Mode{
 	
 	@Override
 	public void execute(Player player, Score score, Strategy strategy, Statistics stats) {
-		// TODO Auto-generated method stub
-		
+
 		GUI firstGUI = GUI.getGUI();
 		firstGUI.prepareInteractiveGUI(player);
 		state_machine.run(player, deck, strategy, stats, score);

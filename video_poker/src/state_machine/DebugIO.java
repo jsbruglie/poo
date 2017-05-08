@@ -27,8 +27,15 @@ public class DebugIO implements StateMachineIO {
 
 	@Override
 	public String input(State state) {
-		if (idx == commands.size()){
-			return "q";
+		try{
+			if (idx == commands.size()){
+				return "q";
+			}
+		}catch(NullPointerException e){
+			// TODO - refine this
+			//e.printStackTrace();
+			System.out.println("Could not get commands, if using one, command file is probably empty");
+			System.exit(-1);
 		}
 		return commands.get(idx++);
 	}

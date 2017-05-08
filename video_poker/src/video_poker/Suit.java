@@ -41,6 +41,4 @@ public enum Suit {
 		}
 		return null;
 	}
-	
-	// TODO - Add conversion mechanism from string to enum, by using value field
 }

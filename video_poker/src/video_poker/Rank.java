@@ -62,5 +62,4 @@ public enum Rank {
         return value;
     }
 	
-	// TODO - Add conversion mechanism from string to enum, by using text field
 }

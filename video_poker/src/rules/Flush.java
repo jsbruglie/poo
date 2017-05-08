@@ -33,10 +33,13 @@ public class Flush implements Rule, CombinationChecker {
 		return this.check(cards, null);
 	}
 
-	// TODO All Same suit, or check suit occurrences, since we bother calculating them
 	@Override
 	public boolean check(Card[] cards, Occurrences occurrences) {
-		return checkFlush(cards);
+		for (int i = 0; i < Occurrences.HAND_SIZE - 1; i++){
+			if (!cards[i].suit.equals(cards[i + 1].suit))
+				return false;
+		}
+		return true;
 	}
 
 }

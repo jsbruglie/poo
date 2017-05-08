@@ -72,8 +72,8 @@ public class Options {
 					} catch (NumberFormatException e){
 						System.err.println("Invalid bet or number of deals provided!");
 					} 
-					// TODO Safety check value of bet
-					if(bet >= 1 && bet <= 5 && bet == (int)bet && nb_deals == (int)nb_deals && nb_deals > 0){ //Check if bet is an integer between 1 and 5
+					//Check if bet is an integer between 1 and 5 and valid nb_deals
+					if(bet >= 1 && bet <= 5 && bet == (int)bet && nb_deals == (int)nb_deals && nb_deals > 0){ 
 						mode = "Simulation";
 					}else{
 						printUsage();

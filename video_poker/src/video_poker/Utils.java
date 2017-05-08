@@ -5,8 +5,10 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +17,8 @@ import java.util.regex.Pattern;
 
 public final class Utils {
 	
+	private static String lineRead;
+
 	/**
 	 * Reads a card file to memory
 	 * @param args Not used
@@ -54,7 +58,11 @@ public final class Utils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
+		
+        if(nb_lines == 0){
+        	System.out.println("File is empty");
+        	System.exit(-1);
+        }
 		Card[][] cards = new Card[nb_lines][];
         
 		int i = 0;
@@ -62,7 +70,7 @@ public final class Utils {
         while(sc.hasNextLine() && i < nb_lines){
         	cards[i++] = parseCardLine(sc.nextLine());
         }
-		return cards;
+        return cards;
 		
 	}
 	
@@ -98,32 +106,19 @@ public final class Utils {
 		return cards;
 	}
 	
-	// TODO Create our own function
-	
 	/**
 	 * Counts the number of lines in a file
 	 * @param filename The input file name
-	 * @see http://stackoverflow.com/questions/453018/number-of-lines-in-a-file-in-java
 	 */
 	public static int countLines(String filename) throws IOException {
-	    InputStream is = new BufferedInputStream(new FileInputStream(filename));
-	    try {
-	        byte[] c = new byte[1024];
-	        int count = 0;
-	        int readChars = 0;
-	        boolean empty = true;
-	        while ((readChars = is.read(c)) != -1) {
-	            empty = false;
-	            for (int i = 0; i < readChars; ++i) {
-	                if (c[i] == '\n') {
-	                    ++count;
-	                }
-	            }
-	        }
-	        return (count == 0 && !empty) ? 1 : count;
-	    } finally {
-	        is.close();
-	    }
+		 LineNumberReader reader  = new LineNumberReader(new FileReader(filename));
+
+		 lineRead = "";
+		 while ((lineRead = reader.readLine()) != null) {	 
+		 }
+		 int count = reader.getLineNumber(); 
+		 reader.close();
+		 return count;
 	}
 	
 	public static List<String> parseCmdFile(String filename){

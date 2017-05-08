@@ -12,7 +12,9 @@ public class DoubleBonus10_7 extends Variant{
 	
 	/** Maximum bet */
 	private final int MAX_BET = 5;
-	/** TODO - The maximum number of cards that count towards a combination */
+	/** Minimum bet */
+	private final int MIN_BET = 1;
+	/** The maximum number of cards that count towards a combination */
 	private final int COMBINATION_SIZE = 5;
 	/** Total number of valued combinations */
 	private final int N_COMBINATIONS = 11;
@@ -68,7 +70,7 @@ public class DoubleBonus10_7 extends Variant{
 	 */
 	@Override
 	public boolean isBetValid(int bet){
-		if (1 <= bet && bet <= 5)
+		if (MIN_BET <= bet && bet <= MAX_BET)
 			return true;
 		return false;
 	}

@@ -1,7 +1,9 @@
 package state_machine;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import video_poker.Card;
 import video_poker.Combination;
@@ -107,7 +109,15 @@ public class Commands {
 		
 		// Draw 5 cards and add them to the player's hand
 		player.setHand(deck.getHand(player.hand_size));
-		io.out(player.getHand().toString());
+		try {
+			io.out(player.getHand().toString());
+		} catch (NullPointerException e) {
+			//e.printStackTrace();
+			// TODO - refine this
+			System.out.println("Failed to get a hand - card file is probably empty or not enough cards. Exiting...");
+			System.exit(-1);
+		}
+		
 		return true;
 	}
 	
