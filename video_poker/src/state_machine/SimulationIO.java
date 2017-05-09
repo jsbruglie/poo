@@ -1,18 +1,18 @@
 package state_machine;
 
-import static state_machine.State.StateName.*;
 import static state_machine.Tag.*;
 
 import java.util.List;
 
+import combinations.Utils;
 import video_poker.Card;
 import video_poker.Player;
 import video_poker.Statistics;
 import video_poker.Strategy;
 
-import rules.Utils;
-
-
+/**
+ * State Machine I/O Handler for Simulation Mode
+ */
 public class SimulationIO implements StateMachineIO {
 	
 	/** The round number counter */

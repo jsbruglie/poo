@@ -8,6 +8,9 @@ import state_machine.StateMachineIO;
 import state_machine.VideoPokerSM;
 import video_poker.Utils;
 
+/**
+ * Debug Game Mode
+ */
 public class DebugMode implements Mode {
 	
 	/** Input files */
@@ -15,12 +18,16 @@ public class DebugMode implements Mode {
 	/** Deck of playing cards */
 	private Deck deck;
 		
-	/** State machine IO handler */
+	/** State machine I/O handler */
 	StateMachineIO state_machine_io;
 	/** State machine class */
 	VideoPokerSM state_machine;
 	
-	
+	/**
+	 * Constructor
+	 * @param cmd_file The command file name 
+	 * @param card_file The card file name
+	 */
 	public DebugMode(String cmd_file, String card_file) {
 		this.cmd_file = cmd_file;
 		this.card_file = card_file;
@@ -36,14 +43,5 @@ public class DebugMode implements Mode {
 	@Override
 	public void execute(Player player, Score score, Strategy strategy, Statistics stats) {
 		state_machine.run(player, deck, strategy, stats, score);
-	}
-	
-	// TODO - DEBUG
-	public static void main(String[] args){
-		
-		Player player = new Player(10000, 5);
-		Variant db = new DoubleBonus10_7(10000); 
-		Mode m = new DebugMode("TESTS/cmd-file.txt", "TESTS/card-file.txt");
-		m.execute(player, db.score, db.strategy, db.stats);
 	}
 }

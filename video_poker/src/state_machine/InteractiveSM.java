@@ -1,9 +1,16 @@
 package state_machine;
 
-import static state_machine.Event.*;
+import static state_machine.Action.*;
 
+/**
+ * State Machine for Interactive Mode
+ */
 public class InteractiveSM extends VideoPokerSM{
 
+	/**
+	 * Constructor
+	 * @param io State Machine I/O handler
+	 */
 	public InteractiveSM(StateMachineIO io) {
 		super(io);
 		defineTransitions();
@@ -31,5 +38,4 @@ public class InteractiveSM extends VideoPokerSM{
 
 		shuffle.addTransition(SHUFFLE, deal, deal);
 	}
-	
 }

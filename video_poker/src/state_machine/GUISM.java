@@ -1,15 +1,19 @@
 package state_machine;
 
-import static state_machine.Event.*;
+import static state_machine.Action.*;
 
+/**
+ * State Machine for GUI Mode
+ */
 public class GUISM extends VideoPokerSM {
 	
 	public GUISM(StateMachineIO io){
 		super(io);
 		defineTransitions();
 	}
-	
-public void defineTransitions(){
+
+	@Override
+	public void defineTransitions(){
 		
 		first_bet.addTransition(BET, deal, first_bet);
 		first_bet.addTransition(BALANCE, first_bet, first_bet);
@@ -30,5 +34,4 @@ public void defineTransitions(){
 
 		shuffle.addTransition(SHUFFLE, deal, deal);
 	}
-	
 }

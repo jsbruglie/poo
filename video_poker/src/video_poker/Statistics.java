@@ -1,5 +1,7 @@
 package video_poker;
 
+import combinations.Combination;
+
 /**
  * Statistics class for keeping track of hand occurrences and displaying relevant stats
  */
@@ -14,6 +16,7 @@ public interface Statistics {
 	/**
 	 * Prints the current statistics
 	 * @param player_current_credit The player's current credit
+	 * @return The statistics table formatted in a string
 	 */
 	String printStatistics(int player_current_credit);
 }

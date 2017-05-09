@@ -2,6 +2,9 @@ package state_machine;
 
 import gui.GUI;
 
+/**
+ * State Machine I/O Handler for GUI Mode
+ */
 public class GUIIO implements StateMachineIO {
 
 	@Override

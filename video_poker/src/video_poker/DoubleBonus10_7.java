@@ -1,21 +1,14 @@
 package video_poker;
 
-import rules.*;
+import combinations.*;
 
 /**
- * 
- * 
+ * Double Bonus 10/7 Video Poker Variant
  */
 public class DoubleBonus10_7 extends Variant{
 
-	/* Constants /
-	
-	/** Maximum bet */
-	private final int MAX_BET = 5;
-	/** Minimum bet */
-	private final int MIN_BET = 1;
-	/** The maximum number of cards that count towards a combination */
-	private final int COMBINATION_SIZE = 5;
+	/* Constants */
+
 	/** Total number of valued combinations */
 	private final int N_COMBINATIONS = 11;
 	/** Pay Table */
@@ -40,6 +33,7 @@ public class DoubleBonus10_7 extends Variant{
 	
 	/**
 	 * Constructor
+	 * @param initial_credit The player's initial credit
 	 */
 	public DoubleBonus10_7(int initial_credit){
 		
@@ -61,34 +55,5 @@ public class DoubleBonus10_7 extends Variant{
 		score = new ScoreDB10_7(combinations);
 		strategy = new StrategyDB10_7();
 		stats = new StatisticsDB10_7(initial_credit, combinations);
-	}
-	
-	/**
-	 * Evaluates whether a bet is valid or not
-	 * @param bet
-	 * @return
-	 */
-	@Override
-	public boolean isBetValid(int bet){
-		if (MIN_BET <= bet && bet <= MAX_BET)
-			return true;
-		return false;
-	}
-	
-	// TODO - Debug
-	
-	public static void main(String[] args){
-		
-		Variant db = new DoubleBonus10_7(10);
-		int[] payout = { 250, 500, 750, 1000, 4000 };
-		db.stats.addResults(new Combination("Royal Flush", 0, payout, new RoyalFlush()));
-		db.stats.addResults(null);
-		db.stats.printStatistics(10);
-		
-	}
-
-	@Override
-	public int getMaxBet() {
-		return MAX_BET;
 	}
 }

@@ -1,6 +1,7 @@
 package video_poker;
 
-import rules.Occurrences;
+import combinations.Combination;
+import combinations.Occurrences;
 
 public class ScoreDB10_7 implements Score{
 	
@@ -11,18 +12,13 @@ public class ScoreDB10_7 implements Score{
 	
 	/**
 	 * Constructor
-	 * @param combinations
+	 * @param combinations The array of valid combinations
 	 */
 	public ScoreDB10_7(Combination[] combinations) {
 		this.combinations = combinations;
 		this.occurrences = new Occurrences();
 	}
 	
-	/**
-	 * 
-	 * @param hand
-	 * @return
-	 */
 	public Combination evaluateHand(Hand hand){
 		
 		Card[] cards = hand.getCards();
@@ -37,12 +33,6 @@ public class ScoreDB10_7 implements Score{
 		return null;
 	}
 	
-	/**
-	 * 
-	 * @param hand
-	 * @param bet
-	 * @return
-	 */
 	public int payoutHand(Hand hand, int bet){
 		Combination cb = evaluateHand(hand);
 		if (cb != null){

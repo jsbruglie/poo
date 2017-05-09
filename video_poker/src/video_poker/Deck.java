@@ -3,7 +3,7 @@ package video_poker;
 import java.util.Random;
 
 /**
- * Represents the deck
+ * Represents the deck of cards
  */
 public class Deck {
 	
@@ -15,14 +15,14 @@ public class Deck {
 	private int top;
 	
 	/** Constant number of suits */
-	private final int SUITS = 4;
+	private final int SUITS = Suit.values().length;
 	/** Constant value of Cards per suit */
-	private final int CARDS_PER_SUIT = 13;
+	private final int CARDS_PER_SUIT = Rank.values().length;
 	/** Constant maximum total of cards */
 	private final int MAX_CARDS = SUITS * CARDS_PER_SUIT;
 	
 	/**
-	 * Constructor
+	 * Constructor for a regular 52 card deck
 	 * @param shuffle Whether the deck should be shuffled
 	 */
 	public Deck(boolean shuffle){
@@ -40,13 +40,19 @@ public class Deck {
 		top = number_cards - 1;
 	}
 	/**
-	 * Alternative Constructor useful for debug mode
-	 * @param lits of cards from card-file.txt
+	 * Constructor from card array.
+	 * Used when reading a deck from a card file
+	 * @param cards Array of cards to be inserted in the deck
 	 */
 	public Deck(Card[] cards){
+		
 		this.number_cards = cards.length;
-		this.cards = cards;
-		//Do not shuffle this deck
+		this.cards = new Card[number_cards];
+		// The deck must be inverted to match specification
+		for (int i = 0; i < cards.length; i++){
+			this.cards[i] = cards[cards.length - 1 - i];
+		}
+		/** @attention Do not shuffle this deck */
 		top = this.number_cards - 1;
 	}
 	/**
@@ -57,6 +63,7 @@ public class Deck {
 	 * @see <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle"> Wikipedia - Fisher–Yates shuffle</a>
 	 */
 	public void shuffle() {
+		
 		Random r = new Random();
 		for (int i = number_cards - 1; i > 0; i--){
 			int index = r.nextInt(i+1);
@@ -64,7 +71,6 @@ public class Deck {
 			cards[index] = cards[i];
 			cards[i] = tmp; 
 		}
-		// Redundant? Reset the top card whenever you shuffle
 		top = number_cards - 1;
 	}
 	
@@ -91,7 +97,7 @@ public class Deck {
  	
  	/**
  	 * Draws a single card from the deck
- 	 * 
+ 	 * @throws DeckEmptyException When the deck is empty
  	 * @return The drawn card upon success
  	 */
  	public Card draw() throws DeckEmptyException{

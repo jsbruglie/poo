@@ -1,13 +1,9 @@
 package video_poker;
 
-import java.io.BufferedInputStream;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +13,6 @@ import java.util.regex.Pattern;
 
 public final class Utils {
 	
-	private static String lineRead;
-
 	/**
 	 * Reads a card file to memory
 	 * @param args Not used
@@ -109,13 +103,15 @@ public final class Utils {
 	/**
 	 * Counts the number of lines in a file
 	 * @param filename The input file name
+	 * @throws IOException When there are issues with file reading
+	 * @return The number of lines in a file
 	 */
 	public static int countLines(String filename) throws IOException {
+		
 		 LineNumberReader reader  = new LineNumberReader(new FileReader(filename));
-
-		 lineRead = "";
-		 while ((lineRead = reader.readLine()) != null) {	 
-		 }
+		 @SuppressWarnings("unused")
+		 String line = "";
+		 while ((line = reader.readLine()) != null) {}
 		 int count = reader.getLineNumber(); 
 		 reader.close();
 		 return count;
@@ -131,6 +127,9 @@ public final class Utils {
 			e.printStackTrace();
 		}
 		
+		final String regex = "(a|d|(b ([0-9]+){0,1})|(h[1-5 ]{0,10})|s|q|\\$)";
+		final Pattern pattern = Pattern.compile(regex);
+		
 		List<String> cmd_list = new ArrayList<String>();
 		String line = null;
 		
@@ -141,57 +140,22 @@ public final class Utils {
 			return null;
 		}
 		
+		final Matcher matcher = pattern.matcher(line);
+		while (matcher.find()) {
+		   cmd_list.add(matcher.group(0));
+		}
+		
 		// TODO - DEBUG
+		
+		System.out.println("Original file contents:");
 		System.out.println(line);
 		
-		String[] parts = line.split(" ");
-		
-		for(int i = 0; i < parts.length; i++){
-			String current = parts[i];
-			if(current.equals("d") || current.equals("$") || current.equals("a") || current.equals("s")){
-				cmd_list.add(current);
-			}else if(current.equals("b")){
-				//Check the next token
-				
-				//if next token is an integer, check if 0<b<5 and append it to current and increment i to skip it
-				if(isNumber(parts[i+1])){
-					int n = Integer.parseInt(parts[i+1]);
-					if(1 <= n && n <= 5){
-						current = current + " " + parts[i+1];
-						i++;
-					}else{
-						//There is an invalid bet, don't consider this command
-						System.out.println("File has an invalid bet!");
-						i++;
-					}
-
-				}else{ //if not add current
-					cmd_list.add(current);
-				}
-			}else if(current.equals("h")){
-				//For the next 5 tokens check if they are digits. If they are append it to current command
-				for (int j = 1; j < 5; j++){
-					if(i + j < parts.length){
-						if(isNumber(parts[i + j])){
-							current = current + " " + parts[i + j];
-						}else{
-							i = i + j - 1; //-1 to compensate for the outer loop increment
-							cmd_list.add(current);
-							break;
-						}
-					}else{
-						cmd_list.add(current);
-						break;
-					}
-				}
-			}
+		System.out.println("Considered commands:");
+		for (int i = 0; i < cmd_list.size(); i++){
+			System.out.print(cmd_list.get(i) +" ");
 		}
+		System.out.println("");
+		
 		return cmd_list;
-	}
-	
-	public static boolean isNumber(String value) {
-	    boolean ret = false;
-	    ret = value.matches("^[0-9]*$"); //Accepts exactly one digit between 1 and 5 
-	    return ret;
 	}
 }

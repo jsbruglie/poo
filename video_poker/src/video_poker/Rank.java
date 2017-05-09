@@ -1,7 +1,7 @@
 package video_poker;
 
 /**
- * Enum that represents a card number
+ * Represents a card rank
  */
 public enum Rank {
 	

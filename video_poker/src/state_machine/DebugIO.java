@@ -2,6 +2,9 @@ package state_machine;
 
 import java.util.List;
 
+/**
+ * State Machine I/O Handler for Debug Mode
+ */
 public class DebugIO implements StateMachineIO {
 	
 	/** The list of in-game commands to be executed */
@@ -14,6 +17,10 @@ public class DebugIO implements StateMachineIO {
 	 * @param commands The list of in-game commands
 	 */
 	public DebugIO(List<String> commands){
+		if (commands == null){
+			System.err.println("Illegal command list provided.");
+			throw new IllegalArgumentException();
+		}
 		this.commands = commands;
 	}
 	
@@ -23,19 +30,14 @@ public class DebugIO implements StateMachineIO {
 	}
 	
 	@Override
-	public void errOut(Tag tag, String string) {}
+	public void errOut(Tag tag, String string) {
+		System.out.println(string);
+	}
 
 	@Override
 	public String input(Tag tag) {
-		try{
-			if (idx == commands.size()){
-				return "q";
-			}
-		}catch(NullPointerException e){
-			// TODO - MOve this to constructor Illegal argument instead; and check at the source
-			//e.printStackTrace();
-			System.out.println("Could not get commands, if using one, command file is probably empty");
-			System.exit(-1);
+		if (idx == commands.size()){
+			return "q";
 		}
 		return commands.get(idx++);
 	}

@@ -2,6 +2,9 @@ package state_machine;
 
 import java.util.Scanner;
 
+/**
+ * State Machine I/O Handler for Interactive Mode
+ */
 public class InteractiveIO implements StateMachineIO {
 
 	/** Scan for command-line input */

@@ -1,5 +1,8 @@
 package video_poker;
 
+/**
+ * Defines a generic game variant properties
+ */
 public abstract class Variant {
 
 	/** Score class for hand evaluation */
@@ -8,13 +11,4 @@ public abstract class Variant {
 	public Strategy strategy;
 	/** Round outcome statistics */
 	public Statistics stats;
-	
-	/**
-	 * 
-	 * @param bet
-	 * @return
-	 */
-	public abstract boolean isBetValid(int bet);
-	
-	public abstract int getMaxBet();
 }

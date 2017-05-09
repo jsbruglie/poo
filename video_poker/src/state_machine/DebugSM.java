@@ -1,9 +1,16 @@
 package state_machine;
 
-import static state_machine.Event.*;
+import static state_machine.Action.*;
 
+/**
+ * State Machine for Debug Mode
+ */
 public class DebugSM extends VideoPokerSM {
 	
+	/**
+	 * Constructor
+	 * @param io State Machine I/O handler
+	 */
 	public DebugSM(StateMachineIO io) {
 		super(io);
 		defineTransitions();
@@ -17,7 +24,8 @@ public class DebugSM extends VideoPokerSM {
 		first_bet.addTransition(QUIT, null, null);
 		
 		deal.addTransition(BET, deal, deal);
-		deal.addTransition(DEAL, hold, deal);
+		// If a deal fails (insufficient credit) the program quits
+		deal.addTransition(DEAL, hold, null);
 		deal.addTransition(BALANCE, deal, deal);
 		deal.addTransition(STATS, deal, deal);
 		deal.addTransition(QUIT, null, null);

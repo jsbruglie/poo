@@ -7,7 +7,7 @@ public class Options {
 	
 	/** The chosen game mode */
 	public String mode;
-	/** The (required) initial credit */
+	/** The initial credit */
 	public int initial_credit;
 	/** The command file needed for debug mode */
 	public String cmd_file;
@@ -19,12 +19,18 @@ public class Options {
 	public int nb_deals;
 	
 	/** Current program version */
-	private final String VERSION = "v0.99";
+	private final static String VERSION = "dev 0.8_rev42";
+	// Use relative paths
 	private final String WORKING_DIRECTORY = "";
 	private final String DEFAULT_CMD_FILE = WORKING_DIRECTORY + "TESTS/"+ "cmd-file.txt";
 	private final String DEFAULT_CARD_FILE = WORKING_DIRECTORY + "TESTS/"+ "card-file.txt";
 	
+	/**
+	 * Constructor
+	 * @param args Command-line arguments
+	 */
 	public Options(String args[]){
+		
 		if(args == null){
 			printUsage();
 			System.exit(1);
@@ -33,6 +39,7 @@ public class Options {
 		mode = null;
 		
 		if (args[0].equals("-g")){
+			// GUI mode chosen
 			mode = "GUI";
 			return;
 		}
@@ -72,8 +79,8 @@ public class Options {
 					} catch (NumberFormatException e){
 						System.err.println("Invalid bet or number of deals provided!");
 					} 
-					//Check if bet is an integer between 1 and 5 and valid nb_deals
-					if(bet >= 1 && bet <= 5 && bet == (int)bet && nb_deals == (int)nb_deals && nb_deals > 0){ 
+					// Check if bet is an integer between 1 and 5 and valid nb_deals
+					if(Game.isBetValid(bet) && nb_deals > 0){ 
 						mode = "Simulation";
 					}else{
 						printUsage();
@@ -95,7 +102,7 @@ public class Options {
 		}
 	}
 
-	private void printUsage() {
+	private static void printUsage() {
 		System.out.print(
 			"Video Poker OOP Project 2017 - Group 29 " + VERSION + '\n' +
 			"usage: java -jar videopoker.jar [mode] [credit] [args]\n" +

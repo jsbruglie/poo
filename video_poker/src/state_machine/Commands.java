@@ -3,10 +3,11 @@ package state_machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import combinations.Combination;
 import video_poker.Card;
-import video_poker.Combination;
 import video_poker.Deck;
 import video_poker.DeckEmptyException;
+import video_poker.Game;
 import video_poker.InsufficientCreditException;
 import video_poker.Player;
 import video_poker.Score;
@@ -14,9 +15,12 @@ import video_poker.Statistics;
 import video_poker.Strategy;
 
 import static state_machine.State.StateName.*;
-import static state_machine.Event.*;
+import static state_machine.Action.*;
 import static state_machine.Tag.*;
 
+/**
+ * Defines static methods for each available command
+ */
 public class Commands {
 	
 	/**
@@ -33,41 +37,41 @@ public class Commands {
 	public static State execute(State current, StateMachineIO io,
 		Player player, Deck deck, Strategy strategy, Statistics stats, Score score){
 		
-		Event event = null;
+		Action action = null;
 		List<String> params = new ArrayList<String>();
 		
-		if (current.has_input){
+		if (current.accepts_input){
 			
 			Tag tag = null;
-			if (current.name == ST_FIRST_BET){
+			if (current.name == STATE_FIRST_BET){
 				tag = In_Bet;
-			} else if (current.name == ST_DEAL){
+			} else if (current.name == STATE_DEAL){
 				tag = In_Deal;
-			} else if(current.name == ST_HOLD){
+			} else if(current.name == STATE_HOLD){
 				tag = In_Hold;
 			} else {
 				tag = Error;
 			}
 			String command = io.input(tag);
-			event = Event.fromString(command, params);
+			action = Action.fromString(command, params);
 			
 		} else if (current.has_default_behaviour) {
-			event = current.getDefaultBehaviour();
+			action = current.getDefaultBehaviour();
 		}
 		
-		if (current.valid(event)){
-			boolean success = runCommand(event, params, io,
+		if (current.isValid(action)){
+			boolean success = runCommand(action, params, io,
 					player, deck, strategy, stats, score);
 
-			return current.getEventOutcome(event, success);
+			return current.getEventOutcome(action, success);
 		}
 		io.errOut(Error, "invalid command");
 		return current;
 	}
 	
 	/**
-	 * Runs a command corresponding to the desired event
-	 * @param event The event descriptor
+	 * Runs a command corresponding to the desired action
+	 * @param action The action descriptor
 	 * @param params The provided command parameters
 	 * @param io The state machine I/O handler
 	 * @param player The player
@@ -77,27 +81,27 @@ public class Commands {
 	 * @param score The score class for evaluating hands and respective pay-outs
 	 * @return Whether the command was successfully executed
 	 */
-	public static boolean runCommand(Event event, List<String> params, StateMachineIO io,
+	public static boolean runCommand(Action action, List<String> params, StateMachineIO io,
 		Player player, Deck deck, Strategy strategy, Statistics stats, Score score){
 
-		if (event != null){
-			if (event == BET){
+		if (action != null){
+			if (action == BET){
 				return bet(params, player, io);
-			} else if (event == DEAL){
+			} else if (action == DEAL){
 				return deal(player, deck, io);
-			} else if (event == HOLD){
+			} else if (action == HOLD){
 				return hold(params, player, deck, io);
-			} else if (event == ADVICE){
+			} else if (action == ADVICE){
 				return advice(player, strategy, io);
-			} else if (event == STATS){
+			} else if (action == STATS){
 				return statistics(player, stats, io);
-			} else if (event == BALANCE){
+			} else if (action == BALANCE){
 				return balance(player, io);
-			} else if (event == RESULTS) {
+			} else if (action == RESULTS) {
 				return results(player, stats, score, io);
-			} else if (event == SHUFFLE){
+			} else if (action == SHUFFLE){
 				return shuffle(deck);
-			} else if (event == QUIT){
+			} else if (action == QUIT){
 				return quit();
 			}
 		}
@@ -121,12 +125,12 @@ public class Commands {
 			try {
 				new_bet = Integer.parseInt(params.get(0));
 			} catch (NumberFormatException e){
-					io.errOut(Error, "b: illegal parameter (non-integer)");
+				io.errOut(Error, "b: illegal parameter (non-integer)");
 				return false;
 			}
 		}
 		
-		if (0 < new_bet && new_bet <= player.max_bet){
+		if (0 <= new_bet && new_bet <= player.max_bet){
 			player.setBet(new_bet);
 			io.out(Out_Bet, "player is betting " + player.getBet());
 			return true;
@@ -149,19 +153,15 @@ public class Commands {
 		try{
 			player.removeCredit(player.getBet());
 		} catch (InsufficientCreditException e){
-			// TODO Simulation mode might break this thing into an infinite loop
 			io.errOut(Error, "Player has insufficient credit to place desired bet.");
 			return false;
 		}
-		
-		// TODO - This makes no sense!
 		
 		// Draw 5 cards and add them to the player's hand
 		player.setHand(deck.getHand(player.hand_size));
 		try {
 			io.out(Out_Deal, player.getHand().toString());
 		} catch (NullPointerException e) {
-			// TODO - refine this
 			System.out.println("Failed to get a hand - card file is probably empty or not enough cards. Exiting...");
 			System.exit(-1);
 		}
@@ -190,7 +190,7 @@ public class Commands {
 					io.errOut(Error, "h: invalid card held.");
 					return false;
 				}
-				if (hold_idx < 1 || hold_idx > 5){
+				if (hold_idx < 1 || hold_idx > Game.HAND_SIZE){
 					io.errOut(Error, "h: nvalid card held: " + hold_idx);
 					return false;
 				}

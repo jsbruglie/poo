@@ -1,5 +1,12 @@
 package state_machine;
 
+/**
+ * Interface for a State Machine I/O Handler.
+ * Allows an implementation to specify different
+ * reactions to input and output requests.
+ * 
+ * It makes use of tags to identify the requests.
+ */
 public interface StateMachineIO {
 	
 	/**

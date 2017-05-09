@@ -5,12 +5,16 @@ import state_machine.SimulationIO;
 import state_machine.StateMachineIO;
 import state_machine.VideoPokerSM;
 
+/**
+ * Simulation Game Mode
+ */
 public class SimulationMode implements Mode {
 
 	/** Deck of playing cards */
 	private Deck deck;
 	
 	/** Number of deals */
+	@SuppressWarnings("unused") // It is used
 	private final int nb_deals;
 	
 	/** State machine IO handler */
@@ -18,10 +22,16 @@ public class SimulationMode implements Mode {
 	/** State machine class */
 	VideoPokerSM state_machine;
 	
-	
+	/**
+	 * Constructor
+	 * @param v The game variant
+	 * @param player The player
+	 * @param bet The bet to be performed each round
+	 * @param nb_deals The desired number of rounds
+	 */
 	public SimulationMode(Variant v, Player player, int bet, int nb_deals) {
 		
-		if (bet <= 0 || bet > 5){
+		if (!Game.isBetValid(bet)){
 			throw new IllegalArgumentException();
 		}
 		
@@ -36,14 +46,5 @@ public class SimulationMode implements Mode {
 	@Override
 	public void execute(Player player, Score score, Strategy strategy, Statistics stats) {
 		state_machine.run(player, deck, strategy, stats, score);
-	}
-	
-	// TODO - DEBUG
-	public static void main(String[] args){
-		
-		Player player = new Player(10000, 5);
-		Variant db = new DoubleBonus10_7(10000); 
-		Mode m = new SimulationMode(db, player, 5, 100000);
-		m.execute(player, db.score, db.strategy, db.stats);
 	}
 }
