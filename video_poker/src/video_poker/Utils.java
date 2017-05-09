@@ -126,7 +126,8 @@ public final class Utils {
 			e.printStackTrace();
 		}
 		
-		final String regex = "(a|d|(b ([0-9]+){0,1})|(h[1-5 ]{0,10})|s|q|\\$)";
+
+		final String regex = "(\\ba\\s|\\bd\\b|(\\bb\\s([0-9]+)|b\\b)|\\b(h\\s[1-5\\s]{0,9}\\b)|\\bs\\b|\\bq\\b|\\B\\$\\B)";
 		final Pattern pattern = Pattern.compile(regex);
 		
 		List<String> cmd_list = new ArrayList<String>();
