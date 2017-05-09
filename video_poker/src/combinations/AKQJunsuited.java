@@ -12,7 +12,7 @@ import video_poker.Card;
 import video_poker.Rank;
 
 /**
- * Class to verify if an array of cards contains AKQ Suited (same suit)
+ * Class to verify if an array of cards contains AKQJ Suited (same suit)
  */
 public class AKQJunsuited implements Rule {
 

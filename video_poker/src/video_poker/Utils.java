@@ -37,7 +37,6 @@ public final class Utils {
 	 * @return A matrix of cards read from the input file
 	 */
 	
-	// TODO - LAST LINE IS EMPTY _ MAJOR BUG
 	public static Card[][] cardFileParser(String filename){
 		File file = new File(filename);
         Scanner sc = null;
