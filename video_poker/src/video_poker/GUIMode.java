@@ -20,7 +20,6 @@ public class GUIMode implements Mode{
 	 */
 	public GUIMode(){
 		deck = new Deck(true);
-		//state_machine_io = new GUIIO();
 		state_machine_io = new GUIIO();
 		state_machine = new GUISM(state_machine_io);
 	}

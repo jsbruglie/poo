@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import state_machine.Tag;
 import video_poker.Hand;
 import video_poker.Player;
 
@@ -24,6 +25,7 @@ public class GUI {
 	public String ret_input = new String();
 	public String ret_output = new String();
 	private JSlider creditsToBet;
+	private Tag inner_tag;
 	
 	private static GUI instance;
 	
@@ -44,8 +46,9 @@ public class GUI {
 		return ret_input;
 	}
 	
-	public void output(String string){
+	public void output(String string, Tag current_tag){
 		ret_output = string;
+		inner_tag = current_tag;
 	}
 	
 	/**
@@ -282,11 +285,55 @@ public class GUI {
 	
 	void changeIcons(Player player){
 		String initial_string = new String();
-		try {
-		    Thread.sleep(200);
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
-		}
+		
+		while(!((inner_tag == Tag.Out_Deal) || (inner_tag == Tag.Out_Hold)));
+			/*if(inner_tag == Tag.In_Bet){
+				System.out.println("in_bet");
+			}
+			if(inner_tag == Tag.Out_Bet){
+				System.out.println("out_bet");
+			}
+		
+			if(inner_tag == Tag.In_Deal){
+				System.out.println("in_deal");
+			}
+		
+			if(inner_tag == Tag.Out_Deal){
+				System.out.println("out_deal");
+			}
+
+			if(inner_tag == Tag.In_Hold){
+				System.out.println("in_hold");
+			}
+			
+			if(inner_tag == Tag.Out_Hold){
+				System.out.println("out_hold");
+			}
+	
+			if(inner_tag == Tag.Out_GameOver){
+				System.out.println("out_gameover");
+			}
+
+			if(inner_tag == Tag.Out_Results){
+				System.out.println("out_results");
+			}
+	
+			if(inner_tag == Tag.Out_Advice){
+				System.out.println("out_advice");
+			}
+		
+			if(inner_tag == Tag.Out_Stats){
+				System.out.println("out_stats");
+			}
+			
+			if(inner_tag == Tag.Out_Balance){
+				System.out.println("out_balance");
+			}
+			
+			if(inner_tag == Tag.Error){
+				System.out.println("error");
+			}*/
+				
 		Hand parting_hand = player.getHand();
 		String parting_string = parting_hand.toString();
 		String parts[] = parting_string.split("\\s+");

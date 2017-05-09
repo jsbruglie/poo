@@ -10,7 +10,7 @@ public class GUIIO implements StateMachineIO {
 	@Override
 	public void out(Tag tag, String string) {
 		GUI existingGUI = GUI.getGUI();
-		existingGUI.output(string);
+		existingGUI.output(string, tag);
 	}
 
 	@Override
