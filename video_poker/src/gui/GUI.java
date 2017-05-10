@@ -60,6 +60,8 @@ public class GUI {
 		mainFrame.setSize(1000, 1000);
 		p.setSize(1000,1000);
 		mainFrame.setContentPane(p);
+		mainFrame.setResizable(false);
+		mainFrame.setPreferredSize(new Dimension(1000,1000));
 
 		layout = new SpringLayout();
 		
@@ -96,7 +98,7 @@ public class GUI {
 	
 	public void prepareInteractiveGUI(Player player){
 		mainFrame.setVisible(false);
-		mainFrame = new JFrame("Best Test in the West");
+		mainFrame.setTitle("Best Test in the West");
 		mainFrame.setSize(1000, 1000);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -189,6 +191,7 @@ public class GUI {
 				} catch(InterruptedException ex) {
 				    Thread.currentThread().interrupt();
 				}
+				advicebtn.setEnabled(false);
 				adviceField.setText(ret_output);
 			}
 		});
@@ -200,7 +203,8 @@ public class GUI {
 				
 				if(initial_credit <= 0)
 					return;
-				
+				dealbtn.setEnabled(true);
+				betbtn.setEnabled(false);
 				ret_input = inner_ret_input.concat(" " + Integer.toString(initial_credit));
 			}
 		});
@@ -259,8 +263,13 @@ public class GUI {
 						int_ret_input = int_ret_input.concat(" " + Integer.toString(i+1));
 				}
 				ret_input = int_ret_input;
+				betbtn.setEnabled(true);
+				dealbtn.setEnabled(true);
+				advicebtn.setEnabled(false);
+				holdbtn.setEnabled(false);
 				changeIcons(player);
 				changeCredits(player);
+				showResults();
 				unclickAll();
 			}
 		});
@@ -268,6 +277,10 @@ public class GUI {
 		dealbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ret_input = "d";
+				dealbtn.setEnabled(false);
+				holdbtn.setEnabled(true);
+				advicebtn.setEnabled(true);
+				betbtn.setEnabled(false);
 				changeIcons(player);
 				changeCredits(player);
 			}
@@ -277,6 +290,9 @@ public class GUI {
 			p.add(cards[i]);
 			p.add(btn[i]);
 		}
+		dealbtn.setEnabled(false);
+		holdbtn.setEnabled(false);
+		advicebtn.setEnabled(false);
 		
 		mainFrame.pack();
 		mainFrame.setVisible(true);
@@ -286,54 +302,9 @@ public class GUI {
 	void changeIcons(Player player){
 		String initial_string = new String();
 		
-		while(!((inner_tag == Tag.Out_Deal) || (inner_tag == Tag.Out_Hold)));
-			/*if(inner_tag == Tag.In_Bet){
-				System.out.println("in_bet");
-			}
-			if(inner_tag == Tag.Out_Bet){
-				System.out.println("out_bet");
-			}
-		
-			if(inner_tag == Tag.In_Deal){
-				System.out.println("in_deal");
-			}
-		
-			if(inner_tag == Tag.Out_Deal){
-				System.out.println("out_deal");
-			}
-
-			if(inner_tag == Tag.In_Hold){
-				System.out.println("in_hold");
-			}
-			
-			if(inner_tag == Tag.Out_Hold){
-				System.out.println("out_hold");
-			}
-	
-			if(inner_tag == Tag.Out_GameOver){
-				System.out.println("out_gameover");
-			}
-
-			if(inner_tag == Tag.Out_Results){
-				System.out.println("out_results");
-			}
-	
-			if(inner_tag == Tag.Out_Advice){
-				System.out.println("out_advice");
-			}
-		
-			if(inner_tag == Tag.Out_Stats){
-				System.out.println("out_stats");
-			}
-			
-			if(inner_tag == Tag.Out_Balance){
-				System.out.println("out_balance");
-			}
-			
-			if(inner_tag == Tag.Error){
-				System.out.println("error");
-			}*/
-				
+		while(!((inner_tag == Tag.Out_Deal) || (inner_tag == Tag.Out_Results))){
+			System.out.println("fag");
+		}
 		Hand parting_hand = player.getHand();
 		String parting_string = parting_hand.toString();
 		String parts[] = parting_string.split("\\s+");
@@ -343,10 +314,16 @@ public class GUI {
 			ImageIcon inner_icon = new ImageIcon(initial_string);
 			cards[i].setIcon(inner_icon);
 		}
+
 	}
 	
 	void changeCredits(Player player){
 		betField.setText(Integer.toString(player.getCredit()));
+	}
+	
+	void showResults()
+	{
+		adviceField.setText(ret_output);
 	}
 	
 	void unclickAll(){
