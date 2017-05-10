@@ -26,11 +26,12 @@ public class GUI {
 	public String ret_output = new String();
 	private JSlider creditsToBet;
 	private Tag inner_tag;
+	private Player inner_player;
 	
 	private static GUI instance;
 	
 	private GUI(){
-		JFrame.setDefaultLookAndFeelDecorated(true);
+		JFrame.setDefaultLookAndFeelDecorated(false);
 	}
 	
 	public static GUI getGUI(){
@@ -49,6 +50,13 @@ public class GUI {
 	public void output(String string, Tag current_tag){
 		ret_output = string;
 		inner_tag = current_tag;
+		if(inner_tag == Tag.Out_Deal || inner_tag == Tag.Out_Hold){
+			changeIcons(inner_player);
+		}
+		if(inner_tag == Tag.Out_Results || inner_tag == Tag.Out_Advice){
+			showResults();
+		}
+		
 	}
 	
 	/**
@@ -97,9 +105,12 @@ public class GUI {
 	}
 	
 	public void prepareInteractiveGUI(Player player){
+		inner_player = player;
 		mainFrame.setVisible(false);
-		mainFrame.setTitle("Best Test in the West");
+		mainFrame = new JFrame("Best Test in the West");
 		mainFrame.setSize(1000, 1000);
+		mainFrame.setResizable(false);
+		mainFrame.setPreferredSize(new Dimension(1000,1000));
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
@@ -186,13 +197,7 @@ public class GUI {
 		advicebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ret_input = "a";
-				try {
-				    Thread.sleep(10);
-				} catch(InterruptedException ex) {
-				    Thread.currentThread().interrupt();
-				}
 				advicebtn.setEnabled(false);
-				adviceField.setText(ret_output);
 			}
 		});
 		
@@ -267,7 +272,6 @@ public class GUI {
 				dealbtn.setEnabled(true);
 				advicebtn.setEnabled(false);
 				holdbtn.setEnabled(false);
-				changeIcons(player);
 				changeCredits(player);
 				showResults();
 				unclickAll();
@@ -281,7 +285,6 @@ public class GUI {
 				holdbtn.setEnabled(true);
 				advicebtn.setEnabled(true);
 				betbtn.setEnabled(false);
-				changeIcons(player);
 				changeCredits(player);
 			}
 		});
@@ -302,9 +305,6 @@ public class GUI {
 	void changeIcons(Player player){
 		String initial_string = new String();
 		
-		while(!((inner_tag == Tag.Out_Deal) || (inner_tag == Tag.Out_Results))){
-			System.out.println("fag");
-		}
 		Hand parting_hand = player.getHand();
 		String parting_string = parting_hand.toString();
 		String parts[] = parting_string.split("\\s+");
@@ -321,8 +321,7 @@ public class GUI {
 		betField.setText(Integer.toString(player.getCredit()));
 	}
 	
-	void showResults()
-	{
+	void showResults(){
 		adviceField.setText(ret_output);
 	}
 	
