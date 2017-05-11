@@ -28,6 +28,8 @@ public class GUI {
 	private JTextField txt_field_advice;
 	private JTextArea txt_stats;
 	
+	private JTextField[] table_txt;
+	
 	private JToggleButton[] tglbtn = new JToggleButton[5];
 	private JButton[] btn = new JButton[5];
 	
@@ -93,7 +95,8 @@ public class GUI {
 		ret_output = string;
 		inner_tag = tag;
 				
-		changeStatsPane();
+		//changeStatsPane();
+		showStats();
 		
 		if (tag == Tag.Out_Deal){
 			btn[BTN_BET].setEnabled(false);
@@ -289,7 +292,7 @@ public class GUI {
 		
 		txt_stats = new JTextArea();
 		txt_stats.setEditable(false);
-		changeStatsPane();
+		//changeStatsPane();
 		layout.putConstraint(SpringLayout.WEST, txt_stats, 570, SpringLayout.WEST, content_pane);
 		layout.putConstraint(SpringLayout.NORTH, txt_stats, 20, SpringLayout.NORTH, content_pane);
 		
@@ -297,7 +300,7 @@ public class GUI {
 		p.add(txt_field_credit);
 		p.add(lab_credit);
 		p.add(txt_field_advice);
-		p.add(txt_stats);
+		//p.add(txt_stats);
 		
 		btn[BTN_BET].addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -344,6 +347,21 @@ public class GUI {
 		btn[4].setEnabled(true);
 		
 		//p.remove(btn[4]);
+		
+		/* table for things */
+		//table_panel = makeTablePanel();
+		table_txt = new JTextField[12];
+		for(int i = 0; i < 12; i++){
+			table_txt[i] = new JTextField(30);
+			layout.putConstraint(SpringLayout.WEST, table_txt[i], 570, SpringLayout.WEST, content_pane);
+			layout.putConstraint(SpringLayout.NORTH, table_txt[i], (i==0)? 20 : 0, (i==0)? SpringLayout.NORTH : SpringLayout.SOUTH, (i==0)? content_pane : table_txt[i-1]);
+			table_txt[i].setEditable(false);
+			p.add(table_txt[i]);
+		}
+		showStats();
+		/*layout.putConstraint(SpringLayout.WEST, table_panel, 570, SpringLayout.WEST, content_pane);
+		layout.putConstraint(SpringLayout.NORTH, table_panel, 20, SpringLayout.NORTH, content_pane);
+		p.add(table_panel);*/
 		main_frame.setVisible(true);
 	}
 	
@@ -379,5 +397,40 @@ public class GUI {
 	void changeStatsPane(){
 		String str_stats = stats.printStatistics(player.getCredit());
 		txt_stats.setText(str_stats);
+	}
+	
+	void showStats(){
+		String[] split_output = stats.printStatistics(player.getCredit()).split("\\n");
+		String internal_concatenation = new String("");
+		for(int i = 0; i < 12; i++){
+			String[] split_split = split_output[i].split("\\s+");
+			internal_concatenation = "";
+			for(int e = 0; e < split_split.length - 1; e++){
+				internal_concatenation = internal_concatenation.concat(split_split[e] + " ");
+			}
+			if(i != 11){
+				internal_concatenation = internal_concatenation.concat("\t\t" + split_split[split_split.length - 1]);
+			}
+			else{
+				internal_concatenation = "";
+				internal_concatenation = internal_concatenation.concat(split_split[0] + "\t\t" + split_split[1] + split_split[2]);
+			}
+			table_txt[i].setText(internal_concatenation);
+		}
+		
+	}
+	
+	JPanel makeTablePanel(){
+		table_txt = new JTextField[12];
+		JPanel holding_area = new JPanel();
+		holding_area.setLayout(layout);
+		for(int i = 0; i < 12; i++){
+			table_txt[i] = new JTextField(50);
+			layout.putConstraint(SpringLayout.WEST, table_txt[i], 20, SpringLayout.WEST, holding_area);
+			layout.putConstraint(SpringLayout.NORTH, table_txt[i], 20, (i==0)? SpringLayout.NORTH : SpringLayout.SOUTH, (i==0)? holding_area : table_txt[i-1]);
+			table_txt[i].setEditable(false);
+			holding_area.add(table_txt[i]);
+		}
+		return holding_area;
 	}
 }
