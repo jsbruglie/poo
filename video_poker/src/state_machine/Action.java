@@ -84,7 +84,7 @@ public enum Action {
 		
 		if (command != null){
 			
-			List<String> split = new ArrayList<String>(Arrays.asList(command.split("\\s+")));
+			List<String> split = new ArrayList<String>(Arrays.asList(command.trim().split("\\s+")));
 			
 			for (Action e : Action.values()){
 				if (e.multiplicity == ZERO) {

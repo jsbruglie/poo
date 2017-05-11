@@ -34,6 +34,7 @@ public class GUI {
 	private Boolean[] hold = new Boolean[5];
 	public String ret_input = new String();
 	public String ret_output = new String();
+	private String last_input = new String();
 	
 	private Tag inner_tag;
 	private Player player;
@@ -49,6 +50,7 @@ public class GUI {
 	
 	private GUI(){
 		JFrame.setDefaultLookAndFeelDecorated(false);
+		last_input = null;
 	}
 	
 	public static GUI getGUI(){
@@ -62,7 +64,23 @@ public class GUI {
 	public String input(){
 		String tmp = ""+ret_input;
 		ret_input = null;
-		return tmp;
+		if(last_input == null){
+			last_input = tmp;
+		}
+		if(last_input.equals(tmp))
+		{
+			try {
+			    Thread.sleep(200);
+			} catch(InterruptedException ex) {
+			    Thread.currentThread().interrupt();
+			}
+			return null;
+		}
+		else{
+			last_input = tmp;
+			return tmp;
+		}
+		
 	}
 	
 	/**
