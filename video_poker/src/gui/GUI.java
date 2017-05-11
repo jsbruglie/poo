@@ -323,6 +323,9 @@ public class GUI {
 			}
 		});
 		
+		btn[4].setEnabled(true);
+		
+		//p.remove(btn[4]);
 		main_frame.setVisible(true);
 	}
 	
