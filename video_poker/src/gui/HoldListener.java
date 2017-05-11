@@ -3,24 +3,26 @@ package gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Monitors changes in hold card toggle buttons
+ */
 public class HoldListener implements ActionListener {
 	
+	/** The toggle button index */
 	private int i;
+	/** The GUI instance */
 	private GUI existingGUI = GUI.getGUI();
 	
-	public HoldListener(int _i) {
-		i = _i;
+	/**
+	 * Constructor
+	 * @param i The toggle button index
+	 */
+	public HoldListener(int i) {
+		this.i = i;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		/*if(hold == false){
-			hold = true;
-			System.out.println("I am now true, as should be");
-		}
-			
-		if(hold == true)
-			hold = false;*/
 		existingGUI.changeHold(i);
 	}
 

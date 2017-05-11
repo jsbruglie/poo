@@ -17,7 +17,6 @@ public enum Action {
 	BET(	"b", ZERO_OR_MANY, 1),
 	/** Deal hand action */
 	DEAL(	"d", ZERO),
-	// TODO - Replace 5?
 	/** Hold up to 5 cards action */
 	HOLD(	"h", ZERO_OR_MANY, Game.HAND_SIZE),
 	/** Request advice action */

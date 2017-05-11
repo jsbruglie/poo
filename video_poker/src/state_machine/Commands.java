@@ -261,15 +261,16 @@ public class Commands {
 	 */
 	private static boolean results(Player player, Statistics stats, Score score, StateMachineIO io){
 		Combination comb = score.evaluateHand(player.getHand());
+		
+		// Add the result to statistics
+		stats.addResults(comb);		
+		
 		if (comb != null){
 			player.addCredit(comb.getPayout(player.getBet()));
 			io.out(Out_Results, "player wins with a " + comb.toString().toUpperCase() + " and his credit is " + player.getCredit());
 		} else {
 			io.out(Out_Results, "player loses and his credit is " + player.getCredit());
 		}
-		
-		// Add the result to statistics
-		stats.addResults(comb);		
 		
 		if (player.getCredit() == 0){
 			io.out(Out_GameOver, "player ran out of credit");
