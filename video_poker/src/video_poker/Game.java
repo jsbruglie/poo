@@ -42,34 +42,9 @@ public class Game {
 		} else if ((opt.mode).equals("Simulation")){
 			this.mode = new SimulationMode(variant, player, opt.bet, opt.nb_deals);
 		} else if ((opt.mode).equals("GUI")){
-			
-			// TODO
-			//THIS SHOULDN'T BE HERE, MAYBE INSIDE THE GUI CODE?
-			GUI firstGUI = GUI.getGUI();
-			String[] argss = new String[2];
-			Boolean[] forward = new Boolean[2];
-			int initial_credit = 0;
-			forward[0] = new Boolean(false);
-			forward[1] = new Boolean(false);
-			firstGUI.prepareSelectorGUI(argss,forward);
-			
-			while(!forward[0]){
-				System.out.print("");
-				if(forward[1]){
-					try {
-						initial_credit = Integer.parseInt(argss[1]);
-					} catch (NumberFormatException e){
-						//do something display worthy, i guess
-						continue;
-					}
-					if(initial_credit > 0)
-						forward[0] = true;
-				}
-			}
-			//END OF CODE THAT SHOULD NOT BE HERE
-			
+			int initial_credit = GUI.getInitialCredit();
 			this.variant = new DoubleBonus10_7(initial_credit);
-			this.player = new Player(initial_credit, 5);
+			this.player = new Player(initial_credit, MAX_BET);
 			this.mode = new GUIMode();
 		} else {
 			System.exit(-1);

@@ -3,6 +3,8 @@ package gui;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Insets;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
@@ -14,15 +16,18 @@ public class ToggleButtonWithCoordinates extends JToggleButton {
 
 	public ToggleButtonWithCoordinates(String arg0) {
 		super(arg0);
-		// TODO Auto-generated constructor stub
 	}
 
-	public ToggleButtonWithCoordinates(String name, Integer west_pad, Integer north_pad, Component north_component, Component west_component, SpringLayout layout)
-	{
+	public ToggleButtonWithCoordinates(String name, Integer west_pad, Integer north_pad,
+			Component north_component, Component west_component, SpringLayout layout,
+			int dim_x, int dim_y){
+		
 		super(name);
-		this.setMaximumSize(new Dimension(93, 27));
-		this.setMinimumSize(new Dimension(93, 27));
-		this.setPreferredSize(new Dimension(93, 27));
+		
+		this.setMargin(new Insets(0, 0, 0, 0));
+		this.setMaximumSize(new Dimension(dim_x, dim_y));
+		this.setMinimumSize(new Dimension(dim_x, dim_y));
+		this.setPreferredSize(new Dimension(dim_x, dim_y));
 		
 		if(!(north_component instanceof JButton) && !(north_component instanceof JToggleButton) && !(north_component instanceof JLabel)){
 			

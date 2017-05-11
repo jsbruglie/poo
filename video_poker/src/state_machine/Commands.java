@@ -130,7 +130,7 @@ public class Commands {
 			}
 		}
 		
-		if (0 <= new_bet && new_bet <= player.max_bet){
+		if (Game.isBetValid(new_bet) && new_bet <= player.getCredit()){
 			player.setBet(new_bet);
 			io.out(Out_Bet, "player is betting " + player.getBet());
 			return true;

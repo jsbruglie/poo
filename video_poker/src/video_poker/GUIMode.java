@@ -28,7 +28,7 @@ public class GUIMode implements Mode{
 	public void execute(Player player, Score score, Strategy strategy, Statistics stats) {
 
 		GUI firstGUI = GUI.getGUI();
-		firstGUI.prepareRefactoredInteractiveGUI(player);
+		firstGUI.prepareRefactoredInteractiveGUI(player, stats);
 		//firstGUI.prepareInteractiveGUI(player);
 		state_machine.run(player, deck, strategy, stats, score);
 		
