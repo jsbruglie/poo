@@ -80,7 +80,7 @@ public final class Utils {
 		Rank number = null;
 		Suit suit = null;
 		
-		String[] split = line.split(" ");
+		String[] split = line.split("\\s+");
 		if (split == null){
 			return null;
 		}
