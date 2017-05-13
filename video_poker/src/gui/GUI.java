@@ -119,6 +119,8 @@ public class GUI {
 	
 	/**
 	 * Output request performed by the application
+	 * 
+	 * Updates component visibility
 	 * @param string The output string
 	 * @param tag The output request tag
 	 */
@@ -129,25 +131,36 @@ public class GUI {
 		updateStats();
 		
 		if (tag == Tag.Out_Deal){
-			btn[BTN_BET].setEnabled(false);
 			btn[BTN_DEAL].setEnabled(false);
-			btn[BTN_HOLD].setEnabled(true);
 			btn[BTN_ADVICE].setEnabled(true);
 			changeIcons();
 			changeCredits();
+			showResults("Hand dealt");
+			holdEnable(true);
+			betEnable(false);
 		} else if (tag == Tag.Out_Hold){
-			btn[BTN_BET].setEnabled(true);
 			btn[BTN_DEAL].setEnabled(true);
-			btn[BTN_HOLD].setEnabled(false);
 			btn[BTN_ADVICE].setEnabled(false);
 			changeIcons();
-		} else if (tag == Tag.Out_Results || tag == Tag.Out_Advice){
+			holdReset();
+			holdEnable(false);
+		} else if (tag == Tag.Out_Results){
+			showResults(string);
+			changeCredits();
+			betEnable(true);
+		} else if (tag == Tag.Out_Advice){
 			showResults(string);
 		} else if (tag == Tag.Out_Bet){
+			showResults(string);
 			changeCredits();
 			btn[BTN_DEAL].setEnabled(true);
 		} else if (tag == Tag.Out_GameOver){
-			System.out.println("Game Over!");
+			showResults("Game Over! Exiting...");
+			try {
+			    Thread.sleep(2000);
+			} catch(InterruptedException ex) {
+			    Thread.currentThread().interrupt();
+			}
 		}
 	}
 	
@@ -314,6 +327,8 @@ public class GUI {
 			panel.add(btn[i]);
 		}
 		
+		holdEnable(false);
+		
 		/* Bet slider */
 		slider_bet = new JSlider(JSlider.HORIZONTAL, 1, 5, 5);
 		slider_bet.setMajorTickSpacing(5);
@@ -387,7 +402,6 @@ public class GUI {
 					}
 				}
 				ret_input = int_ret_input;
-				unclickAll();
 			}
 		});
 		
@@ -436,11 +450,31 @@ public class GUI {
 	 * Click each held card's respective toggle button.
 	 * In the end, each button should not be pressed.
 	 */
-	void unclickAll(){
-		for(int i = 0; i < 5; i++){
+	void holdReset(){
+		for (int i = 0; i < 5; i++){
 			if (hold[i] == true)
 				tglbtn[i].doClick();	
 		}
+	}
+	
+	/**
+	 * Enable or Disable hold buttons
+	 * @param status Enabled status
+	 */
+	void holdEnable(boolean status){
+		btn[BTN_HOLD].setEnabled(status);
+		for (int i = 0; i < 5; i++){
+			tglbtn[i].setEnabled(status);
+		}
+	}
+	
+	/**
+	 * Enable or disable bet components
+	 * @param status Enabled status
+	 */
+	void betEnable(boolean status){
+		btn[BTN_BET].setEnabled(status);
+		slider_bet.setEnabled(status);
 	}
 	
 	/**
