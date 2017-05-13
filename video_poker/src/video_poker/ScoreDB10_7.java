@@ -19,6 +19,7 @@ public class ScoreDB10_7 implements Score{
 		this.occurrences = new Occurrences();
 	}
 	
+	@Override
 	public Combination evaluateHand(Hand hand){
 		
 		Card[] cards = hand.getCards();
@@ -33,6 +34,7 @@ public class ScoreDB10_7 implements Score{
 		return null;
 	}
 	
+	@Override
 	public int payoutHand(Hand hand, int bet){
 		Combination cb = evaluateHand(hand);
 		if (cb != null){

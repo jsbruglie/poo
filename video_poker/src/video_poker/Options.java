@@ -31,7 +31,7 @@ public class Options {
 	 */
 	public Options(String args[]){
 		
-		if(args == null){
+		if(args == null || args.length == 0){
 			printUsage();
 			System.exit(1);
 		}

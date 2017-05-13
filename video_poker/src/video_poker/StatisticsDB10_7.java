@@ -53,6 +53,7 @@ public class StatisticsDB10_7 implements Statistics {
 	 * Adds a given combination to the occurrence table
 	 * @param combination The combination to be added
 	 */
+	@Override
 	public void addResults(Combination combination){
 		if (validCombination(combination)){
 			number_hand_occurrences[combination.order]++;
@@ -64,6 +65,7 @@ public class StatisticsDB10_7 implements Statistics {
 	 * Prints statistics regarding hand occurrences and wins/losses
 	 * @param current_credit The current player credit
 	 */
+	@Override
 	public String printStatistics(int current_credit){
 		
 		String output = String.format(format_header, "Hand", "Nb");

@@ -32,81 +32,81 @@ public class StrategyDB10_7 implements Strategy {
 		/* Add all rules to the list*/
 
 		/* 1.Royal Flush*/
-		rule_list.add((Rule) new combinations.RoyalFlush());
+		rule_list.add(new combinations.RoyalFlush());
 		/* 1.Straight Flush*/
-		rule_list.add((Rule) new combinations.StraightFlush());
+		rule_list.add(new combinations.StraightFlush());
 		/* 1.Four of a Kind*/
-		rule_list.add((Rule) new combinations.FourOfAKind());
+		rule_list.add(new combinations.FourOfAKind());
 		/* 2.Four of a royal flush*/
-		rule_list.add((Rule) new combinations.NToRoyalFlush(4));
+		rule_list.add(new combinations.NToRoyalFlush(4));
 		/* 3.Three Aces */
-		rule_list.add((Rule) new combinations.ThreeAces());
+		rule_list.add(new combinations.ThreeAces());
 		/* 4.Straight*/
-		rule_list.add((Rule) new combinations.Straight());
+		rule_list.add(new combinations.Straight());
 		/* 4.Flush*/
-		rule_list.add((Rule) new combinations.Flush());
+		rule_list.add(new combinations.Flush());
 		/* 4.FullHouse*/
-		rule_list.add((Rule) new combinations.FullHouse());
+		rule_list.add(new combinations.FullHouse());
 		/* 5.ThreeOfAKind*/
-		rule_list.add((Rule) new combinations.ThreeOfAKind());
+		rule_list.add(new combinations.ThreeOfAKind());
 		/* 6.FourToStraightFlush*/
-		rule_list.add((Rule) new combinations.FourToStraightFlush());
+		rule_list.add(new combinations.FourToStraightFlush());
 		/* 7.Two Pair*/
-		rule_list.add((Rule) new combinations.TwoPair());
+		rule_list.add(new combinations.TwoPair());
 		/* 8.High Pair*/
-		rule_list.add((Rule) new combinations.HighPair());
+		rule_list.add(new combinations.HighPair());
 		/* 9.4 to a flush*/
-		rule_list.add((Rule) new combinations.NToFlush(4));
+		rule_list.add(new combinations.NToFlush(4));
 		/* 10.3 to a royal flush*/
-		rule_list.add((Rule) new combinations.NToRoyalFlush(3));
+		rule_list.add(new combinations.NToRoyalFlush(3));
 		/*11. 4 to an outside straight*/
-		rule_list.add((Rule) new combinations.FourToOutsideStraight());
+		rule_list.add(new combinations.FourToOutsideStraight());
 		/*12 Low Pair*/
-		rule_list.add((Rule) new combinations.LowPair());
+		rule_list.add(new combinations.LowPair());
 		/*13. AKQJ unsuited*/
-		rule_list.add((Rule) new combinations.AKQJunsuited());
+		rule_list.add(new combinations.AKQJunsuited());
 		/*14. 3 to a straight flush (type 1)*/
-		rule_list.add((Rule) new combinations.ThreeToStraightFlush(1));
+		rule_list.add(new combinations.ThreeToStraightFlush(1));
 		/*15. 4 to an inside straight with 3 high cards*/
-		rule_list.add((Rule) new combinations.FourToInsideStraight(3));
+		rule_list.add(new combinations.FourToInsideStraight(3));
 		/*16. QJ suited*/
-		rule_list.add((Rule) new combinations.QJunsuitedOrSuited(true));
+		rule_list.add(new combinations.QJunsuitedOrSuited(true));
 		/*17. 3 to a flush (type 2)*/
-		rule_list.add((Rule) new combinations.ThreeToFlushNHighCards(2));
+		rule_list.add(new combinations.ThreeToFlushNHighCards(2));
 		/*18. 2 suited high cards*/
-		rule_list.add((Rule) new combinations.TwoSuitedHighCards());
+		rule_list.add(new combinations.TwoSuitedHighCards());
 		/*19. 4 to an inside straight with 2 high cards*/
-		rule_list.add((Rule) new combinations.FourToInsideStraight(2));
+		rule_list.add(new combinations.FourToInsideStraight(2));
 		/*20. 3 to a straight flush (type 2)*/
-		rule_list.add((Rule) new combinations.ThreeToStraightFlush(2));
+		rule_list.add(new combinations.ThreeToStraightFlush(2));
 		/*21. 4 to an inside straight with 1 cards*/
-		rule_list.add((Rule) new combinations.FourToInsideStraight(1));
+		rule_list.add(new combinations.FourToInsideStraight(1));
 		/*22. KQJ unsuited*/
-		rule_list.add((Rule) new combinations.KQJunsuited());
+		rule_list.add(new combinations.KQJunsuited());
 		/*23. JT suited*/
-		rule_list.add((Rule) new combinations.JTsuited());
+		rule_list.add(new combinations.JTsuited());
 		/*24. QJ unsuited*/
-		rule_list.add((Rule) new combinations.QJunsuitedOrSuited(false));
+		rule_list.add(new combinations.QJunsuitedOrSuited(false));
 		/*25. 3 to a flush with 1 high card*/
-		rule_list.add((Rule) new combinations.ThreeToFlushNHighCards(1));
+		rule_list.add(new combinations.ThreeToFlushNHighCards(1));
 		/*26. QT suited*/
-		rule_list.add((Rule) new combinations.QTsuited());
+		rule_list.add(new combinations.QTsuited());
 		/*27. 3 to a straight flush (type 3)*/
-		rule_list.add((Rule) new combinations.ThreeToStraightFlush(3));
+		rule_list.add(new combinations.ThreeToStraightFlush(3));
 		/*28. KQ unsuited*/
-		rule_list.add((Rule) new combinations.KQunsuited());
+		rule_list.add(new combinations.KQunsuited());
 		/*28. KJ unsuited */
-		rule_list.add((Rule) new combinations.KJunsuited());
+		rule_list.add(new combinations.KJunsuited());
 		/*29. Ace*/
-		rule_list.add((Rule) new combinations.Ace());
+		rule_list.add(new combinations.Ace());
 		/*30. KT suited*/
-		rule_list.add((Rule) new combinations.KTsuited());
+		rule_list.add(new combinations.KTsuited());
 		/*31. JackQueenOrKing*/
-		rule_list.add((Rule) new combinations.JackQueenOrKing());
+		rule_list.add(new combinations.JackQueenOrKing());
 		/*32. 4 to an inside straight with 0 high cards*/
-		rule_list.add((Rule) new combinations.FourToInsideStraight(0));
+		rule_list.add(new combinations.FourToInsideStraight(0));
 		/*33. 3 to a flush with 0 high cards*/
-		rule_list.add((Rule) new combinations.ThreeToFlushNHighCards(0));
+		rule_list.add(new combinations.ThreeToFlushNHighCards(0));
 		/*34. Nothing - Player should discard everything */
 	}
 	
@@ -115,6 +115,7 @@ public class StrategyDB10_7 implements Strategy {
 	 * @param hand The given hand
 	 * @return A string with the advice
 	 */
+	@Override
 	public String holdAdvice(Hand hand){
 		//Get value of hand and display advice of cards to keep
 		List<Card> hold = evaluateHand(hand);
@@ -133,6 +134,7 @@ public class StrategyDB10_7 implements Strategy {
 	 * @param hand The given hand
 	 * @return The cards required for the identified (most likely/profitable) draw
 	 */
+	@Override
 	public List<Card> evaluateHand(Hand hand){
 		
 		Card[] c = hand.getCards();

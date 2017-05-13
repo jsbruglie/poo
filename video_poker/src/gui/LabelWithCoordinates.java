@@ -28,7 +28,7 @@ public class LabelWithCoordinates extends JLabel {
 			Component west_component, SpringLayout layout){
 		
 		super();
-		ImageIcon transient_icon = new ImageIcon(arg);
+		ImageIcon transient_icon = new ImageIcon(this.getClass().getResource(arg));
 		this.setIcon(transient_icon);
 		
 		if (!(north_component instanceof JButton) && !(north_component instanceof JToggleButton) &&

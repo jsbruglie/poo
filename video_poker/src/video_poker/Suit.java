@@ -28,6 +28,10 @@ public enum Suit {
 		return symbol;
 	}
 	
+	public String getValue(){
+		return value;
+	}
+	
 	/**
 	 * Return the corresponding suit enum given the textual description
 	 * @param text The textual description

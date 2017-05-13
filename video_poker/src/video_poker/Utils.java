@@ -123,7 +123,8 @@ public final class Utils {
 		try {
 			reader = new Scanner(file);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("Input file not found");
+			System.exit(-1);
 		}
 		
 

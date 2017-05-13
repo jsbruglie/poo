@@ -8,8 +8,8 @@
 .metadata
 .recommenders
 
-# Ignore all '.class' in 'bin' dir
-video_poker/bin/*.class
+# Ignore everything in binary folder
+video_poker/bin/*
 
 # Ignore documentation folders until release
 #video_poker/doc/*

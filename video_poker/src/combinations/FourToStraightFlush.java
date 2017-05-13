@@ -12,7 +12,7 @@ public class FourToStraightFlush implements Rule {
 
 	@Override
 	public List<Card> run(Card[] c, Occurrences occurrences) {
-		Rule ntoflush = (Rule) new NToFlush(4);
+		Rule ntoflush = new NToFlush(4);
 		List<Card> flush = ntoflush.run(c, occurrences);
 				
 		if (flush != null){	

@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import state_machine.Tag;
+import video_poker.Card;
 import video_poker.Hand;
 import video_poker.Player;
 import video_poker.Statistics;
@@ -66,6 +67,11 @@ public class GUI {
 	private final int BTN_HOLD = 2;
 	/** Button Advice Index */
 	private final int BTN_ADVICE = 3;
+	
+	/** Card image directory */
+	private final String CARDS_DIR = "/cards/";
+	/** Card image file extension */
+	private final String CARDS_EXT = ".gif";
 	
 	/** The current GUI instance - Singleton Design Pattern */
 	private static GUI instance;
@@ -135,7 +141,7 @@ public class GUI {
 			btn[BTN_ADVICE].setEnabled(true);
 			changeIcons();
 			changeCredits();
-			showResults("Hand dealt");
+			showResults("new hand dealt");
 			holdEnable(true);
 			betEnable(false);
 		} else if (tag == Tag.Out_Hold){
@@ -261,6 +267,7 @@ public class GUI {
 		panel.add(btn_play);
 		
 		btn_play.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				args[1] = txt_field_bet.getText();
 				forward[1] = true;
@@ -301,8 +308,8 @@ public class GUI {
 		layout = new SpringLayout();
 		content_pane = main_frame.getContentPane();
 		content_pane.setLayout(layout);
-		
-		String arg = "cards/b.gif";
+
+		String arg = CARDS_DIR + "b" + CARDS_EXT;
 		String[] btn_arg = {"Bet", "Deal", "Hold", "Advice", "Stats"};
 		
 		cards[0] = new LabelWithCoordinates(arg, 40, 20, content_pane, content_pane, layout);
@@ -330,7 +337,7 @@ public class GUI {
 		holdEnable(false);
 		
 		/* Bet slider */
-		slider_bet = new JSlider(JSlider.HORIZONTAL, 1, 5, 5);
+		slider_bet = new JSlider(SwingConstants.HORIZONTAL, 1, 5, 5);
 		slider_bet.setMajorTickSpacing(5);
 		slider_bet.setMinorTickSpacing(1);
 		slider_bet.setPaintLabels(true);
@@ -377,6 +384,7 @@ public class GUI {
 		updateStats();
 		
 		btn[BTN_BET].addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				int initial_credit = slider_bet.getValue();
 				String inner_ret_input = new String("b");
@@ -388,12 +396,14 @@ public class GUI {
 		});
 		
 		btn[BTN_DEAL].addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ret_input = "d";
 			}
 		});
 		
 		btn[BTN_HOLD].addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String int_ret_input = new String("h");
 				for (int i = 0; i < 5; i++){
@@ -406,6 +416,7 @@ public class GUI {
 		});
 		
 		btn[BTN_ADVICE].addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				ret_input = "a";
 			}
@@ -418,14 +429,13 @@ public class GUI {
 	 * Change card icons in hand
 	 */
 	void changeIcons(){
-		String initial_string = new String();
 		Hand parting_hand = player.getHand();
-		String parting_string = parting_hand.toString();
-		String parts[] = parting_string.split("\\s+");
-		for(int i = 0; i < 5; i++){
-			initial_string = "cards/";
-			initial_string = initial_string.concat(parts[i + 2] + ".gif");
-			ImageIcon inner_icon = new ImageIcon(initial_string);
+		Card[] c = parting_hand.getCards();
+		for (int i = 0; i < 5; i++){
+			String card_string, file_name;
+			card_string = c[i].rank.toString() + c[i].suit.getValue();
+			file_name = CARDS_DIR + card_string + CARDS_EXT;
+			ImageIcon inner_icon = new ImageIcon(this.getClass().getResource(file_name));
 			cards[i].setIcon(inner_icon);
 		}
 
