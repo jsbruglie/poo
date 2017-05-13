@@ -16,6 +16,7 @@ public class StatisticsDB10_7 implements Statistics {
 	/** Array that stores the occurrence of the different combinations */
 	private int number_hand_occurrences[];
 	
+	private float final_statistics;
 	/* Auxiliary format strings */
 	private final String format_header = "%-20s%s%n";
 	private final String format_combinations = "%-20s%d%n";
@@ -88,6 +89,17 @@ public class StatisticsDB10_7 implements Statistics {
 		output = output + String.format(format_combinations, "Total", number_deals);
 		output = output + String.format(format_winnings, "Credit", current_credit,
 				((float)current_credit / (float)initial_player_credit) * 100.0);
+		final_statistics = (float) (((float)current_credit / (float)initial_player_credit) * 100.0);
 		return output;
 	}
+
+	public float getFinal_statistics() {
+		return final_statistics;
+	}
+
+	public void setFinal_statistics(float final_statistics) {
+		this.final_statistics = final_statistics;
+	}
+	
+	
 }

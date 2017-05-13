@@ -19,4 +19,5 @@ public interface Statistics {
 	 * @return The statistics table formatted in a string
 	 */
 	String printStatistics(int player_current_credit);
+	public float getFinal_statistics();
 }

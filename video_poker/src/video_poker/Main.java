@@ -9,8 +9,22 @@ public class Main {
 	 * @param args Command-line arguments
 	 */
 	public static void main(String[] args) {
-		Game game = new Game(args);
-		game.start();
-		game.end();
+		boolean MONTECARLO = false;
+		if(MONTECARLO){
+			double RUNS = 50.00;
+			float st = 0;
+			for(int i=0; i<RUNS; i++){
+				Game game = new Game(args);
+				game.start();
+				st+=game.variant.stats.getFinal_statistics();
+			}
+			System.out.println(st/RUNS);
+			System.exit(0);
+		}else{
+			Game game = new Game(args);
+			game.start();
+			game.end();
+		}
+		
 	}
 }

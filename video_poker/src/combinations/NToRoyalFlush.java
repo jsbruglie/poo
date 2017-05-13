@@ -31,31 +31,45 @@ public class NToRoyalFlush implements Rule {
 	@Override
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		int count = 0;
+		//Test if its a flush 
+		//if it's not test if its 4 to a flush
+		List<Card> flush_eval = new ArrayList<Card>();
 		
-		// Get N cards from the same suit
-		Rule ntoflush = new NToFlush(N);
-		List<Card> flush = ntoflush.run(c, occurrences);
+		Rule flush = new Flush();
+		List<Card> flush_cards = flush.run(c, occurrences);
+
+		if(flush_cards == null){
+			// Get N cards from the same suit
+			Rule ntoflush = new NToFlush(N);
+			List<Card> ntoflush_cards = ntoflush.run(c, occurrences);
+			flush_eval = ntoflush_cards;
+		}else{
+			flush_eval = flush_cards;
+		}
+		
 		List<Card> hold = new ArrayList<Card>();
-		
+	
 		//Check over them to see if they are N cards that could form a Royal Flush
-		if (flush != null && flush.size() >= N){
-			for (int i = 0; i < flush.size(); i++){
+		if (flush_eval != null && flush_eval.size() >= N){
+
+			for (int i = 0; i < flush_eval.size(); i++){
 				//Since cards are of the same suit we can check which ones they are, and we know there are no repetitions
-				Rank rank = flush.get(i).rank;
-				if (rank == T ||
-					rank == J || 
-					rank == Q ||
-					rank == K ||
-					rank == A){
+				Rank rank = flush_eval.get(i).rank;
+				
+				if (rank.equals(T) || rank.equals(J) || rank.equals(Q) || rank.equals(K) || rank.equals(A)){
 					count++;
-					hold.add(flush.get(i));
+					hold.add(flush_eval.get(i));
 				}	
 			}
 		}
-		if (count == N)
+
+		if (count == N){		
 			return hold;
-		else
+		}else{
+			
 			return null;
+	
+		}
 	}
 
 }

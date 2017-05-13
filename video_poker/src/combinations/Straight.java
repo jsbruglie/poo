@@ -28,7 +28,7 @@ public class Straight implements Rule, CombinationChecker{
 			return true;
 		}
 		
-		for (int i = 0; i < Occurrences.RANKS - Occurrences.HAND_SIZE; i++){
+		for (int i = 0; i <= Occurrences.RANKS - Occurrences.HAND_SIZE; i++){
 			if (rank_occurrences[i] == 1){
 				for (int j = i; j < i + Occurrences.HAND_SIZE; j++){
 					if (rank_occurrences[j] != 1){
