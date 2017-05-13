@@ -43,13 +43,15 @@ public final class Utils {
 		try {
 			sc = new Scanner(file);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			System.err.println("Card file not found! Exiting.");
+			System.exit(-1);
 		}
         int nb_lines = 0;
 		try {
 			nb_lines = countLines(filename);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("Could not read card file!");
+			System.exit(-1);
 		}
 		
         if(nb_lines == 0){
@@ -123,7 +125,7 @@ public final class Utils {
 		try {
 			reader = new Scanner(file);
 		} catch (FileNotFoundException e) {
-			System.err.println("Input file not found");
+			System.err.println("Command file not found! Exiting.");
 			System.exit(-1);
 		}
 		
