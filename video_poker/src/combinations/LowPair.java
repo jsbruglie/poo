@@ -15,7 +15,7 @@ public class LowPair implements Rule {
 	@Override
 	public List<Card> run(Card[] c, Occurrences occurrences) {
 		List<Card> hold = new ArrayList<Card>();
-		for (int i = n2.ordinal(); i < T.ordinal(); i++){
+		for (int i = n2.ordinal(); i <= T.ordinal(); i++){
 			if(occurrences.ranks[i] == 2){
 				for (int j = 0; j < c.length; j++){
 					if (c[j].rank.ordinal() == i){
