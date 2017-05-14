@@ -1,7 +1,7 @@
 package video_poker;
 
 /**
- * Enum that represents a card number
+ * Represents a card rank
  */
 public enum Rank {
 	
@@ -62,5 +62,4 @@ public enum Rank {
         return value;
     }
 	
-	// TODO - Add conversion mechanism from string to enum, by using text field
 }

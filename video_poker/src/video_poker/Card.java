@@ -28,7 +28,7 @@ public class Card {
 	@Override
 	public String toString() {
 		String name = this.rank.toString();
-		return name + (char) this.suit.getSymbol();
+		return name + this.suit.getSymbol();
 	}
 
 	/**
