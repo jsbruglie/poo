@@ -7,4 +7,4 @@ Clone this repo and open it as an Eclipse Project or copy the src folder to your
 
 License
 
-This project is licensed under the terms of the MIT license.
+This project is licensed under the terms of the GPL license.
